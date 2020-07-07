@@ -15,3 +15,6 @@ Use iOS simulator: https://docs.expo.io/workflow/ios-simulator/
 Use Android simulator: https://docs.expo.io/workflow/android-studio-emulator/
 
 You can use the shortcuts "i" for ios or "a" for android in the command line to expedite the process of opening the simulators. Just wait for expo start to run and then type either letter to start the simulators without having to navigate to the expo client on your web browser. Everytime you save your code, it will update in the simulator.
+
+Front-end developers:
+You can begin working on your individual screen by switching the "LandingPage" variable in App.js to the sreen you are working on. 
