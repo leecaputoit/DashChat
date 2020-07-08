@@ -3,7 +3,9 @@ Setup (~10 minutes)
 Our app runs on the expo cli in order to simplify the development process. Expo allows us to run iPhone and Android simulators directly from the command line or web browser without needing to go through Xcode nor Android studio. Instructions for running the app are below: 
 
 Install necessary packages
+npm install --global expo-cli
 npm install
+
 
 Start expo ("npm start" also works)
 expo start
