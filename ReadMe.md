@@ -4,6 +4,7 @@ Our app runs on the expo cli in order to simplify the development process. Expo 
 
 Install necessary packages
 npm install --global expo-cli
+npm install -g react-native-cli
 npm install
 
 
