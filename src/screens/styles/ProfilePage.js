@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flex:1,
     display:"flex",
     justifyContent:"flex-start",
-    marginBottom:50
+    marginBottom:150
   },
   imageStyles:{
     borderRadius:35,

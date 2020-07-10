@@ -42,7 +42,6 @@ export default class LandingPage extends Component {
            </Text>
           </TouchableOpacity>
         </View>
-        
       </View>
     );
   }
