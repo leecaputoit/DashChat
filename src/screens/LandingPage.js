@@ -28,6 +28,7 @@ export default class LandingPage extends Component {
   onApplePress() { }
 
   onCreateAccountPress() {
+    this.props.navigation.navigate('Register');
   }
 
   onLoginPress() {
@@ -38,7 +39,7 @@ export default class LandingPage extends Component {
 
     return (
       <ScrollView style={styles.wrapper}>
-        <StatusBar backgroundColor={colors.white} barStyle="light-content" />
+        <StatusBar backgroundColor={colors.black} barStyle="light-content" />
         <View style={styles.welcomeWrapper}>
           {/* <Image
             source={Logo}
