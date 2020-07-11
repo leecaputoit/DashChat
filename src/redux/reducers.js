@@ -1,25 +1,32 @@
 import { combineReducers } from 'redux';
+import * as constants from './constants'
 
 const INITIAL_STATE = {
-    loggedIn: false,
     userType: 'civilian',
+    loggedIn: false,
 }
 
-const loggedInReducer = (state = false, action) => {
+
+const userTypeReducer = (state = INITIAL_STATE.userType, action) => {
     switch (action.type) {
+      case constants.SET_USER_TYPE:
+        return action.userType
       default:
         return state
     }
 };
 
-const userTypeReducer = (state = 'civillian', action) => {
+const loggedInReducer = (state = INITIAL_STATE.loggedIn, action) => {
     switch (action.type) {
-      default:
-        return state
-    }
+        case constants.SET_LOGGED_IN:
+          return action.userType
+        default:
+          return state
+      }
 };
+
 
 export default combineReducers({
-    loggedIn: loggedInReducer,
-    userType: userTypeReducer
+    userType: userTypeReducer,
+    loggedIn: loggedInReducer
 })

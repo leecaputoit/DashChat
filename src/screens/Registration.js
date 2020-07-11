@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, StatusBar, Image, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import colors from '../styles/colors';
-import RoundedButton from '../common-components/Buttons/RoundedButton';
+import RoundedButton from '../common-components/RoundedButton';
 import getTheme from '../../native-base-theme/components';
 import custom from '../../native-base-theme/variables/platform';
 import styles from './styles/Registration';
@@ -9,11 +9,13 @@ import { FontAwesome as Icon } from '@expo/vector-icons';
 import { Item, Form, Label, Input, Container, Text, View, StyleProvider } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { connectStyle } from 'native-base';
-import InputField from '../common-components/Buttons/InputField'
+import InputField from '../common-components/InputField'
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import ActionCreators from '../redux/actions';
 
 
-export default class Registration extends React.Component {
+class Registration extends React.Component {
 
   constructor(props) {
     super(props);
@@ -60,7 +62,7 @@ export default class Registration extends React.Component {
   }
 
   render() {
-    const userType = 'civilian';
+    const userType = this.props.userType;
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: colors.background }, styles.wrapper]}
@@ -150,7 +152,16 @@ export default class Registration extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  const { userType } = state
-  return { userType }
+
+const mapStateToProps = state => {
+  return {
+    userType: state.userType,
+  }
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
+
+
+export default connect(mapStateToProps)(Registration);

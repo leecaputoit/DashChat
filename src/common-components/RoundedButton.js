@@ -9,7 +9,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import colors from '../../styles/colors';
+import colors from '../styles/colors';
 
 export default class RoundedButton extends Component {
   render() {
