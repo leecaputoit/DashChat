@@ -1,19 +1,29 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SignIn from '../screens/LandingPage';
+import { createStackNavigator }  from '@react-navigation/stack';
+import LandingPage from '../screens/LandingPage';
 import Register from '../screens/Registration';
+import LogIn from '../screens/LogIn';
+import colors from '../../src/styles/colors'
 
 export default class AuthenticationNavigator extends React.Component{
 
     render(){
-        const Tab = createBottomTabNavigator();
+        const Stack = createStackNavigator();
         return (
-            <Tab.Navigator
-               screenOptions={{tabBarVisible:false}}
+            <Stack.Navigator
+                initialRouteName="LandingPage"
+                screenOptions= {{
+                    title: "",
+                    headerStyle: { backgroundColor: colors.background, 
+                                   shadowColor: 'transparent',},
+                    headerTintColor: '#ffffff',
+                }}
             >
-                <Tab.Screen name="SignIn"     component={SignIn} />
-                <Tab.Screen name="Register"   component={Register} />
-            </Tab.Navigator>
+                <Stack.Screen name="LandingPage"     component={LandingPage} />
+                <Stack.Screen name="Register"   component={Register} />
+                <Stack.Screen name="LogIn"   component={LogIn} />
+            </Stack.Navigator>
         );
     }
 };

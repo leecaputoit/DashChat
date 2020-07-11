@@ -16,7 +16,7 @@ export default class LandingPage extends Component {
     this.onFacebookPress = this.onFacebookPress.bind(this);
     this.onGooglePress = this.onGooglePress.bind(this);
     this.onApplePress = this.onApplePress.bind(this);
-    this.loginPress = this.onLoginPress.bind(this);
+    this.logInPress = this.onLoginPress.bind(this);
   }
 
   async onFacebookPress() {
@@ -32,6 +32,7 @@ export default class LandingPage extends Component {
   }
 
   onLoginPress() {
+    this.props.navigation.navigate('LogIn');
   }
 
   render() {
@@ -40,13 +41,12 @@ export default class LandingPage extends Component {
     return (
       <ScrollView style={styles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />
-        <View style={styles.welcomeWrapper}>
           {/* <Image
             source={Logo}
             style={styles.logo}
           /> */}
           <Text style={styles.welcomeText}>
-            Welcome to AppName.
+            Welcome to DashChat.
           </Text>
           <RoundedButton
             text="Continue with Facebook"
@@ -80,13 +80,20 @@ export default class LandingPage extends Component {
           />
           <TouchableHighlight
             style={styles.loginButton}
-            onPress={this.onLoginPress}
+            onPress= {() => this.onLoginPress()}
           >
             <Text style={styles.loginButtonText}>
               Already have an Account?
             </Text>
           </TouchableHighlight>
-        </View>
+          <TouchableHighlight
+            style={styles.policeLoginButton}
+            onPress= {() => this.onLoginPress()}
+          >
+            <Text style={styles.policeLoginButtonText}>
+              Police Officer?
+            </Text>
+          </TouchableHighlight>
       </ScrollView>
     );
   }
