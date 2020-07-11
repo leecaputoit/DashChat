@@ -3,6 +3,7 @@ import { StatusBar, Text, View, Image, TouchableHighlight, ScrollView } from 're
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import RoundedButton from '../common-components/RoundedButton';
+import baseStyles from './styles/AuthenticationBoilerplate';
 import styles from './styles/LandingPage';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -31,17 +32,17 @@ class LandingPage extends Component {
   onApplePress() { }
 
   onCreateAccountPress() {
-    this.props.actions.setUserType('civilian')
+    this.props.setUserType('civilian')
     this.props.navigation.navigate('Register');
   }
 
   onLoginPress() {
-    this.props.actions.setUserType('civilian')
+    this.props.setUserType('civilian')
     this.props.navigation.navigate('LogIn');
   }
 
   onPoliceLoginPress() {
-    this.props.actions.setUserType('police')
+    this.props.setUserType('police')
     this.props.navigation.navigate('LogIn');
   }
 
@@ -49,13 +50,13 @@ class LandingPage extends Component {
   render() {
     const { user } = this.state;
     return (
-      <ScrollView style={styles.wrapper}>
+      <ScrollView style={baseStyles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />
           {/* <Image
             source={Logo}
             style={styles.logo}
           /> */}
-          <Text style={styles.welcomeText}>
+          <Text style={baseStyles.headerText}>
             Welcome to DashChat.
           </Text>
           <RoundedButton
@@ -111,9 +112,9 @@ class LandingPage extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(ActionCreators, dispatch)
-});
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
 
 
 

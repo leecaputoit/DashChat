@@ -5,6 +5,7 @@ import RoundedButton from '../common-components/RoundedButton';
 import getTheme from '../../native-base-theme/components';
 import custom from '../../native-base-theme/variables/platform';
 import styles from './styles/Registration';
+import baseStyles from './styles/AuthenticationBoilerplate';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import { Item, Form, Label, Input, Container, Text, View, StyleProvider } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -12,7 +13,7 @@ import { connectStyle } from 'native-base';
 import InputField from '../common-components/InputField'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ActionCreators from '../redux/actions';
+import * as ActionCreators from '../redux/actions';
 
 
 class Registration extends React.Component {
@@ -59,17 +60,19 @@ class Registration extends React.Component {
     this.setState({ password: text });
   }
   handleNextButton() {
+    console.log(this.props);
+    this.props.setLoggedIn(true)
   }
 
   render() {
     const userType = this.props.userType;
     return (
       <KeyboardAvoidingView
-        style={[{ backgroundColor: colors.background }, styles.wrapper]}
+        style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
         behavior="padding"
       >
         <ScrollView>
-          <Text style={styles.welcomeText}>
+          <Text style={baseStyles.headerText}>
             Join DashChat.
           </Text>
           <InputField
@@ -138,8 +141,11 @@ class Registration extends React.Component {
               autoFocus
               autoCapitalize={"words"}
             />
-            <TouchableOpacity style = {styles.buttonSyle} title = {"Next"} >
-              <Text style= {styles.buttonText}> Next </Text>
+            <TouchableOpacity 
+              style = {baseStyles.nextButtonSyle} 
+              title = {"Next"} 
+              onPress = {this.handleNextButton}>
+              <Text style= {baseStyles.nextButtonText}> Next </Text>
               <Icon
               name="angle-right"
               color={colors.white}
@@ -164,4 +170,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps)(Registration);
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

@@ -9,7 +9,7 @@ export const setUserType = userType => (
 
 export const setLoggedIn = loggedIn => (
   {
-    type: constants.SET_USER_TYPE,
+    type: constants.SET_LOGGED_IN,
     loggedIn,
   }
 );
