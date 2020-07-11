@@ -8,11 +8,15 @@ import {
   KeyboardAvoidingView,
   Modal,
   TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import colors from '../styles/colors';
 import styles from './styles/LogIn';
-import InputField from '../common-components/Buttons/InputField';
+import InputField from '../common-components/InputField';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import ActionCreators from '../redux/actions';
 // import transparentHeaderStyle from '../styles/navigation';
 // import NavBarButton from '../components/buttons/NavBarButton';
 //import Loader from '../components/Loader';
@@ -22,7 +26,7 @@ import InputField from '../common-components/Buttons/InputField';
 //import awsconfig from '../../aws-exports';
 //Amplify.configure(awsconfig);
 
-export default class LogIn extends Component {
+class LogIn extends React.Component {
   // static navigationOptions = ({ navigation }) => ({
   //   headerTitle: "",
   //   headerRight: () => <NavBarButton
@@ -55,6 +59,7 @@ export default class LogIn extends Component {
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
+    this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
   }
 
   // handleConfirmationCode = () => {
@@ -168,9 +173,12 @@ export default class LogIn extends Component {
   toggleNextButtonState() {
   }
 
+  onCreatePoliceAccount() {
+    this.props.navigation.navigate("Register")
+  }
+
   render() {
-    const userType = 'civilian';
-    console.log(this.props.loggedInStatus);
+    const userType = this.props.userType;
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: colors.background }, styles.wrapper]}
@@ -178,7 +186,7 @@ export default class LogIn extends Component {
       >
           <ScrollView>
             <Text style={styles.headerText}>
-              Log In
+              {userType == 'civilian' ? "Log In" : "Log In to your Police Account"}
             </Text>
             { userType == 'civilian'
             ? <InputField
@@ -220,8 +228,19 @@ export default class LogIn extends Component {
               autoCapitalize={"none"}
               iconName="key"
             />
-            <TouchableOpacity style = {styles.buttonSyle} title = {"Next"} >
-              <Text style= {styles.buttonText}> Next </Text>
+            { userType == 'police' ?
+                <TouchableHighlight
+                style={styles.createAccountButtonSyle}
+                onPress= {() => this.onCreatePoliceAccount()}
+                >
+                  <Text style={styles.createAccountButtonText}>
+                    Create a New Police Officer Account
+                  </Text>
+              </TouchableHighlight>
+              : null
+            }
+            <TouchableOpacity style = {styles.nextButtonSyle} title = {"Next"} >
+              <Text style= {styles.nextButtonText}> Next </Text>
               <Icon
               name="angle-right"
               color={colors.white}
@@ -234,3 +253,11 @@ export default class LogIn extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    userType: state.userType,
+  }
+};
+
+export default connect(mapStateToProps)(LogIn);

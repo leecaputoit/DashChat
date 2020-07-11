@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { StatusBar, Text, View, Image, TouchableHighlight, ScrollView } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
-import RoundedButton from '../common-components/Buttons/RoundedButton';
+import RoundedButton from '../common-components/RoundedButton';
 import styles from './styles/LandingPage';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as ActionCreators from '../redux/actions';
 
-export default class LandingPage extends Component {
+class LandingPage extends Component {
 
   constructor(props) {
     super(props);
@@ -28,16 +31,23 @@ export default class LandingPage extends Component {
   onApplePress() { }
 
   onCreateAccountPress() {
+    this.props.actions.setUserType('civilian')
     this.props.navigation.navigate('Register');
   }
 
   onLoginPress() {
+    this.props.actions.setUserType('civilian')
     this.props.navigation.navigate('LogIn');
   }
 
+  onPoliceLoginPress() {
+    this.props.actions.setUserType('police')
+    this.props.navigation.navigate('LogIn');
+  }
+
+
   render() {
     const { user } = this.state;
-
     return (
       <ScrollView style={styles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />
@@ -88,7 +98,7 @@ export default class LandingPage extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.policeLoginButton}
-            onPress= {() => this.onLoginPress()}
+            onPress= {() => this.onPoliceLoginPress()}
           >
             <Text style={styles.policeLoginButtonText}>
               Police Officer?
@@ -98,3 +108,13 @@ export default class LandingPage extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch)
+});
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(LandingPage);

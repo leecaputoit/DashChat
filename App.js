@@ -1,36 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import BottomTabNavigator from "./src/common-components/BottomTabNavigator";
-import AuthenticationNavigator from "./src/common-components/AuthenticationNavigator";
+import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './src/redux/reducers';
+import Root from './src/navigation/Root'
 import colors from "./src/styles/colors";
-import Registration from "./src/screens/Registration"
-import LogIn from './src/screens/LogIn'
+import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
+import AuthenticationNavigator from "./src/navigation/AuthenticationNavigator";
+import { NavigationContainer } from '@react-navigation/native';
+
+
 
 
 const store = createStore(reducers);
+
 export default class App extends React.Component {
 
   constructor(props) {
     super(props)
   }
   render() {
-    //---------Authentication flow above
-    const isSignedIn = false;
-
     return (
-
-      <NavigationContainer>
-        {
-          isSignedIn
-          ?<BottomTabNavigator />
-          :<AuthenticationNavigator />
-        } 
-      </NavigationContainer>
+      <Provider store={store}>
+       <Root />
+      </Provider>
     );
   }
 }
