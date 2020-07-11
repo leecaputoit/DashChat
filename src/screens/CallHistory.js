@@ -20,7 +20,7 @@ export default class LandingPage extends Component {
         <StatusBar backgroundColor={colors.white} barStyle="light-content" />
         <View style={styles.welcomeWrapper}>
           <Text style={styles.welcomeText}>
-          Incoming Calls will become available here
+            Incoming Calls will become available here
           </Text>
         </View>
       </View>

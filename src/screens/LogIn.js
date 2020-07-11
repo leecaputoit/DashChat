@@ -12,11 +12,12 @@ import {
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import colors from '../styles/colors';
+import baseStyles from './styles/AuthenticationBoilerplate';
 import styles from './styles/LogIn';
 import InputField from '../common-components/InputField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ActionCreators from '../redux/actions';
+import * as ActionCreators from '../redux/actions';
 // import transparentHeaderStyle from '../styles/navigation';
 // import NavBarButton from '../components/buttons/NavBarButton';
 //import Loader from '../components/Loader';
@@ -58,7 +59,6 @@ class LogIn extends React.Component {
     this.handleNextButton = this.handleNextButton.bind(this);
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
     this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
   }
 
@@ -144,15 +144,16 @@ class LogIn extends React.Component {
   // }
 
   handleNextButton() {
-    this.setState({ loadingVisible: true });
-    const { logIn, navigation } = this.props;
+    //this.setState({ loadingVisible: true });
+    // const { logIn, navigation } = this.props;
 
-    this.SignIn();
+    // this.SignIn();
     // setTimeout(() => {
     //   const { emailAddress, password } = this.state;
     //   this.setState({ emailAddress: emailAddress.toLowerCase() })
     //   this.SignIn
     // }, 2000);
+    this.props.setLoggedIn(true)
   }
 
 
@@ -170,9 +171,6 @@ class LogIn extends React.Component {
 
   }
 
-  toggleNextButtonState() {
-  }
-
   onCreatePoliceAccount() {
     this.props.navigation.navigate("Register")
   }
@@ -181,11 +179,11 @@ class LogIn extends React.Component {
     const userType = this.props.userType;
     return (
       <KeyboardAvoidingView
-        style={[{ backgroundColor: colors.background }, styles.wrapper]}
+        style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
         behavior="padding"
       >
           <ScrollView>
-            <Text style={styles.headerText}>
+            <Text style={baseStyles.headerText}>
               {userType == 'civilian' ? "Log In" : "Log In to your Police Account"}
             </Text>
             { userType == 'civilian'
@@ -239,8 +237,11 @@ class LogIn extends React.Component {
               </TouchableHighlight>
               : null
             }
-            <TouchableOpacity style = {styles.nextButtonSyle} title = {"Next"} >
-              <Text style= {styles.nextButtonText}> Next </Text>
+            <TouchableOpacity 
+              style = {baseStyles.nextButtonSyle} 
+              title = {"Next"} 
+              onPress = {this.handleNextButton}>
+              <Text style= {baseStyles.nextButtonText}> Next </Text>
               <Icon
               name="angle-right"
               color={colors.white}
@@ -260,4 +261,9 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps)(LogIn);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

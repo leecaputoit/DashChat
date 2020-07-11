@@ -19,7 +19,7 @@ const userTypeReducer = (state = INITIAL_STATE.userType, action) => {
 const loggedInReducer = (state = INITIAL_STATE.loggedIn, action) => {
     switch (action.type) {
         case constants.SET_LOGGED_IN:
-          return action.userType
+          return action.loggedIn
         default:
           return state
       }
