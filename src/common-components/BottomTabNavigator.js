@@ -15,7 +15,7 @@ export default class BottomTabNavigator extends React.Component{
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
             
-                        if (route.name === 'Incoming Calls') {
+                        if (route.name === 'Calls') {
                             iconName = focused
                                 ? 'video'
                                 : 'video-outline';
@@ -30,13 +30,14 @@ export default class BottomTabNavigator extends React.Component{
                     },
                     })}
                     tabBarOptions={{
+                        style : {backgroundColor: colors.background},
                         activeTintColor: colors.white,
                         inactiveTintColor: 'gray',
                         activeBackgroundColor:colors.background,
                         inactiveBackgroundColor:colors.background
                     }}
             >
-                <Tab.Screen name="Incoming Calls" component={CallHistory} />
+                <Tab.Screen name="Calls" component={CallHistory} />
                 <Tab.Screen name="Call History"   component={CallHistory} />
                 <Tab.Screen name="Profile"       component={Profile}     />
             </Tab.Navigator>

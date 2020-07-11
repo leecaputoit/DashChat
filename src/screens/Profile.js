@@ -16,11 +16,11 @@ export default class LandingPage extends Component {
 
     return (
       <View style={styles.mainWrapper}>
-        <StatusBar backgroundColor={colors.black} barStyle="light-content" />
+        <StatusBar backgroundColor={colors.background} barStyle="light-content" />
         <View style={styles.imageContainer}>
           <Image 
            style={styles.imageStyles}
-          source={require("../ExampleAssets/exampleCivilian.jpg")}
+          source={require("../img/exampleCivilian.jpg")}
           />
         </View>
         

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
 
 let termsTextSize = 13;
@@ -6,15 +6,12 @@ let headingTextSize = 30;
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     display: 'flex',
-    backgroundColor: colors.background
-  },
-  welcomeWrapper: {
-    flex: 1,
-    display: 'flex',
-    marginTop: 50,
-    padding: 20,
+    backgroundColor: colors.background,
+    width:Dimensions.get('window').width,
+    height:Dimensions.get('window').height,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   welcomeText: {
     fontSize: headingTextSize,
@@ -40,6 +37,14 @@ const styles = StyleSheet.create({
     marginEnd: 40,
   },
   loginButtonText: {
+    color: colors.white,
+    fontSize: 16,
+  },
+  policeLoginButton: {
+    alignSelf: "center",
+    marginTop: 250,
+  },
+  policeLoginButtonText: {
     color: colors.white,
     fontSize: 16,
   },

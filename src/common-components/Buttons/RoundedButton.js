@@ -19,11 +19,9 @@ export default class RoundedButton extends Component {
       text,
       textColor,
       background,
-      icon,
       handleOnPress,
       textSize,
       textWeight,
-      iconPosition,
       textAlign,
       borderColor,
     } = this.props;
@@ -32,7 +30,6 @@ export default class RoundedButton extends Component {
     const fontSize = textSize || 16;
     const fontWeight = textWeight || '600';
     const alignPosition = textAlign || 'center';
-    const iconLocation = iconPosition || 'left';
     const border = borderColor || colors.white;
     const opacityStyle = disabled || loading ? 0.5 : 1;
     const textOpacity = loading ? 0 : 1;
@@ -70,7 +67,6 @@ export default class RoundedButton extends Component {
     return (
       <ButtonComponent>
         <View style={styles.buttonTextWrapper}>
-          {iconLocation === 'left' && !loading ? icon : null}
           {loading
             ? (
               <View style={styles.loaderContainer}>
@@ -87,7 +83,6 @@ export default class RoundedButton extends Component {
           >
             {text}
           </Text>
-          {iconLocation === 'right' && !loading ? icon : null}
         </View>
       </ButtonComponent>
     );
@@ -102,8 +97,6 @@ RoundedButton.propTypes = {
   textAlign: PropTypes.string,
   background: PropTypes.string,
   borderColor: PropTypes.string,
-  icon: PropTypes.object,
-  iconPosition: PropTypes.string,
   handleOnPress: PropTypes.func,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
