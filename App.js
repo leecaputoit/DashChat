@@ -8,7 +8,7 @@ import Profile from './src/screens/Profile'
 export default function App() {
   return (
     <View style={styles.container}>
-      <LandingPage />
+      <CallHistory />
       <StatusBar style="auto" />
     </View>
   );
