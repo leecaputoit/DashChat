@@ -8,6 +8,7 @@ import styles from './styles/LandingPage';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
+import { Auth } from 'aws-amplify';
 
 class LandingPage extends Component {
 
@@ -24,9 +25,11 @@ class LandingPage extends Component {
   }
 
   async onFacebookPress() {
+    Auth.federatedSignIn({ provider: "Facebook" });
   }
 
   onGooglePress() {
+    Auth.federatedSignIn({ provider: "Google" });
   }
 
   onApplePress() { }

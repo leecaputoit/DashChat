@@ -1,0 +1,22 @@
+{
+    "dashchat": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-dashchat-dashchat-03842-authRole",
+            "UnauthRoleArn": "arn:aws:iam::597962444806:role/amplify-dashchat-dashchat-03842-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::597962444806:role/amplify-dashchat-dashchat-03842-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-dashchat-dashchat-03842-deployment",
+            "UnauthRoleName": "amplify-dashchat-dashchat-03842-unauthRole",
+            "StackName": "amplify-dashchat-dashchat-03842",
+            "StackId": "arn:aws:cloudformation:us-east-1:597962444806:stack/amplify-dashchat-dashchat-03842/910d6a70-c3f9-11ea-928d-125caf34a739",
+            "AmplifyAppId": "d2hbgm3jbjoo0s"
+        },
+        "categories": {
+            "auth": {
+                "dashchatb4d78f52": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"727440101132611\",\"client_secret\":\"4a599c9fb213f9dd306fa672c72c4fec\"},{\"ProviderName\":\"Google\",\"client_id\":\"834687374369-2tf1j22at95lgfvmdijakkgl7od3mdi1.apps.googleusercontent.com\",\"client_secret\":\"uYWfSn6NpVcgcG_Yv-asqc7n\"}]"
+                }
+            }
+        }
+    }
+}
