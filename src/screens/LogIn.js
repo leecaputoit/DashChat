@@ -23,7 +23,8 @@ import * as ActionCreators from '../redux/actions';
 //import Loader from '../components/Loader';
 
 
-//import Amplify, { Auth } from 'aws-amplify';
+import Amplify from '@aws-amplify/core'
+import { Auth } from 'aws-amplify';
 //import awsconfig from '../../aws-exports';
 //Amplify.configure(awsconfig);
 
@@ -51,15 +52,31 @@ class LogIn extends React.Component {
       emailAddress: '',
       password: '',
       badgeNumber: '',
+      username: '',
       confirmationCode: '',
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleBadgeChange = this.handleBadgeChange.bind(this);
-    this.handleNextButton = this.handleNextButton.bind(this);
+    this.handleSignInButton = this.handleSignInButton.bind(this);
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
+  }
+
+  signIn = async () => {
+    const {
+      username, password
+    } = this.state
+    try {
+      await Auth.signIn({ username, password})
+      console.log('successful signed in..')
+      console.log(this.props)
+      this.props.setLoggedIn(true)
+    } catch (err) {
+      console.log('error signing in...', err)
+    }
   }
 
   // handleConfirmationCode = () => {
@@ -143,7 +160,7 @@ class LogIn extends React.Component {
   //   }
   // }
 
-  handleNextButton() {
+  handleSignInButton() {
     //this.setState({ loadingVisible: true });
     // const { logIn, navigation } = this.props;
 
@@ -166,9 +183,12 @@ class LogIn extends React.Component {
     this.setState({ badgeNumber: text });
   }
 
-  handlePasswordChange(text) {
-    this.setState({ text });
+  handleUsernameChange(text) {
+    this.setState({ username: text });
+  }
 
+  handlePasswordChange(text) {
+    this.setState({ password: text });
   }
 
   onCreatePoliceAccount() {
@@ -188,14 +208,14 @@ class LogIn extends React.Component {
             </Text>
             { userType == 'civilian'
             ? <InputField
-                labelText="Email Address"
+                labelText="Username"
                 labelTextSize={14}
                 labelColor={colors.white}
                 textColor={colors.white}
                 borderBottomColor={colors.white}
-                inputType="email"
+                inputType="username"
                 customStyle={{ marginBottom: 30 }}
-                onChangeText={this.handleEmailChange}
+                onChangeText={this.handleUsernameChange}
                 autoFocus
                 autoCapitalize={"none"}
                 iconName="envelope"
@@ -239,9 +259,9 @@ class LogIn extends React.Component {
             }
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle} 
-              title = {"Next"} 
-              onPress = {this.handleNextButton}>
-              <Text style= {baseStyles.nextButtonText}> Next </Text>
+              title = {"Sign In"} 
+              onPress = {this.signIn}>
+              <Text style= {baseStyles.nextButtonText}> Sign In </Text>
               <Icon
               name="angle-right"
               color={colors.white}

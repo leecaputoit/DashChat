@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"dashchatb4d78f52": {
+		"dashchat5a0f544d": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []
