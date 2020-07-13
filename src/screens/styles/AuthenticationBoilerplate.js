@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "flex-end",
-    marginTop: 100,
+    marginTop: 50,
   },
   nextButtonText: {
     color: colors.white,

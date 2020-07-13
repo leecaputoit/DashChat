@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "dashchatb4d78f52_identitypool_b4d78f52",
+    "identityPoolName": "dashchat5a0f544d_identitypool_5a0f544d",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "dashchb4d78f52",
-    "userPoolName": "dashchatb4d78f52_userpool_b4d78f52",
+    "resourceNameTruncated": "dashch5a0f544d",
+    "userPoolName": "dashchat5a0f544d_userpool_5a0f544d",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -30,10 +30,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "dashchb4d78f52_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "dashch5a0f544d_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "b4d78f52",
-    "resourceName": "dashchatb4d78f52",
+    "sharedId": "5a0f544d",
+    "resourceName": "dashchat5a0f544d",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -50,7 +50,7 @@
     "useDefault": "defaultSocial",
     "hostedUI": true,
     "triggers": "{}",
-    "hostedUIDomainName": "dashchatb4d78f52-b4d78f52",
+    "hostedUIDomainName": "dashchat5a0f544d-5a0f544d",
     "authProvidersUserPool": [
         "Facebook",
         "Google"
