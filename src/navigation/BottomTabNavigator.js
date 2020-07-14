@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CallHistory from '../screens/CallHistory';
 import Profile from '../screens/Profile';
+import Calls from '../screens/Calls'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import colors from '../styles/colors';
 
@@ -37,7 +38,7 @@ export default class BottomTabNavigator extends React.Component{
                         inactiveBackgroundColor:colors.background
                     }}
             >
-                <Tab.Screen name="Calls" component={CallHistory} />
+                <Tab.Screen name="Calls" component={Calls} />
                 <Tab.Screen name="Call History"   component={CallHistory} />
                 <Tab.Screen name="Profile"       component={Profile}     />
             </Tab.Navigator>

@@ -53,26 +53,25 @@ class ForgotPassword extends React.Component {
       password: '',
       badgeNumber: '',
       username: '',
-      code: '',
+      confirmationCode: '',
       validCode: true,
     };
 
     this.handleNextButton = this.handleNextButton.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
-    //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
+    this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
   }
 
 
-  // handleConfirmationCode = () => {
-  //   const { emailAddress, confirmationCode } = this.state;
-  //   this.setState({ emailAddress: emailAddress.toLowerCase() })
-  //   Auth.confirmSignUp(emailAddress, confirmationCode, {})
-  //     .then(() => {
-  //       this.setState({ modalVisible: false });
-  //       this.props.navigation.navigate('Profile')
-  //     })
-  //     .catch(err => console.log(err));
-  // }
+  handleConfirmationCode = () => {
+    const { emailAddress, confirmationCode } = this.state;
+    emailAddress = emailAddress.toLowerCase()
+    Auth.confirmSignUp(emailAddress, confirmationCode, {})
+      .then(() => {
+        this.props.setLoggedIn(true);
+      })
+      .catch(err => console.log(err));
+  }
 
   // async SignIn() {
   //   const { logIn, navigation } = this.props;
@@ -159,7 +158,7 @@ class ForgotPassword extends React.Component {
 
 
   handleCodeChange(text) {
-    this.setState({ code: text });
+    this.setState({ confirmationCode: text });
   }
 
 
@@ -197,7 +196,7 @@ class ForgotPassword extends React.Component {
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle}
               title = {"Submit"}
-              onPress = {this.signIn}
+              onPress = {this.handleConfirmationCode}
               disabled = {!validCode}
               >
               <Text style= {

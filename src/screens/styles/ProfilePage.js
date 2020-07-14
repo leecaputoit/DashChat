@@ -1,8 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
 
-let headingTextSize = 30;
-
 const styles = StyleSheet.create({
   mainWrapper: {
     display:'flex',
@@ -14,42 +12,51 @@ const styles = StyleSheet.create({
     
   },
   imageContainer:{
-    flex:1.5,
-    justifyContent:"center"
-    
+    marginBottom: 10
   },
   nameContainer:{
-    flex:0.5,
-    justifyContent:"center"
+    marginBottom: 100
   },
   buttonContainer:{
-    flex:1,
-    display:"flex",
-    justifyContent:"flex-start",
-    marginBottom:150
   },
   imageStyles:{
-    borderRadius:35,
-    height:292,
-    width:270,
+    borderRadius:250/2,
+    height:250,
+    width:250,
   },
   nameStyles:{
     color:colors.white,
-    fontSize:48
+    fontSize:36,
   },
   buttonStyles:{
     borderRadius:15,
     backgroundColor:colors.white,
-    width:Dimensions.get('window').width * 0.65,
-    height:56,
-    display:"flex",
+    width:Dimensions.get('window').width * 0.55,
+    height:48,
     justifyContent:"center",
     alignItems:"center",
     marginBottom:20
   },
   textStyles:{
-    fontSize:24,
-  }
+    fontSize:18,
+  },
+  vehiclesTitle:{
+    color:colors.white,
+    fontSize:18,
+    alignSelf:"center",
+  },
+  logOutButtonStyle:{
+    display:"flex",
+    justifyContent: "flex-end",
+    alignSelf: "flex-end",
+    marginEnd: 20,
+    marginBottom:20,
+  },
+
+  logOutTextStyle: {
+    color: "#ffff",
+    fontSize:14,
+  },
 });
 
 export default styles;

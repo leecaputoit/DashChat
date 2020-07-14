@@ -75,7 +75,7 @@ class LogIn extends React.Component {
       await Auth.signIn({ username, password})
       console.log('successful signed in..')
       console.log(this.props)
-      this.props.setLoggedIn(true)
+      this.props.navigation.navigate('ConfirmationCode');
     } catch (err) {
       console.log('error signing in...', err)
     }
