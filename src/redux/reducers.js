@@ -4,6 +4,8 @@ import * as constants from './constants'
 const INITIAL_STATE = {
     userType: 'civilian',
     loggedIn: false,
+    profileImageURI:'',
+    userIdentifier:''
 }
 
 
@@ -25,8 +27,26 @@ const loggedInReducer = (state = INITIAL_STATE.loggedIn, action) => {
       }
 };
 
+const profileImageReducer = (state = INITIAL_STATE.profileImageURI, action) => {
+  switch (action.type) {
+      case constants.SET_PROFILE_IMAGE:
+        return action.profileImageURI
+      default:
+        return state
+    }
+};
 
+const userIDReducer = (state = INITIAL_STATE.userIdentifier, action) => {
+  switch (action.type) {
+      case constants.SET_USER_IDENTIFIER:
+        return action.id
+      default:
+        return state
+    }
+};
 export default combineReducers({
     userType: userTypeReducer,
-    loggedIn: loggedInReducer
+    loggedIn: loggedInReducer,
+    profileImageURI: profileImageReducer,
+    userIdentifier: userIDReducer
 })

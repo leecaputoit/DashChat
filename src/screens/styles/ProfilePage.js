@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
     color: "#ffff",
     fontSize:14,
   },
+  imagePicker:{
+    alignSelf:"flex-end"
+  }
 });
 
 export default styles;

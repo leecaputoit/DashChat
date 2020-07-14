@@ -71,10 +71,11 @@ class LogIn extends React.Component {
       username, password
     } = this.state
     try {
-      await Auth.signIn({ username, password})
+      const user = await Auth.signIn({ username, password})
       console.log('successful signed in..')
-      console.log(this.props)
       this.props.navigation.navigate('ConfirmationCode');
+      this.props.setLoggedIn(true)
+      this.props.setUserIdentifier(user.attributes.sub);
     } catch (err) {
       console.log('error signing in...', err)
     }

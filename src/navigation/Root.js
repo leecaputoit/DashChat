@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 class Root extends React.Component {
     render() {
-        const isSignedIn = this.props.loggedIn
+        const isSignedIn = this.props.loggedIn;
         return (
             <NavigationContainer>
                 {

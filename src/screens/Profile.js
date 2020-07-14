@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { StatusBar, Text, View, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import styles from './styles/ProfilePage';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
+import ImageSelector from '../common-components/ImageSelector'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { uploadToStorage, readFromStorage } from '../Utility/FileStorageAPI'
 
 class Profile extends Component {
+
 
   constructor(props) {
     super(props);
@@ -16,14 +19,18 @@ class Profile extends Component {
     this.onLogOutPress = this.onLogOutPress.bind(this);
   }
 
+  componentDidMount(){
+    this.props.initiateSetProfileImg();
+  }
+
   onLogOutPress() {
     this.props.setLoggedIn(false)
-    console.log(this.props)
   }
+
 
   render() {
     const { user } = this.state;
-
+  
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
@@ -36,9 +43,10 @@ class Profile extends Component {
         <StatusBar backgroundColor={colors.background} barStyle="light-content" />
         <View style={styles.imageContainer}>
           <Image 
-           style={styles.imageStyles}
-          source={require("../img/exampleCivilian.jpg")}
+            style={styles.imageStyles}
+            source={{uri:this.props.profileImageURI}}
           />
+          <ImageSelector style={styles.imagePicker} handleResult={uploadToStorage}/>
         </View>
         
         <View style={styles.nameContainer}>
@@ -62,7 +70,12 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+  return {
+    profileImageURI : state.profileImageURI,
+    userIdentifier: state.userIdentifier
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
