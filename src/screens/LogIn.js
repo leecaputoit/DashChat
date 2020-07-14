@@ -61,7 +61,6 @@ class LogIn extends React.Component {
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleBadgeChange = this.handleBadgeChange.bind(this);
-    this.handleSignInButton = this.handleSignInButton.bind(this);
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
@@ -79,6 +78,7 @@ class LogIn extends React.Component {
     } catch (err) {
       console.log('error signing in...', err)
     }
+    this.props.setLoggedIn(true)
   }
 
   // handleConfirmationCode = () => {
@@ -161,20 +161,6 @@ class LogIn extends React.Component {
   //     }
   //   }
   // }
-
-  handleSignInButton() {
-    //this.setState({ loadingVisible: true });
-    // const { logIn, navigation } = this.props;
-
-    // this.SignIn();
-    // setTimeout(() => {
-    //   const { emailAddress, password } = this.state;
-    //   this.setState({ emailAddress: emailAddress.toLowerCase() })
-    //   this.SignIn
-    // }, 2000);
-    this.props.setLoggedIn(true)
-  }
-
 
   handleEmailChange(text) {
     var emailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

@@ -32,10 +32,23 @@ const styles = StyleSheet.create({
     borderRadius:15,
     backgroundColor:colors.white,
     width:Dimensions.get('window').width * 0.55,
-    height:48,
+    height:36,
+    display:"flex",
     justifyContent:"center",
     alignItems:"center",
     marginBottom:20
+  },
+  logOutButtonStyle:{
+    display:"flex",
+    justifyContent: "flex-end",
+    alignSelf: "flex-end",
+    marginEnd: 20,
+    marginBottom:20,
+  },
+
+  logOutTextStyle: {
+    color: "#ffff",
+    fontSize:14,
   },
   textStyles:{
     fontSize:18,

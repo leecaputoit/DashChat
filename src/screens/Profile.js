@@ -14,7 +14,6 @@ class Profile extends Component {
     this.state = { user: null, customState: null };
 
     this.onLogOutPress = this.onLogOutPress.bind(this);
-
   }
 
   onLogOutPress() {
