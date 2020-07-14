@@ -14,7 +14,6 @@ class Profile extends Component {
     this.state = { user: null, customState: null };
 
     this.onLogOutPress = this.onLogOutPress.bind(this);
-  
   }
 
   onLogOutPress() {
@@ -54,11 +53,9 @@ class Profile extends Component {
               {"Driver's License"}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyles}>
-            <Text style={styles.textStyles}>
-             {"Vehicle Registrations"}
+            <Text style={styles.vehiclesTitle}>
+             {"Registered Vehicles"}
            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -72,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile); 
