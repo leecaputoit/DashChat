@@ -29,5 +29,23 @@
 				}
 			]
 		}
+	},
+	"api": {
+		"dashchat": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "dashchat datastore API key",
+							"apiKeyExpirationDays": "365"
+						}
+					}
+				}
+			}
+		}
 	}
 }

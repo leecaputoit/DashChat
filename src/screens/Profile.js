@@ -7,9 +7,10 @@ import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import ImageSelector from '../common-components/ImageSelector'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { uploadToStorage } from '../Utility/FileStorageAPI'
+import { uploadToStorage, readFromStorage } from '../Utility/FileStorageAPI'
 
 class Profile extends Component {
+
 
   constructor(props) {
     super(props);
@@ -19,14 +20,16 @@ class Profile extends Component {
   
   }
 
-  getProfileImage(){
-    if(this.props.profileImageURI != ''){
-      return {uri:this.props.profileImageURI};
-    }else{
-      let uri = require("../img/exampleCivilian.jpg");
-      return uri;
-    }
+  componentDidMount(){
+    this.props.initiateSetProfileImg();
   }
+
+ componentWillReceiveProps(nextProps){
+   if(nextProps.profileImageURI != this.props.profileImageURI){
+     this.setState({customeState:null});
+     console.log("called")
+   }
+ }
 
   onLogOutPress() {
     this.props.setLoggedIn(false)
@@ -34,8 +37,8 @@ class Profile extends Component {
 
   render() {
     const { user } = this.state;
-    let profileUri = this.getProfileImage();
-
+    console.log("uri" + this.props.profileImageURI)
+  
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
@@ -49,7 +52,7 @@ class Profile extends Component {
         <View style={styles.imageContainer}>
           <Image 
            style={styles.imageStyles}
-          source={profileUri}
+           source={{uri:this.props.profileImageURI}}
           />
           <ImageSelector style={styles.imagePicker} handleResult={uploadToStorage}/>
         </View>
@@ -77,9 +80,12 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profileImageURI : state.profileImageURI
-});
+const mapStateToProps = state => {
+  return {
+    profileImageURI : state.profileImageURI,
+    userIdentifier: state.userIdentifier
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);

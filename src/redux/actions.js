@@ -1,4 +1,5 @@
 import * as constants from './constants'
+import { readFromStorage } from '../Utility/FileStorageAPI'
 
 export const setUserType = userType => (
   {
@@ -14,7 +15,20 @@ export const setLoggedIn = loggedIn => (
   }
 );
 
-export const setProfileImage = profileImageURI => ({
-  type: constants.SET_PROFILE_IMAGE,
-  profileImageURI
+export const initiateSetProfileImg = () => (dispatch, getState) =>{
+                                      readFromStorage(getState().userIdentifier).then(result => {
+                                        dispatch(setProfileImage(result));
+                                      })
+                                    };
+
+export const setProfileImage =  profileImageURI => {
+ return {
+    type: constants.SET_PROFILE_IMAGE,
+    profileImageURI
+  };
+};
+
+export const setUserIdentifier = id => ({
+  type: constants.SET_USER_IDENTIFIER,
+  id
 });
