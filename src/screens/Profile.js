@@ -24,20 +24,13 @@ class Profile extends Component {
     this.props.initiateSetProfileImg();
   }
 
- componentWillReceiveProps(nextProps){
-   if(nextProps.profileImageURI != this.props.profileImageURI){
-     this.setState({customeState:null});
-     console.log("called")
-   }
- }
-
   onLogOutPress() {
     this.props.setLoggedIn(false)
   }
 
+
   render() {
     const { user } = this.state;
-    console.log("uri" + this.props.profileImageURI)
   
     return (
       <View style={styles.mainWrapper}>
@@ -51,8 +44,8 @@ class Profile extends Component {
         <StatusBar backgroundColor={colors.background} barStyle="light-content" />
         <View style={styles.imageContainer}>
           <Image 
-           style={styles.imageStyles}
-           source={{uri:this.props.profileImageURI}}
+            style={styles.imageStyles}
+            source={{uri:this.props.profileImageURI}}
           />
           <ImageSelector style={styles.imagePicker} handleResult={uploadToStorage}/>
         </View>
