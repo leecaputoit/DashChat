@@ -13,7 +13,7 @@ import {
 import { Button, Input } from 'react-native-elements';
 import colors from '../styles/colors';
 import baseStyles from './styles/AuthenticationBoilerplate';
-import styles from './styles/LogIn';
+import styles from './styles/ForgotPassword';
 import InputField from '../common-components/InputField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,7 +28,7 @@ import { Auth } from 'aws-amplify';
 //import awsconfig from '../../aws-exports';
 //Amplify.configure(awsconfig);
 
-class LogIn extends React.Component {
+class ForgotPassword extends React.Component {
   // static navigationOptions = ({ navigation }) => ({
   //   headerTitle: "",
   //   headerRight: () => <NavBarButton
@@ -56,30 +56,15 @@ class LogIn extends React.Component {
       confirmationCode: '',
       validUsername: false,
       validBadgenumber: false,
-      validPassword: false,
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleBadgeChange = this.handleBadgeChange.bind(this);
-    this.handleSignInButton = this.handleSignInButton.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
+    this.onPoliceButton = this.onPoliceButton.bind(this);
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
   }
 
-  signIn = async () => {
-    const {
-      username, password
-    } = this.state
-    try {
-      await Auth.signIn({ username, password})
-      console.log('successful signed in..')
-      console.log(this.props)
-      this.props.setLoggedIn(true)
-    } catch (err) {
-      console.log('error signing in...', err)
-    }
-  }
 
   // handleConfirmationCode = () => {
   //   const { emailAddress, confirmationCode } = this.state;
@@ -185,26 +170,22 @@ class LogIn extends React.Component {
 
 
   handleBadgeChange(text) {
-    text.length>=4 ? this.setState({validBadgeNumber: true}) : this.setState({validBadgeNumber: false})
+    text.length>=4 ? this.setState({validBadgenumber: true}) : this.setState({validBadgenumber: false})
     this.setState({ badgeNumber: text });
   }
 
-  handlePasswordChange(text) {
-    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    text.match(strongRegex) ? this.setState({validPassword: true}): this.setState({validPassword: false});
-    this.setState({ password: text });
+  onPoliceButton() {
+    this.props.setUserType('police')
   }
 
-  onCreatePoliceAccount() {
-    this.props.navigation.navigate("Register")
+  handleNextButton() {
+    this.props.navigation.navigate('NewPassword');
   }
 
   render() {
     const userType = this.props.userType;
-    const {validEmail, validBadgenumber, validPassword} = this.state
-    const formValid = userType == 'civilian'
-                        ? validEmail && validPassword
-                        : validBadgenumber && validPassword
+    const {validEmail, validBadgenumber} = this.state
+    const formValid = userType == 'civilian' ? validEmail : validBadgenumber
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
@@ -212,8 +193,11 @@ class LogIn extends React.Component {
       >
           <ScrollView>
             <Text style={baseStyles.headerText}>
-              {userType == 'civilian' ? "Log In" : "Log In to your Police Account"}
+              Forgot your password?
             </Text>
+            <Text style={styles.forgotPasswordSubheading}>
+              Enter your {userType == 'civilian' ? "email" : "badge number"} below to reset your password.
+                </Text>
             { userType == 'civilian'
             ? <InputField
                 labelText="Email"
@@ -244,41 +228,17 @@ class LogIn extends React.Component {
                 iconName="envelope"
               />
             }
-            <InputField
-              labelText="Password"
-              labelTextSize={14}
-              labelColor={colors.white}
-              textColor={colors.white}
-              borderBottomColor={colors.white}
-              inputType="password"
-              customStyle={{ marginBottom: 30 }}
-              onChangeText={this.handlePasswordChange}
-              showCheckmark = {this.state.validPassword}
-              autoCapitalize={"none"}
-              iconName="key"
-            />
-            { userType == 'police' ?
-                <TouchableHighlight
-                style={styles.createAccountButtonSyle}
-                onPress= {() => this.onCreatePoliceAccount()}
-                >
-                  <Text style={styles.createAccountButtonText}>
-                    Create a New Police Officer Account
-                  </Text>
-              </TouchableHighlight>
-              : null
-            }
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle}
               title = {"Sign In"}
-              onPress = {this.signIn}
+              onPress = {this.handleNextButton}
               disabled = {!formValid}
               >
               <Text style= {
                 Object.assign({},
                   baseStyles.nextButtonText, 
                   {color: formValid? colors.white : colors.secondaryText})}
-                > Sign In </Text>
+                > Next </Text>
               <Icon
               name="angle-right"
               color={formValid? colors.white: colors.secondaryText}
@@ -286,6 +246,14 @@ class LogIn extends React.Component {
               style={styles.icon}
               />
             </TouchableOpacity>
+            <TouchableHighlight
+            style={styles.policeLoginButton}
+            onPress= {() => this.onPoliceButton()}
+          >
+            <Text style={styles.policeLoginButtonText}>
+              Police Officer?
+            </Text>
+          </TouchableHighlight>
           </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -303,4 +271,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

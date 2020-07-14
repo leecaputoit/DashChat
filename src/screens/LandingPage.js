@@ -11,7 +11,6 @@ import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
 
 class LandingPage extends Component {
-
   constructor(props) {
     super(props);
     this.state = { user: null, customState: null };
@@ -97,7 +96,7 @@ class LandingPage extends Component {
             onPress= {() => this.onLoginPress()}
           >
             <Text style={styles.loginButtonText}>
-              Already have an Account?
+              Log In
             </Text>
           </TouchableHighlight>
           <TouchableHighlight

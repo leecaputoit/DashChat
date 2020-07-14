@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     fontSize: headingTextSize,
     color: colors.white,
     fontWeight: '300',
+    marginTop: 20,
     marginBottom: 40,
   },
   nextButtonSyle: {
@@ -37,7 +38,12 @@ const styles = StyleSheet.create({
     top: 20,
     right: 20,
     bottom: 20,
-  }
+  },
+  forgotPassword: {
+    flex: 1,
+    color: colors.white,
+    fontSize: 14,
+  },
 });
 
 export default styles;

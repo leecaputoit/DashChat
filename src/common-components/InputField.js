@@ -10,6 +10,7 @@ import {
   Easing,
 } from 'react-native';
 import colors from '../styles/colors';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 
 export default class InputField extends Component {
@@ -17,8 +18,21 @@ export default class InputField extends Component {
     super(props);
     this.state = {
       inputValue: props.defaultValue,
+      scaleCheckmarkValue: new Animated.Value(0),
     };
     this.onChangeText = this.onChangeText.bind(this);
+  }
+
+  scaleCheckmark(value) {
+    Animated.timing(
+      this.state.scaleCheckmarkValue,
+      {
+        toValue: value,
+        duration: 400,
+        easing: Easing.easeOutBack,
+        useNativeDriver: true,
+      },
+    ).start();
   }
 
   onChangeText(text) {
@@ -41,9 +55,10 @@ export default class InputField extends Component {
       autoFocus,
       autoCapitalize,
       placeholder,
+      showCheckmark,
       defaultValue,
     } = this.props;
-    const { inputValue } = this.state;
+    const { inputValue, scaleCheckmarkValue } = this.state;
     const fontSize = labelTextSize || 14;
     const fontWeight = labelTextWeight || '700';
     const color = labelColor || colors.white;
@@ -55,12 +70,28 @@ export default class InputField extends Component {
       customInputStyle.paddingBottom = 5;
     }
 
+    const iconScale = scaleCheckmarkValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [0.01, 1.6, 1],
+    });
+
+    const scaleValue = showCheckmark ? 1 : 0;
+    this.scaleCheckmark(scaleValue);
+
     return (
       <View style={[customStyle, styles.wrapper]}>
         <Text style={[{ fontWeight, color, fontSize }, styles.label]}>
           {labelText}
         </Text>
         <View style = {styles.inputFieldWithIcon}>
+        <Animated.View style={[{ transform: [{ scale: iconScale }] }, styles.checkmarkWrapper]}>
+          <Icon
+            name="check"
+            color={colors.white}
+            size={20}
+          />
+        </Animated.View>
+          
         <TextInput
           style={[{ color: inputColor, borderBottomColor: borderBottom }, inputStyle, styles.inputField]}
           onChangeText={this.onChangeText}
@@ -92,6 +123,7 @@ InputField.propTypes = {
   autoCapitalize: PropTypes.string,
   labelTextWeight: PropTypes.string,
   inputStyle: PropTypes.object,
+  showCheckmark: PropTypes.bool,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.string,
 };
@@ -128,4 +160,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     marginLeft: 20,
 },
+  checkmarkWrapper: {
+    position: 'absolute',
+    right: 0,
+    bottom: 12,
+  },
 });
