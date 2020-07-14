@@ -61,6 +61,9 @@ const styles = StyleSheet.create({
   },
   textStyles:{
     fontSize:18,
+  },
+  imagePicker:{
+    alignSelf:"flex-end"
   }
 });
 

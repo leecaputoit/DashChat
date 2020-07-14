@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { StatusBar, Text, View, Image, TouchableOpacity } from 'react-native';
-import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import styles from './styles/ProfilePage';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
+import ImageSelector from '../common-components/ImageSelector'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { uploadToStorage } from '../Utility/FileStorageAPI'
 
 class Profile extends Component {
 
@@ -17,13 +19,22 @@ class Profile extends Component {
   
   }
 
+  getProfileImage(){
+    if(this.props.profileImageURI != ''){
+      return {uri:this.props.profileImageURI};
+    }else{
+      let uri = require("../img/exampleCivilian.jpg");
+      return uri;
+    }
+  }
+
   onLogOutPress() {
     this.props.setLoggedIn(false)
-    console.log(this.props)
   }
 
   render() {
     const { user } = this.state;
+    let profileUri = this.getProfileImage();
 
     return (
       <View style={styles.mainWrapper}>
@@ -38,8 +49,9 @@ class Profile extends Component {
         <View style={styles.imageContainer}>
           <Image 
            style={styles.imageStyles}
-          source={require("../img/exampleCivilian.jpg")}
+          source={profileUri}
           />
+          <ImageSelector style={styles.imagePicker} handleResult={uploadToStorage}/>
         </View>
         
         <View style={styles.nameContainer}>
@@ -65,7 +77,9 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  profileImageURI : state.profileImageURI
+});
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);

@@ -13,3 +13,8 @@ export const setLoggedIn = loggedIn => (
     loggedIn,
   }
 );
+
+export const setProfileImage = profileImageURI => ({
+  type: constants.SET_PROFILE_IMAGE,
+  profileImageURI
+});
