@@ -8,4 +8,5 @@ export default {
     secondaryText: '#303030',
     iconColor: '#B4B4B4',
     box: '#E3E3E3',
+    disabled: '#666666',
   };

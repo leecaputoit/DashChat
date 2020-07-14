@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
+import { color } from 'react-native-reanimated';
 
 
 class Registration extends React.Component {
@@ -30,6 +31,11 @@ class Registration extends React.Component {
       password: '',
       given_name: '',
       family_name: '',
+      validFirstName: false,
+      validLastName: false,
+      validBadgeNumber: false,
+      validEmail: false,
+      validPassword: false,
     };
 
     this.state = { user: null, customState: null };
@@ -43,25 +49,36 @@ class Registration extends React.Component {
   }
 
   handleFirstNameChange(text) {
+    text.length>=3 ? this.setState({validFirstName: true}) : this.setState({validFirstName: false})
     this.setState({ given_name: text });
   }
   handleLastNameChange(text) {
+    text.length>=3 ? this.setState({validLastName: true}) : this.setState({validLastName: false})
     this.setState({ family_name: text });
   }
   handleEmailChange(text) {
-    this.setState({ email: text });
+    var emailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    this.setState({ email: text })
+    this.setState({ username: text })
+    text.match(emailformat) ? this.setState({validEmail: true}): this.setState({validEmail: false});
   }
   handlePhoneChange(text) {
     this.setState({ phone: text });
   }
   handleBadgeChange(text) {
+    text.length>=4 ? this.setState({validBadgeNumber: true}) : this.setState({validBadgeNumber: false})
     this.setState({ email: text + "@removeme.com"});
+    this.setState({ username: text });
+    console.log(this.state)
   }
   handleUsernameChange(text) {
     this.setState({ username: text });
   }
   handlePasswordChange(text) {
+    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     this.setState({ password: text });
+    text.match(strongRegex) ? this.setState({validPassword: true}): this.setState({validPassword: false});
+    console.log(this.state)
   }
 
   signUp = async () => {
@@ -94,7 +111,11 @@ class Registration extends React.Component {
   }
 
   render() {
+    const {validEmail, validFirstName, validLastName, validBadgeNumber, validPassword} = this.state;
     const userType = this.props.userType;
+    const formValid = userType == 'civilian' 
+                      ? (validEmail && validFirstName && validLastName && validPassword)
+                      : (validBadgeNumber && validFirstName && validLastName && validPassword)
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
@@ -115,6 +136,7 @@ class Registration extends React.Component {
               onChangeText={this.handleFirstNameChange}
               autoFocus
               autoCapitalize={"words"}
+              showCheckmark={this.state.validFirstName}
             />
             <InputField
               labelText="Last Name"
@@ -127,6 +149,7 @@ class Registration extends React.Component {
               onChangeText={this.handleLastNameChange}
               autoFocus
               autoCapitalize={"words"}
+              showCheckmark={this.state.validLastName}
             />
             {userType == "civilian"
             ?
@@ -137,8 +160,10 @@ class Registration extends React.Component {
                 textColor={colors.white}
                 borderBottomColor={colors.white}
                 inputType="email"
+                showCheckmark={this.state.validEmail}
                 customStyle={{ marginBottom: 15 }}
                 onChangeText={this.handleEmailChange}
+                validEmail = {this.state.validEmail}
                 autoFocus
                 autoCapitalize={"none"}
                 iconName="envelope"
@@ -156,40 +181,41 @@ class Registration extends React.Component {
                 autoFocus
                 autoCapitalize={"none"}
                 iconName="envelope"
+                showCheckmark={this.state.validBadgeNumber}
               />
             }
-            <InputField
-              labelText= "Username"
-              labelTextSize={14}
-              labelColor={colors.white}
-              textColor={colors.white}
-              borderBottomColor={colors.white}
-              inputType="text"
-              customStyle={{ marginBottom: 15 }}
-              onChangeText={this.handleUsernameChange}
-              autoFocus
-              autoCapitalize={"words"}
-            />
             <InputField
               labelText= "Password"
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
+              iconPosition = "left"
               borderBottomColor={colors.white}
               inputType="text"
+              showCheckmark={this.state.validPassword}
+              validPassword = {this.state.validPassword}
               customStyle={{ marginBottom: 15 }}
               onChangeText={this.handlePasswordChange}
               autoFocus
               autoCapitalize={"words"}
             />
+            <Text style = {styles.passwordDescription}>
+              Password requires special character
+            </Text>
             <TouchableOpacity 
-              style = {baseStyles.nextButtonSyle} 
+              style = {baseStyles.nextButtonSyle}
               title = {"Sign Up"}
-              onPress = {this.signUp}>
-              <Text style= {baseStyles.nextButtonText}> Sign Up </Text>
+              onPress = {this.signUp}
+              disabled = {!formValid}
+              >
+              <Text style= {
+                Object.assign({},
+                  baseStyles.nextButtonText, 
+                  {color: formValid? colors.white : colors.secondaryText})}
+                > Sign Up </Text>
               <Icon
               name="angle-right"
-              color={colors.white}
+              color={formValid? colors.white: colors.secondaryText}
               size={22}
               style={styles.icon}
               />

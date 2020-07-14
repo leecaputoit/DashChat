@@ -18,10 +18,21 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     marginRight: 5,
   },
-  verificationModal: {
+  forgotPasswordSubheading: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    color: colors.white,
+    fontWeight: '600',
+    fontSize: 15,
+    marginTop: 10,
+    marginBottom: 60,
+  },
+  policeLoginButton: {
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  policeLoginButtonText: {
+    color: colors.white,
+    fontSize: 16,
   },
   
 });
