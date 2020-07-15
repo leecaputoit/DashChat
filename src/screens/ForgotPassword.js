@@ -229,7 +229,7 @@ class ForgotPassword extends React.Component {
               />
             }
             <TouchableOpacity 
-              style = {baseStyles.nextButtonSyle}
+              style = {baseStyles.nextButtonStyle}
               title = {"Sign In"}
               onPress = {this.handleNextButton}
               disabled = {!formValid}

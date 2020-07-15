@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 40,
   },
-  nextButtonSyle: {
+  nextButtonStyle: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
     justifyContent: "flex-end",
-    marginTop: 50,
+    marginTop: 30,
   },
   nextButtonText: {
     color: colors.white,

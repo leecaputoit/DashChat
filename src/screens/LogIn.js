@@ -256,7 +256,7 @@ class LogIn extends React.Component {
               : null
             }
             <TouchableOpacity 
-              style = {baseStyles.nextButtonSyle}
+              style = {baseStyles.nextButtonStyle}
               title = {"Sign In"}
               onPress = {this.signIn}
               disabled = {!formValid}

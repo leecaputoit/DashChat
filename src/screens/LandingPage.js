@@ -92,12 +92,18 @@ class LandingPage extends Component {
             handleOnPress={this.onCreateAccountPress}
           />
           <TouchableHighlight
-            style={styles.loginButton}
+            style={baseStyles.nextButtonStyle}
             onPress= {() => this.onLoginPress()}
           >
-            <Text style={styles.loginButtonText}>
-              Log In
+            <Text style={baseStyles.nextButtonText}>
+              Log In  <Icon
+              name="angle-right"
+              color={colors.white}
+              size={22}
+              style={styles.icon}
+              />
             </Text>
+            
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.policeLoginButton}

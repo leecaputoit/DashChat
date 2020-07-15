@@ -14,13 +14,13 @@ const styles = StyleSheet.create({
 
   },
   createAccountButtonText: {
-    color: colors.white,
+    color: colors.black,
     fontWeight: '300',
     marginRight: 5,
   },
   forgotPasswordSubheading: {
     flex: 1,
-    color: colors.white,
+    color: colors.black,
     fontWeight: '600',
     fontSize: 15,
     marginTop: 10,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   policeLoginButtonText: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 16,
   },
   

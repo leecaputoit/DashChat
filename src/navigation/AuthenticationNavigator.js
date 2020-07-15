@@ -30,29 +30,11 @@ export default class AuthenticationNavigator extends React.Component{
                     name="LandingPage"     
                     component={LandingPage} 
                     options={({ navigation }) => ({
-                        headerTitle: "",
-                        headerRight: () => (
-                          <Button
-                            style = {styles.forgotPassword}
-                            onPress={() => navigation.navigate("ForgotPassword")}
-                            title="Forgot Password"
-                            color= {colors.white}
-                          />
-                        ),
                       })}/>
                 <Stack.Screen 
                         name="Register"     
                         component={Register}
                         options={({ navigation }) => ({
-                            headerTitle: "",
-                            headerRight: () => (
-                              <Button
-                                style = {styles.forgotPassword}
-                                onPress={() => navigation.navigate("ForgotPassword")}
-                                title="Forgot Password"
-                                color= {colors.white}
-                              />
-                            ),
                           })}/>
                 <Stack.Screen 
                         name="LogIn"   
@@ -63,8 +45,8 @@ export default class AuthenticationNavigator extends React.Component{
                               <Button
                                 style = {styles.forgotPassword}
                                 onPress={() => navigation.navigate("ForgotPassword")}
-                                title="Forgot Password"
-                                color= {colors.white}
+                                title="Forgot Password?"
+                                color= {colors.black}
                               />
                             ),
                           })}/>

@@ -194,7 +194,7 @@ class ForgotPassword extends React.Component {
               iconName="key"
             />
             <TouchableOpacity 
-              style = {baseStyles.nextButtonSyle}
+              style = {baseStyles.nextButtonStyle}
               title = {"Submit"}
               onPress = {this.handleConfirmationCode}
               disabled = {!validCode}

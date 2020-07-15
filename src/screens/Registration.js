@@ -203,7 +203,7 @@ class Registration extends React.Component {
               Password requires special character
             </Text>
             <TouchableOpacity 
-              style = {baseStyles.nextButtonSyle}
+              style = {baseStyles.nextButtonStyle}
               title = {"Sign Up"}
               onPress = {this.signUp}
               disabled = {!formValid}
