@@ -179,7 +179,25 @@ class ForgotPassword extends React.Component {
   }
 
   handleNextButton() {
-    this.props.navigation.navigate('NewPassword');
+    this.props.navigation.navigate(
+        'NewPassword',
+        {
+          username: 'bryan.marin1026@gmail.com'
+        }
+  )
+    // const { emailAddress } = this.state
+    // setTimeout(() => {
+    //   Auth.forgotPassword(emailAddress)
+    //     .then(
+    //       this.props.navigation.navigate('NewPassword',
+    //       {
+    //         username: emailAddress
+    //       })
+    //     )
+    //     .catch( () => {
+    //       console.log("user not found");
+    //     });
+    // }, 2000);
   }
 
   render() {
@@ -232,7 +250,7 @@ class ForgotPassword extends React.Component {
               style = {baseStyles.nextButtonStyle}
               title = {"Sign In"}
               onPress = {this.handleNextButton}
-              disabled = {!formValid}
+              disabled = {false}
               >
               <Text style= {
                 Object.assign({},

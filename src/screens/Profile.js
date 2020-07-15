@@ -9,6 +9,8 @@ import ImageSelector from '../common-components/ImageSelector'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { uploadToStorage, readFromStorage } from '../Utility/FileStorageAPI'
 
+import Amplify from '@aws-amplify/core'
+import { Auth } from 'aws-amplify';
 class Profile extends Component {
 
 
