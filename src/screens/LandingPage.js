@@ -99,7 +99,7 @@ class LandingPage extends Component {
               Log In  <Icon
               name="angle-right"
               color={colors.white}
-              size={22}
+              size={18}
               style={styles.icon}
               />
             </Text>

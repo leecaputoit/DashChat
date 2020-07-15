@@ -22,12 +22,13 @@ const styles = StyleSheet.create({
   },
   nextButtonStyle: {
     flexDirection: "row",
-    alignItems: "center",
     flex: 1,
-    justifyContent: "flex-end",
+    alignSelf: "flex-end",
+    marginTop: 30,
   },
   nextButtonText: {
     color: colors.white,
+    fontSize: 18,
     fontWeight: '300',
     marginRight: 5,
   },

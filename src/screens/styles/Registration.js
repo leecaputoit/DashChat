@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 14,
     color: colors.white,
-    marginBottom: 40,
   }
   
 });
