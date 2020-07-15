@@ -10,6 +10,7 @@ import colors from '../styles/colors'
 import { Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../screens/styles/AuthenticationBoilerplate';
+import {Platform} from 'react-native';
 
 
 export default class AuthenticationNavigator extends React.Component{
@@ -46,7 +47,8 @@ export default class AuthenticationNavigator extends React.Component{
                                 style = {styles.forgotPassword}
                                 onPress={() => navigation.navigate("ForgotPassword")}
                                 title="Forgot Password?"
-                                color= {colors.black}
+                                color= {Platform.OS == 'ios' ? colors.white : colors.background}
+                                backgroundColor= {colors.background}
                               />
                             ),
                           })}/>
