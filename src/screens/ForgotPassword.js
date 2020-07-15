@@ -148,16 +148,15 @@ class ForgotPassword extends React.Component {
   // }
 
   handleSignInButton() {
-    //this.setState({ loadingVisible: true });
-    // const { logIn, navigation } = this.props;
+    this.setState({ loadingVisible: true });
+    const { logIn, navigation } = this.props;
 
-    // this.SignIn();
-    // setTimeout(() => {
-    //   const { emailAddress, password } = this.state;
-    //   this.setState({ emailAddress: emailAddress.toLowerCase() })
-    //   this.SignIn
-    // }, 2000);
-    this.props.setLoggedIn(true)
+    this.SignIn();
+    setTimeout(() => {
+      const { emailAddress, password } = this.state;
+      this.setState({ emailAddress: emailAddress.toLowerCase() })
+      this.SignIn
+    }, 2000);
   }
 
 
@@ -179,28 +178,26 @@ class ForgotPassword extends React.Component {
   }
 
   handleNextButton() {
-    this.props.navigation.navigate(
-        'NewPassword',
-        {
-          username: 'bryan.marin1026@gmail.com'
-        }
-  )
-    // const { emailAddress } = this.state
-    // setTimeout(() => {
-    //   Auth.forgotPassword(emailAddress)
-    //     .then(
-    //       this.props.navigation.navigate('NewPassword',
-    //       {
-    //         username: emailAddress
-    //       })
-    //     )
-    //     .catch( () => {
-    //       console.log("user not found");
-    //     });
-    // }, 2000);
+    const { emailAddress, badgeNumber } = this.state
+    const userName = this.props.userType == 'civilian' ? emailAddress : badgeNumber
+    setTimeout(() => {
+      Auth.forgotPassword(userName)
+        .then(
+          this.props.navigation.navigate(
+            'NewPassword',
+            {
+              username: userName
+            }
+          )
+        )
+        .catch( () => {
+          console.log("user not found");
+        });
+    }, 2000);
   }
 
   render() {
+    console.log(this.props)
     const userType = this.props.userType;
     const {validEmail, validBadgenumber} = this.state
     const formValid = userType == 'civilian' ? validEmail : validBadgenumber
@@ -250,7 +247,7 @@ class ForgotPassword extends React.Component {
               style = {baseStyles.nextButtonSyle}
               title = {"Sign In"}
               onPress = {this.handleNextButton}
-              disabled = {false}
+              disabled = {!formValid}
               >
               <Text style= {
                 Object.assign({},

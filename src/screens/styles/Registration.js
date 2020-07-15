@@ -6,9 +6,9 @@ let headingTextSize = 30;
 
 const styles = StyleSheet.create({
   passwordDescription: {
+    marginLeft: 20,
     fontSize: 14,
     color: colors.white,
-    justifyContent: "center",
     marginBottom: 40,
   }
   

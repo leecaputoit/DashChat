@@ -67,7 +67,6 @@ class Registration extends React.Component {
   handleBadgeChange(text) {
     text.length>=4 ? this.setState({validBadgeNumber: true}) : this.setState({validBadgeNumber: false})
     this.setState({ username: text });
-    console.log(this.state)
   }
   handleUsernameChange(text) {
     this.setState({ username: text });
@@ -101,7 +100,7 @@ class Registration extends React.Component {
         await Auth.signUp({ username, password, attributes: { given_name, family_name, email }})
         console.log('successful sign up..')
         console.log(this.props)
-        this.props.navigation.navigate("Confirmation Code")
+        this.props.setLoggedIn(true)
       } catch (err) {
         console.log('error signing up...', err)
       }
@@ -197,7 +196,7 @@ class Registration extends React.Component {
               autoCapitalize={"words"}
             />
             <Text style = {styles.passwordDescription}>
-              {"Passwords must be:\n\tAt least 8 characters\n\tA mixture of both uppercase and lowercase letters\n\tinclude at least one special character, e.g., ! @ # ? ]"}
+              {"Passwords must:\n\t- Be at least 8 characters\n\t- Contain both uppercase and \n\tlowercase letters\n\t- Include at least one special character\n\te.g., ! @ # ? ]"}
             </Text>
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle}

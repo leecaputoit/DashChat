@@ -128,6 +128,9 @@ class ForgotPassword extends React.Component {
               autoCapitalize={"none"}
               iconName="key"
             />
+            <Text style = {styles.passwordDescription}>
+              {"Passwords must:\n\t- Be at least 8 characters\n\t- Contain both uppercase and \n\tlowercase letters\n\t- Include at least one special character\n\te.g., ! @ # ? ]"}
+            </Text>
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle}
               title = {"Submit"}
