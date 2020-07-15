@@ -2,7 +2,7 @@
   "name": "trafficstop",
   "displayName": "trafficstop",
   "expo": {
-    "scheme": "myapp",
+    "scheme": "expoamplifytest",
     "name": "trafficstop",
     "slug": "trafficstop",
     "version": "1.0.0",
