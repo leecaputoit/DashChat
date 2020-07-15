@@ -59,7 +59,6 @@ class Registration extends React.Component {
   handleEmailChange(text) {
     var emailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     this.setState({ email: text })
-    this.setState({ username: text })
     text.match(emailformat) ? this.setState({validEmail: true}): this.setState({validEmail: false});
   }
   handlePhoneChange(text) {
@@ -67,7 +66,6 @@ class Registration extends React.Component {
   }
   handleBadgeChange(text) {
     text.length>=4 ? this.setState({validBadgeNumber: true}) : this.setState({validBadgeNumber: false})
-    this.setState({ email: text + "@removeme.com"});
     this.setState({ username: text });
     console.log(this.state)
   }
@@ -151,24 +149,23 @@ class Registration extends React.Component {
               autoCapitalize={"words"}
               showCheckmark={this.state.validLastName}
             />
-            {userType == "civilian"
+            <InputField
+              labelText="Email Address"
+              labelTextSize={14}
+              labelColor={colors.white}
+              textColor={colors.white}
+              borderBottomColor={colors.white}
+              inputType="email"
+              showCheckmark={this.state.validEmail}
+              customStyle={{ marginBottom: 15 }}
+              onChangeText={this.handleEmailChange}
+              validEmail = {this.state.validEmail}
+              autoFocus
+              autoCapitalize={"none"}
+              iconName="envelope"
+            />
+            {userType == "police"
             ?
-              <InputField
-                labelText="Email Address"
-                labelTextSize={14}
-                labelColor={colors.white}
-                textColor={colors.white}
-                borderBottomColor={colors.white}
-                inputType="email"
-                showCheckmark={this.state.validEmail}
-                customStyle={{ marginBottom: 15 }}
-                onChangeText={this.handleEmailChange}
-                validEmail = {this.state.validEmail}
-                autoFocus
-                autoCapitalize={"none"}
-                iconName="envelope"
-              />
-            :
               <InputField
                 labelText="Badge Number"
                 labelTextSize={14}
@@ -182,7 +179,7 @@ class Registration extends React.Component {
                 autoCapitalize={"none"}
                 iconName="envelope"
                 showCheckmark={this.state.validBadgeNumber}
-              />
+              /> : null
             }
             <InputField
               labelText= "Password"
@@ -200,7 +197,7 @@ class Registration extends React.Component {
               autoCapitalize={"words"}
             />
             <Text style = {styles.passwordDescription}>
-              Password requires special character
+              {"Passwords must be:\n\tAt least 8 characters\n\tA mixture of both uppercase and lowercase letters\n\tinclude at least one special character, e.g., ! @ # ? ]"}
             </Text>
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle}

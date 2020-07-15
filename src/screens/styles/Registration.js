@@ -6,8 +6,10 @@ let headingTextSize = 30;
 
 const styles = StyleSheet.create({
   passwordDescription: {
-    flex: 1,
-    alignItems: 'flex-end',
+    fontSize: 14,
+    color: colors.white,
+    justifyContent: "center",
+    marginBottom: 40,
   }
   
 });

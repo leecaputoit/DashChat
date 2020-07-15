@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import * as constants from './constants'
 
 const INITIAL_STATE = {
-    userType: 'police',
+    userType: 'civilian',
     loggedIn: false,
     profileImageURI:'',
     userIdentifier:''

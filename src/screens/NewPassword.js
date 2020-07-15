@@ -53,109 +53,14 @@ class ForgotPassword extends React.Component {
       password: '',
       badgeNumber: '',
       username: '',
-      code: '',
+      confirmationCode: '',
       validPassword: false,
     };
 
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleNextButton = this.handleNextButton.bind(this);
+    this.handleSubmitButton = this.handleSubmitButton.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
-  }
-
-
-  // handleConfirmationCode = () => {
-  //   const { emailAddress, confirmationCode } = this.state;
-  //   this.setState({ emailAddress: emailAddress.toLowerCase() })
-  //   Auth.confirmSignUp(emailAddress, confirmationCode, {})
-  //     .then(() => {
-  //       this.setState({ modalVisible: false });
-  //       this.props.navigation.navigate('Profile')
-  //     })
-  //     .catch(err => console.log(err));
-  // }
-
-  // async SignIn() {
-  //   const { logIn, navigation } = this.props;
-  //   const { navigate } = navigation;
-  //   const { emailAddress, password } = this.state;
-  //   this.setState({ emailAddress: emailAddress.toLowerCase() })
-  //   try {
-  //     const user = await Auth.signIn(emailAddress, password);
-  //     console.log(user)
-  //     if (user.challengeName === 'SMS_MFA' ||
-  //       user.challengeName === 'SOFTWARE_TOKEN_MFA') {
-  //       // You need to get the code from the UI inputs
-  //       // and then trigger the following function with a button click
-  //       //const code = getCodeFromUserInput();
-  //       // If MFA is enabled, sign-in should be confirmed with the confirmation code
-  //       this.setState({ modalVisible: true })
-  //     } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-  //       // const {requiredAttributes} = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-  //       // // You need to get the new password and required attributes from the UI inputs
-  //       // // and then trigger the following function with a button click
-  //       // // For example, the email and phone_number are required attributes
-  //       // const {emailAddress, password} = getInfoFromUserInput();
-  //       // const loggedUser = await Auth.completeNewPassword(
-  //       //     emailAddress,              // the Cognito User Object
-  //       //     newPassword,       // the new password
-  //       //     // OPTIONAL, the required attributes
-  //       //     {
-  //       //         name
-  //       //     }
-  //       // );
-  //     } else if (user.challengeName === 'MFA_SETUP') {
-  //       // This happens when the MFA method is TOTP
-  //       // The user needs to setup the TOTP before using it
-  //       // More info please check the Enabling MFA part
-  //       Auth.setupTOTP(user);
-  //     }
-  //     else {
-  //       //Auth.resendSignUp(emailAddress);
-  //       this.setState({ formValid: true, loadingVisible: false });
-  //       this.props.navigation.navigate('Profile');
-  //       // The user directly signs in
-  //       console.log(user);
-
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //     if (err.code === 'UserNotConfirmedException') {
-  //       // The error happens if the user didn't finish the confirmation step when signing up
-  //       // In this case you need to resend the code and confirm the user
-  //       // About how to resend the code and confirm the user, please check the signUp part
-  //       this.setState({ modalVisible: true });
-  //       this.setState({ formValid: false, loadingVisible: false });
-  //     } else if (err.code === 'PasswordResetRequiredException') {
-  //       // The error happens when the password is reset in the Cognito console
-  //       // In this case you need to call forgotPassword to reset the password
-  //       // Please check the Forgot Password part.
-  //       Auth.forgotPassword(emailAddress);
-  //       this.props.navigation.navigate('ForgotPassword');
-  //     } else if (err.code === 'NotAuthorizedException') {
-  //       // The error happens when the incorrect password is provided
-  //       this.setState({ formValid: false, loadingVisible: false });
-  //     } else if (err.code === 'UserNotFoundException') {
-  //       // The error happens when the supplied username/email does not exist in the Cognito user pool
-  //       this.setState({ formValid: false, loadingVisible: false });
-  //     } else {
-  //       this.setState({ formValid: false, loadingVisible: false });
-  //       console.log(err);
-  //     }
-  //   }
-  // }
-
-  handleSignInButton() {
-    //this.setState({ loadingVisible: true });
-    // const { logIn, navigation } = this.props;
-
-    // this.SignIn();
-    // setTimeout(() => {
-    //   const { emailAddress, password } = this.state;
-    //   this.setState({ emailAddress: emailAddress.toLowerCase() })
-    //   this.SignIn
-    // }, 2000);
-    this.props.setLoggedIn(true)
   }
 
 
@@ -166,12 +71,21 @@ class ForgotPassword extends React.Component {
   }
 
   handleCodeChange(text) {
-    this.setState({ code: text });
+    this.setState({ confirmationCode: text });
   }
 
 
-  handleNextButton() {
-    this.props.setUserType('police')
+  handleSubmitButton() {
+    console.log(this.props)
+    const username = this.props.route.params.username;
+    const {confirmationCode, password} = this.state
+    Auth.forgotPasswordSubmit(username, confirmationCode, password)
+      .then(() => {
+        this.props.navigation.navigate('LogIn');
+      })
+      .catch(
+        console.log("Password Reset unsuccesful")
+      );
   }
 
   render() {
@@ -187,7 +101,7 @@ class ForgotPassword extends React.Component {
             </Text>
           <ScrollView>
           <Text style={styles.forgotPasswordSubheading}>
-              You have been texted or emailed a confirmation code, please enter it below
+              We have emailed you a confirmation code, please enter it below
             </Text>
             <InputField
               labelText="Confirmation Code"
@@ -217,14 +131,14 @@ class ForgotPassword extends React.Component {
             <TouchableOpacity 
               style = {baseStyles.nextButtonSyle}
               title = {"Submit"}
-              onPress = {this.signIn}
+              onPress = {this.handleSubmitButton}
               disabled = {!validPassword}
               >
               <Text style= {
                 Object.assign({},
                   baseStyles.nextButtonText, 
                   {color: validPassword? colors.white : colors.secondaryText})}
-                > Finish </Text>
+                > Submit </Text>
               <Icon
               name="angle-right"
               color={validPassword? colors.white: colors.secondaryText}
