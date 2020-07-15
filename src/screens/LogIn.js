@@ -55,7 +55,7 @@ class LogIn extends React.Component {
       username: '',
       confirmationCode: '',
       validUsername: false,
-      validBadgenumber: false,
+      validBadgeNumber: false,
       validPassword: false,
     };
 
@@ -173,7 +173,7 @@ class LogIn extends React.Component {
 
   handleBadgeChange(text) {
     text.length>=4 ? this.setState({validBadgeNumber: true}) : this.setState({validBadgeNumber: false})
-    this.setState({ badgeNumber: text });
+    this.setState({ username: text });
   }
 
   handlePasswordChange(text) {
@@ -188,10 +188,10 @@ class LogIn extends React.Component {
 
   render() {
     const userType = this.props.userType;
-    const {validEmail, validBadgenumber, validPassword} = this.state
+    const {validEmail, validBadgeNumber, validPassword} = this.state
     const formValid = userType == 'civilian'
                         ? validEmail && validPassword
-                        : validBadgenumber && validPassword
+                        : validBadgeNumber && validPassword
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
@@ -217,18 +217,18 @@ class LogIn extends React.Component {
                 showCheckmark = {this.state.validEmail}
               />
             : <InputField
-                labelText="Badge Number"
-                labelTextSize={14}
-                labelColor={colors.white}
-                textColor={colors.white}
-                borderBottomColor={colors.white}
-                inputType="number"
-                customStyle={{ marginBottom: 30 }}
-                onChangeText={this.handleBadgeChange}
-                showCheckmark = {this.state.validBadgenumber}
-                autoFocus
-                autoCapitalize={"none"}
-                iconName="envelope"
+              labelText="Badge Number"
+              labelTextSize={14}
+              labelColor={colors.white}
+              textColor={colors.white}
+              borderBottomColor={colors.white}
+              inputType="email"
+              customStyle={{ marginBottom: 15 }}
+              onChangeText={this.handleBadgeChange}
+              autoFocus
+              autoCapitalize={"none"}
+              iconName="envelope"
+              showCheckmark={this.state.validBadgeNumber}
               />
             }
             <InputField

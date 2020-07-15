@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 16,
   },
+  passwordDescription: {
+    marginLeft: 20,
+    fontSize: 14,
+    color: colors.white,
+    marginBottom: 40,
+  },
   
 });
 
