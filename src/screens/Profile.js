@@ -18,11 +18,15 @@ class Profile extends Component {
     this.onLogOutPress = this.onLogOutPress.bind(this);
   
   }
-
-  componentDidMount(){
-    this.props.setProfileImageThunk();
+  async initalizeProfileImage(){
+    await this.props.setProfileImageThunk();
   }
 
+  componentDidMount(){
+    this.initalizeProfileImage();
+  }
+
+  
   onLogOutPress() {
     this.props.setLoggedIn(false)
   }
@@ -50,12 +54,12 @@ class Profile extends Component {
         
         <View style={styles.nameContainer}>
           <Text style={styles.nameStyles}>
-            {/* {this.props.user.first_name + ' ' +  this.props.user.last_name} */}
+            { this.props.user.first_name + ' ' +  this.props.user.last_name }
           </Text>
         </View>
         
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttonStyles}>
+          <TouchableOpacity onPress={this.props.setProfileImageThunk} style={styles.buttonStyles}>
             <Text style={styles.textStyles}>
               {"Driver's License"}
             </Text>
@@ -73,7 +77,7 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    //user: state.user,
+    user: state.user,
     profileImageURI: state.profileImageURI
   };
 };

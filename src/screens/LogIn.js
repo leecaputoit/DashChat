@@ -73,13 +73,17 @@ class LogIn extends React.Component {
     try {
       const userFromAuth = await Auth.signIn({ username, password})
       console.log('successful signed in..')
-      console.log(JSON.stringify(userFromAuth))
-      const user = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.attributes.sub}));
-      console.log(JSON.stringify(user));
-      this.props.setUser(user);
+      const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.attributes.sub}));
+      let user = result.data.getUser;
+      delete user.createdAt;
+      delete user.updatedAt;
+      console.log(user)
+     this.props.setUser(user);
       this.props.setLoggedIn(true)
     } catch (err) {
       console.log('error signing in...', err)
+    }finally{
+
     }
     this.props.setLoggedIn(true)
   }

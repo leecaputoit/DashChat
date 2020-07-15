@@ -25,10 +25,11 @@ export const uploadToStorage =  async (imageUri, imageName, user) => {
              ...user,
              profileImageKey: objectKey.key
            };
-           console.log(objectKey)
            
         //    await API.graphql(graphqlOperation(deleteUser , {input:{id:user.id}})); 
         //    await API.graphql(graphqlOperation(createUser, {input: input }))
+       const result =  await API.graphql(graphqlOperation(updateUser, {input: input}));
+       console.log(result);
         
         return input;
             

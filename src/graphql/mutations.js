@@ -13,9 +13,6 @@ export const createUser = /* GraphQL */ `
       email
       first_name
       last_name
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -33,9 +30,6 @@ export const updateUser = /* GraphQL */ `
       email
       first_name
       last_name
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -53,9 +47,6 @@ export const deleteUser = /* GraphQL */ `
       email
       first_name
       last_name
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
