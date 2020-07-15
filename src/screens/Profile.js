@@ -24,6 +24,7 @@ class Profile extends Component {
   }
 
   onLogOutPress() {
+    Auth.signOut({ global: true })
     this.props.setLoggedIn(false)
   }
 
