@@ -16,33 +16,78 @@ export default class LandingPage extends Component {
 
     return (
         // Use a flat-list to display previous recordings
-      <View style={styles.mainWrapper}>
-        <StatusBar backgroundColor={colors.black} barStyle="light-content" />
-        <View style={styles.welcomeWrapper}>
-          <Text style={styles.callHistoryText}>Call History</Text>
-          <Text style={styles.dateText}>June 9, 2020</Text>
-          <Text style={styles.dateTwoText}>March 7, 2018</Text>
-          <Text style={styles.dateThreeText}>May 12, 2016</Text>
+        <ScrollView>
+        <View style={styles.mainWrapper}>
+          <StatusBar backgroundColor={colors.black} barStyle="light-content" />
 
-          <Text style={styles.officerOneText}>Offc. Darryl Booth</Text>
-          <Text style={styles.officerTwoText}>Offc. Alyssa Jones</Text>
-          <Text style={styles.officerThreeText}>Offc. Jean Sanders</Text>
+          {/* <View style={styles.welcomeWrapper}>
+            
+          </View> */}
 
-          <View style={styles.videoRec}></View>
-          <View style={styles.videoRec2}></View>
-          <View style={styles.videoRec3}></View>
-
-          <View style={styles.borderLine}></View>
-          <View style={styles.borderLine2}></View>
-
-          <Icon name="file-archive-o" style={styles.docsIcon}></Icon>
-          <Icon name="file-archive-o" style={styles.docsIcon2}></Icon>
-          <Icon name="file-archive-o" style={styles.docsIcon3}></Icon>
-
-          <Icon name="play-circle-o" style={styles.playIcon}></Icon>
-          <Icon name="play-circle-o" style={styles.playIcon2}></Icon>
+        
         </View>
-      </View>
+
+            <Text style={styles.callHistoryText}>Call History</Text>
+            <Text style={styles.dateText}>June 9, 2020</Text>
+            <Text style={styles.dateTwoText}>March 7, 2018</Text>
+            <Text style={styles.dateThreeText}>May 12, 2016</Text>
+
+            <Text style={styles.officerOneText}>Offc. Darryl Booth</Text>
+            <Text style={styles.officerTwoText}>Offc. Alyssa Jones</Text>
+            <Text style={styles.officerThreeText}>Offc. Jean Sanders</Text>
+
+            <View style={styles.videoRec}></View>
+            <View style={styles.videoRec2}></View>
+            <View style={styles.videoRec3}></View>
+
+            <View style={styles.borderLine}></View>
+            <View style={styles.borderLine2}></View>            
+
+            <Icon name="file-archive-o" style={styles.docsIcon}></Icon>
+            <Icon name="file-archive-o" style={styles.docsIcon2}></Icon>
+            <Icon name="file-archive-o" style={styles.docsIcon3}></Icon>
+
+            <Icon name="play-circle-o" style={styles.playIcon}></Icon>
+            <Icon name="play-circle-o" style={styles.playIcon2}></Icon>
+            <Icon name="play-circle-o" style={styles.playIcon3}></Icon>
+
+            {/*FIXME: REMOVE TEXT AND MAKE IT CLEANER*/}
+
+            <Text style={{color: 'black', fontSize: 50, opacity: 0} }>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          vel tellus id dui iaculis porta. Curabitur enim felis, Feu iat
+          suscipit quam eget, condimentum dapibus eros. </Text>
+        
+      </ScrollView>
+
+      // <View style={styles.mainWrapper}>
+      //   <StatusBar backgroundColor={colors.black} barStyle="light-content" />
+      //   <View style={styles.welcomeWrapper}>
+      //       <Text style={styles.callHistoryText}>Call History</Text>
+      //       <Text style={styles.dateText}>June 9, 2020</Text>
+      //       <Text style={styles.dateTwoText}>March 7, 2018</Text>
+      //       <Text style={styles.dateThreeText}>May 12, 2016</Text>
+
+      //       <Text style={styles.officerOneText}>Offc. Darryl Booth</Text>
+      //       <Text style={styles.officerTwoText}>Offc. Alyssa Jones</Text>
+      //       <Text style={styles.officerThreeText}>Offc. Jean Sanders</Text>
+
+      //       <View style={styles.videoRec}></View>
+      //       <View style={styles.videoRec2}></View>
+      //       <View style={styles.videoRec3}></View>
+
+      //       <View style={styles.borderLine}></View>
+      //       <View style={styles.borderLine2}></View>
+
+      //       <Icon name="file-archive-o" style={styles.docsIcon}></Icon>
+      //       <Icon name="file-archive-o" style={styles.docsIcon2}></Icon>
+      //       <Icon name="file-archive-o" style={styles.docsIcon3}></Icon>
+
+      //       <Icon name="play-circle-o" style={styles.playIcon}></Icon>
+      //       <Icon name="play-circle-o" style={styles.playIcon2}></Icon>
+
+      //   </View>
+      // </View>
+      
       
     );
   }

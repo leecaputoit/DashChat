@@ -26,28 +26,11 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     marginBottom: 40,
   },
-  incomingCallText: {
-    position: 'absolute',
-    width: 300,
-    height: 255,
-    left: 31,
-    top: 133,
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 24, 
-    lineHeight: 28,
-    display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-    color: colors.white
-  },
   callHistoryText: {
     position: 'absolute',
-    left: '0%',
-    right: '0%',
-    top: '0%',
-    bottom: '0%',
+    left: 0,
+    right: 0,
+    top: 10,
 
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -116,7 +99,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 169,
     height: 78,
-    left: 110,
+    left: 115,
     top: 170,
 
     fontFamily: 'FontAwesome',
@@ -134,7 +117,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 169,
     height: 78,
-    left: 110,
+    left: 115,
     top: 425,
 
     fontFamily: 'FontAwesome',
@@ -148,12 +131,30 @@ const styles = StyleSheet.create({
 
     color: colors.iconColor
   },
+  playIcon3: {
+    position: "absolute",
+    width: 169,
+    height: 78,
+    left: 115,
+    top: 680,
+
+    fontFamily: 'FontAwesome',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 48,
+    lineHeight: 55,
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'center',
+
+    color: colors.iconColor
+  },
+
   dateText: {
     position: 'absolute',
     left: '19.94%',
     right: '41.6%',
-    top: '10.29%',
-    bottom: '83.62%',
+    top: 70,
 
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '19.94%',
     right: '41.6%',
-    top: 570,
+    top: 575,
     bottom: 0,
 
     fontFamily: 'Roboto',
@@ -203,8 +204,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '19.94%',
     right: '27.07%',
-    top: '15.09%',
-    bottom: '74.57%',
+    top: 100,
 
     fontFamily: 'Roboto',
     fontStyle: 'normal',
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '19.94%',
     right: '27.07%',
-    top: 605,
+    top: 610,
     bottom: 0,
 
     fontFamily: 'Roboto',
