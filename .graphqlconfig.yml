@@ -1,0 +1,18 @@
+projects:
+  dashchat-dashchat:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: us-east-1
+        apiId: dtwecr64mngvlg227hzt2w3e4q
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

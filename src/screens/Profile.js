@@ -14,14 +14,13 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { user: null, customState: null };
 
     this.onLogOutPress = this.onLogOutPress.bind(this);
   
   }
 
   componentDidMount(){
-    this.props.initiateSetProfileImg();
+    this.props.setProfileImageThunk();
   }
 
   onLogOutPress() {
@@ -30,8 +29,7 @@ class Profile extends Component {
 
 
   render() {
-    const { user } = this.state;
-  
+    
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
@@ -52,7 +50,7 @@ class Profile extends Component {
         
         <View style={styles.nameContainer}>
           <Text style={styles.nameStyles}>
-            {"Jillian Grey"}
+            {/* {this.props.user.first_name + ' ' +  this.props.user.last_name} */}
           </Text>
         </View>
         
@@ -75,8 +73,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    profileImageURI : state.profileImageURI,
-    userIdentifier: state.userIdentifier
+    //user: state.user,
+    profileImageURI: state.profileImageURI
   };
 };
 

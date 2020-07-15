@@ -15,20 +15,20 @@ export const setLoggedIn = loggedIn => (
   }
 );
 
-export const initiateSetProfileImg = () => (dispatch, getState) =>{
-                                      readFromStorage(getState().userIdentifier).then(result => {
-                                        dispatch(setProfileImage(result));
-                                      })
+export const setProfileImageThunk = () => (dispatch, getState) =>{
+                                      readFromStorage(getState().user).then(result => {
+                                         dispatch(setProfileImage(result));
+                                      }); 
+                                     
                                     };
 
-export const setProfileImage =  profileImageURI => {
- return {
-    type: constants.SET_PROFILE_IMAGE,
-    profileImageURI
-  };
-};
 
-export const setUserIdentifier = id => ({
-  type: constants.SET_USER_IDENTIFIER,
-  id
+export const setUser = user => ({
+  type: constants.SET_USER,
+  user
+});
+
+export const setProfileImage = profileImageURI => ({
+  type: constants.SET_PROFILE_IMAGE,
+  profileImageURI
 });
