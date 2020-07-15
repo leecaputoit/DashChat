@@ -2,6 +2,7 @@
   "name": "trafficstop",
   "displayName": "trafficstop",
   "expo": {
+    "scheme": "myapp",
     "name": "trafficstop",
     "slug": "trafficstop",
     "version": "1.0.0",
@@ -10,3 +11,4 @@
     ]
   }
 }
+

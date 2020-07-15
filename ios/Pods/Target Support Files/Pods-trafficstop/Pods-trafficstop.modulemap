@@ -1,6 +1,0 @@
-module Pods_trafficstop {
-  umbrella header "Pods-trafficstop-umbrella.h"
-
-  export *
-  module * { export * }
-}

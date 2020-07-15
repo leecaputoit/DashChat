@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { StatusBar, Text, View, Image, TouchableHighlight, ScrollView } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
-import RoundedButton from '../common-components/Buttons/RoundedButton';
+import RoundedButton from '../common-components/RoundedButton';
+import baseStyles from './styles/AuthenticationBoilerplate';
 import styles from './styles/LandingPage';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as ActionCreators from '../redux/actions';
+import { Auth } from 'aws-amplify';
 
-export default class LandingPage extends Component {
-
+class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = { user: null, customState: null };
@@ -16,36 +20,46 @@ export default class LandingPage extends Component {
     this.onFacebookPress = this.onFacebookPress.bind(this);
     this.onGooglePress = this.onGooglePress.bind(this);
     this.onApplePress = this.onApplePress.bind(this);
-    this.loginPress = this.onLoginPress.bind(this);
+    this.logInPress = this.onLoginPress.bind(this);
   }
 
   async onFacebookPress() {
+    Auth.federatedSignIn({ provider: "Facebook" });
   }
 
   onGooglePress() {
+    Auth.federatedSignIn({ provider: "Google" });
   }
 
   onApplePress() { }
 
   onCreateAccountPress() {
+    this.props.setUserType('civilian')
+    this.props.navigation.navigate('Register');
   }
 
   onLoginPress() {
+    this.props.setUserType('civilian')
+    this.props.navigation.navigate('LogIn');
   }
+
+  onPoliceLoginPress() {
+    this.props.setUserType('police')
+    this.props.navigation.navigate('LogIn');
+  }
+
 
   render() {
     const { user } = this.state;
-
     return (
-      <ScrollView style={styles.wrapper}>
-        <StatusBar backgroundColor={colors.white} barStyle="light-content" />
-        <View style={styles.welcomeWrapper}>
+      <ScrollView style={baseStyles.wrapper}>
+        <StatusBar backgroundColor={colors.black} barStyle="light-content" />
           {/* <Image
             source={Logo}
             style={styles.logo}
           /> */}
-          <Text style={styles.welcomeText}>
-            Welcome to AppName.
+          <Text style={baseStyles.headerText}>
+            Welcome to DashChat.
           </Text>
           <RoundedButton
             text="Continue with Facebook"
@@ -79,14 +93,31 @@ export default class LandingPage extends Component {
           />
           <TouchableHighlight
             style={styles.loginButton}
-            onPress={this.onLoginPress}
+            onPress= {() => this.onLoginPress()}
           >
             <Text style={styles.loginButtonText}>
-              Already have an Account?
+              Log In
             </Text>
           </TouchableHighlight>
-        </View>
+          <TouchableHighlight
+            style={styles.policeLoginButton}
+            onPress= {() => this.onPoliceLoginPress()}
+          >
+            <Text style={styles.policeLoginButtonText}>
+              Police Officer?
+            </Text>
+          </TouchableHighlight>
       </ScrollView>
     );
   }
 }
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(LandingPage);

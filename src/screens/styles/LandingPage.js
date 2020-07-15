@@ -1,27 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
 
 let termsTextSize = 13;
 let headingTextSize = 30;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    display: 'flex',
-    backgroundColor: colors.background
-  },
-  welcomeWrapper: {
-    flex: 1,
-    display: 'flex',
-    marginTop: 50,
-    padding: 20,
-  },
-  welcomeText: {
-    fontSize: headingTextSize,
-    color: colors.white,
-    fontWeight: '300',
-    marginBottom: 40,
-  },
   facebookButtonIcon: {
     color: colors.white,
     position: 'relative',
@@ -43,15 +26,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
   },
-  termsText: {
-    color: colors.white,
-    fontSize: termsTextSize,
-    fontWeight: '600',
+  policeLoginButton: {
+    alignSelf: "center",
+    marginTop: 250,
   },
-  verificationModal: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  policeLoginButtonText: {
+    color: colors.white,
+    fontSize: 16,
   },
 });
 
