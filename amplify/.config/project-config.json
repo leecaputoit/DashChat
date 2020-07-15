@@ -1,10 +1,7 @@
 {
-<<<<<<< HEAD
-=======
     "providers": [
         "awscloudformation"
     ],
->>>>>>> 26906183f8dab5ce0b4149e11f4ea536cc6686b5
     "projectName": "dashchat",
     "version": "3.0",
     "frontend": "javascript",
@@ -13,18 +10,8 @@
         "config": {
             "SourceDir": "/",
             "DistributionDir": "/",
-<<<<<<< HEAD
-            "BuildCommand": "npm.cmd run-script build",
-            "StartCommand": "npm.cmd run-script start"
-        }
-    },
-    "providers": [
-        "awscloudformation"
-    ]
-=======
             "BuildCommand": "npm run-script build",
             "StartCommand": "npm run-script start"
         }
     }
->>>>>>> 26906183f8dab5ce0b4149e11f4ea536cc6686b5
 }
