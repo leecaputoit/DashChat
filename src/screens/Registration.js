@@ -14,8 +14,8 @@ import InputField from '../common-components/InputField'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
-import { Auth } from 'aws-amplify';
-import { color } from 'react-native-reanimated';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { createUser } from '../graphql/mutations'
 
 
 class Registration extends React.Component {
@@ -24,6 +24,7 @@ class Registration extends React.Component {
     super(props);
 
     this.state = {
+      username:'',
       formValid: true,
       email: '',
       phone: '',
@@ -38,7 +39,6 @@ class Registration extends React.Component {
       validPassword: false,
     };
 
-    this.state = { user: null, customState: null };
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -84,10 +84,21 @@ class Registration extends React.Component {
         username, password, email, given_name, family_name
       } = this.state
       try {
-        await Auth.signUp({ username, password, attributes: { email, given_name, family_name }})
+        let result = await Auth.signUp({ username, password, attributes: { email, given_name, family_name }})
         console.log('successful sign up..')
-        console.log(this.props)
-        this.props.setLoggedIn(true)
+        console.log(JSON.stringify(result));
+        let user = {
+          id:result.userSub,
+          profileImageKey:'',
+          username,
+          email,
+          first_name:given_name,
+          last_name:family_name
+        };
+        await API.graphql(graphqlOperation(createUser, {input: user}));
+        this.props.setLoggedIn(true);
+        this.props.setUser(user);
+        
       } catch (err) {
         console.log('error signing up...', err)
       }

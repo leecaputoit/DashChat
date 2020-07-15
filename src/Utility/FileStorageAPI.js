@@ -1,8 +1,10 @@
-import { Storage, DataStore } from 'aws-amplify'
-import { User } from '../models'
+import { Storage, API, graphqlOperation } from 'aws-amplify'
+import { getUser } from '../graphql/queries'
+import { createUser, updateUser, deleteUser } from '../graphql/mutations'
 
 
-export const uploadToStorage =  async (imageUri, imageName, ownerId) => {
+//currently profile image specific
+export const uploadToStorage =  async (imageUri, imageName, user) => {
 
     if(!imageName){
         imageName = (Math.random()*1000) + '-' + (Math.random()*10000) + ".jpeg";
@@ -16,37 +18,40 @@ export const uploadToStorage =  async (imageUri, imageName, ownerId) => {
 
         });
         
-        let exist = await DataStore.query(User, u => u.userId("eq", ownerId));
-        if(exist.length > 0){
-            await DataStore.save(
-                User.copyOf(exist[0], updated => {
-                    updated.profileImageKey = objectKey.key;
-                })
-            );
-        }else{
-            await DataStore.save(
-                new User({
-                    userId: ownerId,
-                    profileImageKey: objectKey.key
-                })
-             );
+        
+       
+        if(user){
+           let input = {
+             ...user,
+             profileImageKey: objectKey.key
+           };
+           
+        //    await API.graphql(graphqlOperation(deleteUser , {input:{id:user.id}})); 
+        //    await API.graphql(graphqlOperation(createUser, {input: input }))
+       const result =  await API.graphql(graphqlOperation(updateUser, {input: input}));
+       console.log(result);
+        
+        return input;
+            
         }
-
-
     }catch(err){
         console.log(err);
     }
 };
 
-export const readFromStorage = async  ownerId => {
+export const readFromStorage = async  user => {
     try{
-        const user = await DataStore.query(User, u => u.userId("eq", ownerId));
         
-        const objectKey = user[0].profileImageKey;
+        if(user.profileImageKey.length > 0 ){
+            const objectKey = user.profileImageKey;
     
-        const result = await Storage.get(objectKey,{level: 'protected'});
+            const result = await Storage.get(objectKey,{level: 'protected'});
+            
+            return result;
+        }else{
+            return '';
+        }
         
-        return result;
     }catch(err){
         console.log(err);
     }

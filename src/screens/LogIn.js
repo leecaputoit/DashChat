@@ -18,6 +18,8 @@ import InputField from '../common-components/InputField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
+import { getUser } from '../graphql/queries'
+import { API, graphqlOperation } from 'aws-amplify'
 // import transparentHeaderStyle from '../styles/navigation';
 // import NavBarButton from '../components/buttons/NavBarButton';
 //import Loader from '../components/Loader';
@@ -71,13 +73,19 @@ class LogIn extends React.Component {
       username, password
     } = this.state
     try {
-      const user = await Auth.signIn({ username, password})
+      const userFromAuth = await Auth.signIn({ username, password})
       console.log('successful signed in..')
-      this.props.navigation.navigate('ConfirmationCode');
+      const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.attributes.sub}));
+      let user = result.data.getUser;
+      delete user.createdAt;
+      delete user.updatedAt;
+      console.log(user)
+     this.props.setUser(user);
       this.props.setLoggedIn(true)
-      this.props.setUserIdentifier(user.attributes.sub);
     } catch (err) {
       console.log('error signing in...', err)
+    }finally{
+
     }
     this.props.setLoggedIn(true)
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StatusBar, Text, View, Image, TouchableOpacity, ImageStore } from 'react-native';
 import colors from '../styles/colors';
 import styles from './styles/ProfilePage';
 import { connect } from 'react-redux';
@@ -16,15 +16,18 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { user: null, customState: null };
 
     this.onLogOutPress = this.onLogOutPress.bind(this);
   }
-
-  componentDidMount(){
-    this.props.initiateSetProfileImg();
+  async initalizeProfileImage(){
+    await this.props.setProfileImageThunk();
   }
 
+  componentDidMount(){
+    this.initalizeProfileImage();
+  }
+
+  
   onLogOutPress() {
     Auth.signOut({ global: true })
     this.props.setLoggedIn(false)
@@ -32,8 +35,13 @@ class Profile extends Component {
 
 
   render() {
-    const { user } = this.state;
-  
+    let imageSource;
+    if(this.props.profileImageURI.length === 0){
+      imageSource = require('../img/noProfileImageFound.jpg');
+    }else{
+      imageSource = {uri: this.props.profileImageURI}
+    }
+    
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
@@ -47,19 +55,21 @@ class Profile extends Component {
         <View style={styles.imageContainer}>
           <Image 
             style={styles.imageStyles}
-            source={{uri:this.props.profileImageURI}}
+            source={
+              imageSource
+              }
           />
           <ImageSelector style={styles.imagePicker} handleResult={uploadToStorage}/>
         </View>
         
         <View style={styles.nameContainer}>
           <Text style={styles.nameStyles}>
-            {"Jillian Grey"}
+            { this.props.user.first_name + ' ' +  this.props.user.last_name }
           </Text>
         </View>
         
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttonStyles}>
+          <TouchableOpacity onPress={this.props.setProfileImageThunk} style={styles.buttonStyles}>
             <Text style={styles.textStyles}>
               {"Driver's License"}
             </Text>
@@ -75,8 +85,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    profileImageURI : state.profileImageURI,
-    userIdentifier: state.userIdentifier
+    user: state.user,
+    profileImageURI: state.profileImageURI
   };
 };
 

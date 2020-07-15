@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux';
 import * as constants from './constants'
 
+
 const INITIAL_STATE = {
     userType: 'civilian',
     loggedIn: false,
-    profileImageURI:'',
-    userIdentifier:''
+    user:{
+
+    },
+    profileImageURI:''
 }
 
 
@@ -27,6 +30,16 @@ const loggedInReducer = (state = INITIAL_STATE.loggedIn, action) => {
       }
 };
 
+
+const userReducer = (state = INITIAL_STATE.user, action) => {
+  switch (action.type) {
+      case constants.SET_USER:
+        return action.user
+      default:
+        return state
+    }
+};
+
 const profileImageReducer = (state = INITIAL_STATE.profileImageURI, action) => {
   switch (action.type) {
       case constants.SET_PROFILE_IMAGE:
@@ -36,17 +49,9 @@ const profileImageReducer = (state = INITIAL_STATE.profileImageURI, action) => {
     }
 };
 
-const userIDReducer = (state = INITIAL_STATE.userIdentifier, action) => {
-  switch (action.type) {
-      case constants.SET_USER_IDENTIFIER:
-        return action.id
-      default:
-        return state
-    }
-};
 export default combineReducers({
     userType: userTypeReducer,
     loggedIn: loggedInReducer,
-    profileImageURI: profileImageReducer,
-    userIdentifier: userIDReducer
+    user:userReducer,
+    profileImageURI: profileImageReducer
 })

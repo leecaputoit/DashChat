@@ -43,14 +43,17 @@ class ImageSelector extends React.Component {
       });
       if (!result.cancelled) {
         this.setState({ image: result.uri })
-        this.props.handleResult(result.uri,'',this.props.userId).then(result => {
-            this.props.initiateSetProfileImg();
+        
+        this.props.handleResult(result.uri,'',this.props.user).then( result => {
+          this.props.setUser(result);
+          this.props.setProfileImageThunk();
+            
         });
         
       }
 
       
-      console.log(result);
+      
     } catch (E) {
       console.log(E);
     }
@@ -59,7 +62,7 @@ class ImageSelector extends React.Component {
 
 
   const mapStateToProps = state => ({
-    userId: state.userIdentifier
+    user: state.user
   });
 
   const mapDispatchToProps = (dispatch) => {
