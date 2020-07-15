@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StatusBar, Text, View, Image, TouchableOpacity, ImageStore } from 'react-native';
 import colors from '../styles/colors';
 import styles from './styles/ProfilePage';
 import { connect } from 'react-redux';
@@ -33,6 +33,12 @@ class Profile extends Component {
 
 
   render() {
+    let imageSource;
+    if(this.props.profileImageURI.length === 0){
+      imageSource = require('../img/noProfileImageFound.jpg');
+    }else{
+      imageSource = {uri: this.props.profileImageURI}
+    }
     
     return (
       <View style={styles.mainWrapper}>
@@ -47,7 +53,9 @@ class Profile extends Component {
         <View style={styles.imageContainer}>
           <Image 
             style={styles.imageStyles}
-            source={{uri:this.props.profileImageURI}}
+            source={
+              imageSource
+              }
           />
           <ImageSelector style={styles.imagePicker} handleResult={uploadToStorage}/>
         </View>

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import * as constants from './constants'
 
+
 const INITIAL_STATE = {
     userType: 'civilian',
     loggedIn: false,

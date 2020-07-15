@@ -42,12 +42,14 @@ export const uploadToStorage =  async (imageUri, imageName, user) => {
 export const readFromStorage = async  user => {
     try{
         
-        if(user){
+        if(user.profileImageKey.length > 0 ){
             const objectKey = user.profileImageKey;
     
             const result = await Storage.get(objectKey,{level: 'protected'});
             
             return result;
+        }else{
+            return '';
         }
         
     }catch(err){

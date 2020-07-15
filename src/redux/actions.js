@@ -17,7 +17,8 @@ export const setLoggedIn = loggedIn => (
 
 export const setProfileImageThunk = () => (dispatch, getState) =>{
                                       readFromStorage(getState().user).then(result => {
-                                         dispatch(setProfileImage(result));
+                                       dispatch(setProfileImage(result));
+                                                                           
                                       }); 
                                      
                                     };
