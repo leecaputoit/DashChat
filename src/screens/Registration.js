@@ -81,8 +81,9 @@ class Registration extends React.Component {
   signUp = async () => {
     if (this.props.userType == "civilian") {
       const {
-        username, password, email, given_name, family_name
+        password, email, given_name, family_name
       } = this.state
+      const username = email
       try {
         let result = await Auth.signUp({ username, password, attributes: { email, given_name, family_name }})
         console.log('successful sign up..')
