@@ -87,7 +87,6 @@ class LogIn extends React.Component {
     }finally{
 
     }
-    this.props.setLoggedIn(true)
   }
 
   // handleConfirmationCode = () => {
