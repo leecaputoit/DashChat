@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { StatusBar, Text, View, TouchableHighlight, ScrollView } from 'react-native';
+import { StatusBar, Text, View, TouchableHighlight, ScrollView, FlatList } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import styles from './styles/CallHistory';
+
+// TODO: Make separate file holding the data
+const callHistoryData = [
+  {id: 0, name: 'Offc. Darryl Booth', date: 'June 9, 2020'},
+  {id: 1, name: 'Offc. Alyssa Jones', date: 'March 7, 2018'},
+  {id: 2, name: 'Offc. Jean Sanders', date: 'May 12, 2016'}
+]
 
 export default class LandingPage extends Component {
 
@@ -11,84 +18,47 @@ export default class LandingPage extends Component {
     this.state = { user: null, customState: null };
   }
 
+  renderHeader = () => {
+    return (
+      <Text style={styles.headerText}>Call History</Text>
+    )
+  }
+
+  renderSeparator = () => {
+    return (
+      <View style={styles.separator} />
+    )
+  }
+
+   // Use a flat-list to display previous recordings
   render() {
     const { user } = this.state;
 
     return (
-        // Use a flat-list to display previous recordings
-        <ScrollView>
-        <View style={styles.mainWrapper}>
-          <StatusBar backgroundColor={colors.black} barStyle="light-content" />
 
-          {/* <View style={styles.welcomeWrapper}>
-            
-          </View> */}
+      <View style={styles.mainWrapper}>
+        <StatusBar backgroundColor={colors.black} barStyle="light-content"/>
 
-        
+        <FlatList 
+        data={callHistoryData}
+        ListHeaderComponent={this.renderHeader}
+        ItemSeparatorComponent={this.renderSeparator}
+        renderItem={({ item }) => (
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Icon name="file-archive-o" style={styles.docsIcon} />
+
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <Text style={styles.nameText}>{item.name}</Text>
+            <Text style={styles.dateText}>{item.date}</Text>
+            <View style={styles.videoRec} />
+            <Icon name="play-circle-o" style={styles.playIcon} />
+          </View>
+          
         </View>
+        )}
+        />
 
-            <Text style={styles.callHistoryText}>Call History</Text>
-            <Text style={styles.dateText}>June 9, 2020</Text>
-            <Text style={styles.dateTwoText}>March 7, 2018</Text>
-            <Text style={styles.dateThreeText}>May 12, 2016</Text>
-
-            <Text style={styles.officerOneText}>Offc. Darryl Booth</Text>
-            <Text style={styles.officerTwoText}>Offc. Alyssa Jones</Text>
-            <Text style={styles.officerThreeText}>Offc. Jean Sanders</Text>
-
-            <View style={styles.videoRec}></View>
-            <View style={styles.videoRec2}></View>
-            <View style={styles.videoRec3}></View>
-
-            <View style={styles.borderLine}></View>
-            <View style={styles.borderLine2}></View>            
-
-            <Icon name="file-archive-o" style={styles.docsIcon}></Icon>
-            <Icon name="file-archive-o" style={styles.docsIcon2}></Icon>
-            <Icon name="file-archive-o" style={styles.docsIcon3}></Icon>
-
-            <Icon name="play-circle-o" style={styles.playIcon}></Icon>
-            <Icon name="play-circle-o" style={styles.playIcon2}></Icon>
-            <Icon name="play-circle-o" style={styles.playIcon3}></Icon>
-
-            {/*FIXME: REMOVE TEXT AND MAKE IT CLEANER*/}
-
-            <Text style={{color: 'black', fontSize: 50, opacity: 0} }>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          vel tellus id dui iaculis porta. Curabitur enim felis, Feu iat
-          suscipit quam eget, condimentum dapibus eros. </Text>
-        
-      </ScrollView>
-
-      // <View style={styles.mainWrapper}>
-      //   <StatusBar backgroundColor={colors.black} barStyle="light-content" />
-      //   <View style={styles.welcomeWrapper}>
-      //       <Text style={styles.callHistoryText}>Call History</Text>
-      //       <Text style={styles.dateText}>June 9, 2020</Text>
-      //       <Text style={styles.dateTwoText}>March 7, 2018</Text>
-      //       <Text style={styles.dateThreeText}>May 12, 2016</Text>
-
-      //       <Text style={styles.officerOneText}>Offc. Darryl Booth</Text>
-      //       <Text style={styles.officerTwoText}>Offc. Alyssa Jones</Text>
-      //       <Text style={styles.officerThreeText}>Offc. Jean Sanders</Text>
-
-      //       <View style={styles.videoRec}></View>
-      //       <View style={styles.videoRec2}></View>
-      //       <View style={styles.videoRec3}></View>
-
-      //       <View style={styles.borderLine}></View>
-      //       <View style={styles.borderLine2}></View>
-
-      //       <Icon name="file-archive-o" style={styles.docsIcon}></Icon>
-      //       <Icon name="file-archive-o" style={styles.docsIcon2}></Icon>
-      //       <Icon name="file-archive-o" style={styles.docsIcon3}></Icon>
-
-      //       <Icon name="play-circle-o" style={styles.playIcon}></Icon>
-      //       <Icon name="play-circle-o" style={styles.playIcon2}></Icon>
-
-      //   </View>
-      // </View>
-      
-      
+      </View>
     );
   }
 }
