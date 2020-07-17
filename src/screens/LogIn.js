@@ -79,7 +79,6 @@ class LogIn extends React.Component {
     } catch (err) {
       console.log('error signing in...', err)
     }
-    this.props.setLoggedIn(true)
   }
 
   // handleConfirmationCode = () => {

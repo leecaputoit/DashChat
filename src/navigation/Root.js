@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 class Root extends React.Component {
     render() {
+        //console.disableYellowBox = true;
         const isSignedIn = this.props.loggedIn;
         return (
             <NavigationContainer>
