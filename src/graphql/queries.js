@@ -5,11 +5,12 @@ export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
-      profileImageKey
       username
+      profileImageKey
       email
       first_name
       last_name
+      documents
       createdAt
       updatedAt
     }
@@ -24,11 +25,12 @@ export const listUsers = /* GraphQL */ `
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        profileImageKey
         username
+        profileImageKey
         email
         first_name
         last_name
+        documents
         createdAt
         updatedAt
       }

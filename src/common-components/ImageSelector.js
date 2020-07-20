@@ -43,8 +43,9 @@ class ImageSelector extends React.Component {
       });
       if (!result.cancelled) {
         this.setState({ image: result.uri })
+        console.log(result.uri)
         
-        this.props.handleResult(result.uri,'',this.props.user).then( result => {
+        this.props.handleResult(result.uri,'PROFILE_IMAGE',this.props.user).then( result => {
           this.props.setUser(result);
           this.props.setProfileImageThunk();
             

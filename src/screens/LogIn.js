@@ -91,7 +91,8 @@ class LogIn extends React.Component {
           username:this.state.username,
           email: this.state.username,
           first_name:userFromAuth.signInUserSession.idToken.payload.given_name,
-          last_name:userFromAuth.signInUserSession.idToken.payload.family_name
+          last_name:userFromAuth.signInUserSession.idToken.payload.family_name,
+          documents:[]
         };
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
