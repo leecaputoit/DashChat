@@ -1,0 +1,10 @@
+[
+    {
+        "groupName": "Civilians",
+        "precedence": 1
+    },
+    {
+        "groupName": "Police",
+        "precedence": 2
+    }
+]

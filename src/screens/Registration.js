@@ -88,20 +88,10 @@ class Registration extends React.Component {
         let result = await Auth.signUp({ username, password, attributes: { email, given_name, family_name }})
         console.log('successful sign up..')
         console.log(JSON.stringify(result));
-        let user = {
-          id:result.userSub,
-          profileImageKey:'',
-          username,
-          email,
-          first_name:given_name,
-          last_name:family_name
-        };
-        await API.graphql(graphqlOperation(createUser, {input: user}));
-        this.props.setLoggedIn(true);
-        this.props.setUser(user);
-        
+        this.props.navigation.navigate("LogIn");
       } catch (err) {
         console.log('error signing up...', err)
+        console.log(err.stack);
       }
     }
     else if (this.props.userType == "police") {

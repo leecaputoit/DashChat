@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { getUser } from '../graphql/queries'
+import { createUser } from '../graphql/mutations'
 import { API, graphqlOperation } from 'aws-amplify'
 // import transparentHeaderStyle from '../styles/navigation';
 // import NavBarButton from '../components/buttons/NavBarButton';
@@ -75,13 +76,38 @@ class LogIn extends React.Component {
     try {
       const userFromAuth = await Auth.signIn({ username, password})
       console.log('successful signed in..')
-      const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.attributes.sub}));
+      
+
+      //Grab userobject from dynamo
+      const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.signInUserSession.idToken.payload.sub}));
       let user = result.data.getUser;
-      delete user.createdAt;
-      delete user.updatedAt;
+
+      //if userobject was not found
+      if(!user){
+         //establish user object to be saved to dynamo
+        let userObject = {
+          id:userFromAuth.signInUserSession.idToken.payload.sub,
+          profileImageKey:'',
+          username:this.state.username,
+          email: this.state.username,
+          first_name:userFromAuth.signInUserSession.idToken.payload.given_name,
+          last_name:userFromAuth.signInUserSession.idToken.payload.family_name
+        };
+        //access dynamo through graphql
+        await API.graphql(graphqlOperation(createUser, {input: userObject}));
+        this.props.setUser(userObject);
+        this.props.setLoggedIn(true);
+        return;
+      }
+
+      //if user object already exists
+      if(user.createdAt)
+        delete user.createdAt;
+      if(user.updatedAt)
+        delete user.updatedAt;
       console.log(user)
-     this.props.setUser(user);
-      this.props.setLoggedIn(true)
+      this.props.setUser(user);
+      this.props.setLoggedIn(true);
     } catch (err) {
       console.log('error signing in...', err)
     }finally{
