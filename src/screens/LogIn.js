@@ -94,7 +94,7 @@ class LogIn extends React.Component {
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
         this.props.setUser(userObject);
-        this.props.setLoggedIn(true);
+        this.props.navigation.navigate("DocumentUpload");
         return;
       }
 

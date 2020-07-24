@@ -20,7 +20,7 @@ export const uploadFileToStorage =  async (uri, name, user) => {
         };
 
         if(user.store){
-            updateObject.store = [ ...user.store, update];
+            updateObject.store = [ ...user.store.filter(item => item.name !== name), update];
         }else {
             updateObject.store = [ update ];
         }
