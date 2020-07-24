@@ -1,5 +1,5 @@
 import * as constants from './constants'
-import { readFromStorage } from '../Utility/FileStorageAPI'
+import { retrieveFileURI } from '../Utility/FileStorageAPI'
 
 export const setUserType = userType => (
   {
@@ -16,7 +16,7 @@ export const setLoggedIn = loggedIn => (
 );
 
 export const setProfileImageThunk = () => (dispatch, getState) =>{
-                                      readFromStorage("PROFILE_IMAGE", getState().user).then(result => {
+                                      retrieveFileURI("ProfileImage", getState().user).then(result => {
                                        dispatch(setProfileImage(result));
                                                                            
                                       }); 
