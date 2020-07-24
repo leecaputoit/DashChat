@@ -10,6 +10,7 @@
         "amplify-push": "node amplify\\scripts\\amplify-push.js"
     },
     "dependencies": {
+        "@aws-amplify/ui-react": "^0.2.11",
         "@expo/vector-icons": "^10.2.0",
         "@react-native-community/masked-view": "^0.1.10",
         "@react-native-community/netinfo": "^5.9.4",
@@ -17,7 +18,9 @@
         "@react-navigation/native": "^5.6.1",
         "@react-navigation/stack": "^5.7.0",
         "aws-amplify": "^3.0.20",
+        "aws-amplify-react-native": "^4.2.1",
         "expo": "^38.0.8",
+        "expo-document-picker": "^8.2.1",
         "expo-image-picker": "^8.3.0",
         "expo-permissions": "^9.0.1",
         "expo-splash-screen": "~0.3.1",

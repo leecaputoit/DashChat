@@ -3,6 +3,7 @@ import { StatusBar, Text, View, TouchableHighlight, ScrollView, FlatList } from 
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import styles from './styles/CallHistory';
+import baseStyles from './styles/AuthenticationBoilerplate';
 
 // TODO: Make separate file holding the data
 const callHistoryData = [
@@ -32,11 +33,9 @@ export default class LandingPage extends Component {
 
    // Use a flat-list to display previous recordings
   render() {
-    const { user } = this.state;
-
     return (
 
-      <View style={styles.mainWrapper}>
+      <View style={baseStyles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content"/>
 
         <FlatList 
@@ -44,12 +43,15 @@ export default class LandingPage extends Component {
         ListHeaderComponent={this.renderHeader}
         ItemSeparatorComponent={this.renderSeparator}
         renderItem={({ item }) => (
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={styles.cellContainer}>
+          <View style= {styles.cellHeaderContainer}>
           <Icon name="file-archive-o" style={styles.docsIcon} />
-
-          <View style={{flex: 1, flexDirection: 'column'}}>
+          <View style= {styles.videoDescriptionContainer}>
             <Text style={styles.nameText}>{item.name}</Text>
             <Text style={styles.dateText}>{item.date}</Text>
+          </View>
+        </View>
+          <View style={styles.videoContainer}>
             <View style={styles.videoRec} />
             <Icon name="play-circle-o" style={styles.playIcon} />
           </View>

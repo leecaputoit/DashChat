@@ -14,6 +14,7 @@ import { Button, Input } from 'react-native-elements';
 import colors from '../styles/colors';
 import baseStyles from './styles/AuthenticationBoilerplate';
 import styles from './styles/ForgotPassword';
+import Notification from '../common-components/Notification';
 import InputField from '../common-components/InputField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -55,11 +56,15 @@ class ForgotPassword extends React.Component {
       username: '',
       confirmationCode: '',
       validPassword: false,
+      showErrorMessage: false,
+      errorMessage: '',
+      resolutionMessage: '',
     };
 
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmitButton = this.handleSubmitButton.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
+    this.handleCloseNotification = this.handleCloseNotification.bind(this);
     //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
   }
 
@@ -83,14 +88,39 @@ class ForgotPassword extends React.Component {
       .then(() => {
         this.props.navigation.navigate('LogIn');
       })
-      .catch(
-        console.log("Password Reset unsuccesful")
-      );
+      .catch((err) => {
+        this.setState({showErrorMessage: true})
+        if (err.code === 'CodeMismatchException') {
+          this.setState({errorMessage: "Looks like the code you entered is incorrect"})
+          this.setState({resolutionMessage: "Please try again"})
+        } else if (err.code === 'ExpiredCodeException') {
+          this.setState({errorMessage: "Sorry, this code has expired"})
+          this.setState({resolutionMessage: "Please request a new one"})
+        } else if (err.code === 'InvalidPasswordException') {
+          this.setState({errorMessage: "Looks like the password entered is invalid"})
+          this.setState({resolutionMessage: "Please try a stronger password"})
+        } else if (err.code === 'UserNotConfirmedException') {
+          this.setState({errorMessage: "Looks like we still need to verify your account"})
+          this.setState({resolutionMessage: "Check your email for a message from us"})
+        } else if (err.code === 'UserNotFoundException') {
+          this.setState({errorMessage: "Looks like we couldn't find your account"})
+          this.setState({resolutionMessage: "Please try a different email address"})
+        } else {
+          console.log(err);
+          this.setState({errorMessage: "Looks like something went wrong"})
+          this.setState({resolutionMessage: "Please try again"})
+        }
+      });
+  }
+
+  handleCloseNotification() {
+    this.setState({ showErrorMessage: false });
   }
 
   render() {
     const userType = this.props.userType;
-    const {validPassword} = this.state
+    const {validPassword, showErrorMessage, errorMessage, resolutionMessage} = this.state
+    const notificationMarginTop = showErrorMessage ? 10 : 0;
     return (
       <KeyboardAvoidingView
         style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
@@ -150,6 +180,15 @@ class ForgotPassword extends React.Component {
               />
             </TouchableOpacity>
           </ScrollView>
+          <View style={[baseStyles.errorMessageWrapper, { marginTop: notificationMarginTop }]}>
+            <Notification
+              showNotification={showErrorMessage}
+              handleCloseNotification={this.handleCloseNotification}
+              type="Error:"
+              firstLine= {errorMessage}
+              secondLine= {resolutionMessage}
+            />
+          </View>
       </KeyboardAvoidingView>
     );
   }

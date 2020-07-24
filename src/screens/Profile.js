@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import ImageSelector from '../common-components/ImageSelector'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import DocumentSelector from '../common-components/DocumentSelector'
 import { uploadToStorage, readFromStorage } from '../Utility/FileStorageAPI'
 
 import Amplify from '@aws-amplify/core'
@@ -41,7 +42,7 @@ class Profile extends Component {
     }else{
       imageSource = {uri: this.props.profileImageURI}
     }
-    
+    console.log(this.props.user)
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
@@ -69,11 +70,12 @@ class Profile extends Component {
         </View>
         
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.props.setProfileImageThunk} style={styles.buttonStyles}>
+          <DocumentSelector style={styles.buttonStyles} handleResult={uploadToStorage} documentType="DRIVERS_LICENCE">
             <Text style={styles.textStyles}>
               {"Driver's License"}
             </Text>
-          </TouchableOpacity>
+          </DocumentSelector>
+          
             <Text style={styles.vehiclesTitle}>
              {"Registered Vehicles"}
            </Text>

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
 import { color } from 'react-native-reanimated';
 
@@ -6,22 +6,14 @@ let headingTextSize = 30;
 
 const styles = StyleSheet.create({
   mainWrapper: {
-    flex: 1,
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    
+    position: "absolute",
+    width:Dimensions.get('window').width,
+    height:Dimensions.get('window').height,
     backgroundColor: colors.background
   },
   headerText: {
-    left: 0,
-    right: 0,
-    top: 0,
-    padding: 10,
-
-    fontFamily: 'Roboto',
+    marginTop: 50,
+    marginBottom: 30,
     fontStyle: 'normal',
     fontWeight: 'bold',
     fontSize: 18,
@@ -30,51 +22,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: colors.white
   },
+  cellContainer: {
+    flex:1,
+    flexDirection: 'column'
+  },
+  cellHeaderContainer: {
+    width: Dimensions.get("window").width*.75,
+    flex:1, 
+    flexDirection: 'row',
+    alignSelf: "center",
+    alignItems: "flex-start",
+    marginBottom: 10,
+  },
+  videoDescriptionContainer: {
+    flex:1,
+    flexDirection: 'column'
+  },
   nameText:{
-    fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontSize: 18,
-    lineHeight: 21,
     display: 'flex',
-    alignItems: 'center',
-    padding: 5,
-
+    marginBottom: 5,
     color: colors.white
   },
   dateText:{
-    fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 18,
-    lineHeight: 21,
+    fontSize: 14,
     display: 'flex',
-    alignItems: 'center',
-    padding: 5,
-
     color: colors.white
   },
   docsIcon: {
-    width: 70,
-    height: 70,
-
     fontFamily: 'FontAwesome',
     fontStyle: 'normal',
     fontWeight: '900',
-    fontSize: 48,
-    lineHeight: 55,
+    fontSize: 36,
     display: 'flex',
-    alignItems: 'center',
-    textAlign: 'center',
-
-    color: colors.iconColor
+    color: colors.white,
+    marginRight: 15,
+    alignSelf: "center"
   },
   playIcon: {
     
     width: 169,
     height: 50,
-    left: 40,
-    bottom: 90,
+    // Find center from video width, self height, and spacing from middle border
+    bottom: Dimensions.get("window").width*.75*9/16/2 + 50/2 + 5,
 
     fontFamily: 'FontAwesome',
     fontStyle: 'normal',
@@ -85,7 +79,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
 
-    color: colors.iconColor
+    color: colors.white
+  },
+  videoContainer: {
+    flex: 1, 
+    flexDirection: 'column', 
+    alignSelf: "center",
+    alignItems: "center",
   },
   separator: {
     width: 375,
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   videoRec: {
-    width: 255,
-    height: 125,
+    width: Dimensions.get("window").width*.75,
+    height: Dimensions.get("window").width*.75*9/16,
     backgroundColor: colors.secondaryText
   },
 });

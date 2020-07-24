@@ -14,11 +14,17 @@
         "categories": {
             "auth": {
                 "dashchat5a0f544d": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"727440101132611\",\"client_secret\":\"4a599c9fb213f9dd306fa672c72c4fec\"},{\"ProviderName\":\"Google\",\"client_id\":\"834687374369-2tf1j22at95lgfvmdijakkgl7od3mdi1.apps.googleusercontent.com\",\"client_secret\":\"uYWfSn6NpVcgcG_Yv-asqc7n\"}]",
                     "facebookAppId": "727440101132611",
-                    "googleClientId": "834687374369-2tf1j22at95lgfvmdijakkgl7od3mdi1.apps.googleusercontent.com"
-                },
-                "userPoolGroups": {}
+                    "googleClientId": "834687374369-2tf1j22at95lgfvmdijakkgl7od3mdi1.apps.googleusercontent.com",
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"727440101132611\",\"client_secret\":\"4a599c9fb213f9dd306fa672c72c4fec\"},{\"ProviderName\":\"Google\",\"client_id\":\"834687374369-2tf1j22at95lgfvmdijakkgl7od3mdi1.apps.googleusercontent.com\",\"client_secret\":\"uYWfSn6NpVcgcG_Yv-asqc7n\"}]"
+                }
+            },
+            "function": {
+                "dashchat5a0f544dCustomMessage": {
+                    "REDIRECTURL": "expoamplifytest://",
+                    "EMAILSUBJECT": "Dashchat- Your confirmation code",
+                    "EMAILMESSAGE": "Your confirmation code is {####}"
+                }
             }
         }
     }

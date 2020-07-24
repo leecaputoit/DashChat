@@ -5,11 +5,12 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
-      profileImageKey
       username
+      profileImageKey
       email
       first_name
       last_name
+      documents
       createdAt
       updatedAt
     }
@@ -19,11 +20,12 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
-      profileImageKey
       username
+      profileImageKey
       email
       first_name
       last_name
+      documents
       createdAt
       updatedAt
     }
@@ -33,11 +35,12 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
-      profileImageKey
       username
+      profileImageKey
       email
       first_name
       last_name
+      documents
       createdAt
       updatedAt
     }
