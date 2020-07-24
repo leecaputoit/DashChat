@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   nameContainer:{
-    marginBottom: 100
+    marginBottom: 40,
   },
   buttonContainer:{
   },
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
   buttonStyles:{
     borderRadius:15,
     backgroundColor:colors.white,
-    width:Dimensions.get('window').width * 0.55,
-    height:36,
+    width:Dimensions.get('window').width * 0.45,
+    height:48,
     display:"flex",
     justifyContent:"center",
     alignItems:"center",
