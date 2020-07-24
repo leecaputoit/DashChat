@@ -6,12 +6,11 @@ import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/redux/reducers';
 import Root from './src/navigation/Root'
 import colors from "./src/styles/colors";
-import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
-import AuthenticationNavigator from "./src/navigation/AuthenticationNavigator";
-import { NavigationContainer } from '@react-navigation/native';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
+import ConfirmationCode from './src/screens/ConfirmationCode'
 
 
+console.disableYellowBox = true;
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
@@ -23,11 +22,13 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
+       {/* <ConfirmationCode /> */}
        <Root />
       </Provider>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {

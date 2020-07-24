@@ -44,6 +44,12 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 14,
   },
+  errorMessageWrapper: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });
 
 export default styles;

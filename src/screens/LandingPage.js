@@ -51,6 +51,7 @@ class LandingPage extends Component {
 
   render() {
     const { user } = this.state;
+
     return (
       <ScrollView style={baseStyles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />

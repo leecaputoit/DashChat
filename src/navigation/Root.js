@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import BottomTabNavigator from "./BottomTabNavigator";
 import AuthenticationNavigator from "./AuthenticationNavigator";
 import { NavigationContainer } from '@react-navigation/native';
+import { ConfirmationCode } from '../screens/ConfirmationCode';
 
 
 class Root extends React.Component {

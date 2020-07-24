@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordSubheading: {
     flex: 1,
-    color: colors.black,
+    color: colors.white,
     fontWeight: '600',
     fontSize: 15,
     marginTop: 10,
