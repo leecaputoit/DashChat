@@ -10,7 +10,7 @@ class DocumentSelector extends React.Component{
     pickDocument = async () => {
         const result = await DocumentPicker.getDocumentAsync({copyToCacheDirectory: false});
         if(result.type !== 'cancel'){
-            this.props.handleResult(result.uri, this.props.documentType, this.props.user).then(result => {
+            this.props.handleResult(result.uri, this.props.documentType, this.props.user, result.name.split('.').pop()).then(result => {
                 this.props.setUser(result);
             });
         }

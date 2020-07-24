@@ -2,10 +2,16 @@ import { Storage, API, graphqlOperation } from 'aws-amplify'
 import { updateUser } from '../graphql/mutations'
 
 
-export const uploadFileToStorage =  async (uri, name, user) => {
+export const uploadFileToStorage =  async (uri, name, user, fileExtension) => {
     let updatedUserObject;
-    let fileName = name + '.' + uri.split('.').pop();
+    let fileName;
 
+    if(fileExtension){
+        fileName = name + '.' + fileExtension;
+    }else{
+       fileName =  name + '.' + uri.split('.').pop();
+    }
+    
     try {
         const response = await fetch(uri);
         const blob = await response.blob();

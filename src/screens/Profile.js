@@ -42,7 +42,6 @@ class Profile extends Component {
     }else{
       imageSource = {uri: this.props.profileImageURI}
     }
-    console.log(this.props.user)
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
