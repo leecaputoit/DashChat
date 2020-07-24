@@ -64,7 +64,8 @@ class Registration extends React.Component {
   handleEmailChange(text) {
     var emailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     this.setState({ email: text })
-    text.match(emailformat) ? this.setState({ validEmail: true }) : this.setState({ validEmail: false });
+    this.setState({ username: text });
+    text.match(emailformat) ? this.setState({validEmail: true}): this.setState({validEmail: false});
   }
   handlePhoneChange(text) {
     this.setState({ phone: text });
