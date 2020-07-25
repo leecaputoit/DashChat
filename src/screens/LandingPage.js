@@ -11,6 +11,7 @@ import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
 import Geolocation from 'react-native-geolocation-service';
 
+
 class LandingPage extends Component {
   constructor(props) {
     super(props);
@@ -66,6 +67,7 @@ requestLocationPermission = async () => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.setState({ hasLocationPermission: true });
         console.log("Location permission granted");
+        this.updatePosition();
       } else {
         console.log("Location permission denied");
       }
@@ -102,8 +104,8 @@ requestLocationPermission = async () => {
             Welcome to DashChat.
           </Text>
           <View style={styles.container}>
-            <Text style={styles.item}>Try permissions</Text>
-            <Button title="request permissions" onPress={this.requestLocationPermission} />
+            <Text style={styles.item}>DashChat requires location services.</Text>
+            <Button title="Turn on location permissions" onPress={this.requestLocationPermission} />
           </View>
           <RoundedButton
             text="Continue with Facebook"

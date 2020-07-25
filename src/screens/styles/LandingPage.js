@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
+import Constants from "expo-constants";
 
 let termsTextSize = 13;
 let headingTextSize = 30;
