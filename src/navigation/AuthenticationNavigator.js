@@ -11,6 +11,7 @@ import { Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../screens/styles/AuthenticationBoilerplate';
 import {Platform} from 'react-native';
+import DocumentUploadPage from '../screens/DocumentUploadPage'
 
 
 export default class AuthenticationNavigator extends React.Component{
@@ -63,6 +64,10 @@ export default class AuthenticationNavigator extends React.Component{
                 <Stack.Screen 
                     name="ConfirmationCode"     
                     component={ConfirmationCode} 
+                />
+                <Stack.Screen 
+                    name="DocumentUpload"     
+                    component={DocumentUploadPage} 
                 />
             </Stack.Navigator>
         );
