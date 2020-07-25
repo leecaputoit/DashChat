@@ -8,14 +8,6 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       id
-      username
-      profileImageKey
-      email
-      first_name
-      last_name
-      documents
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -25,15 +17,7 @@ export const updateUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     updateUser(input: $input, condition: $condition) {
-      id
-      username
-      profileImageKey
-      email
-      first_name
-      last_name
-      documents
-      createdAt
-      updatedAt
+     id
     }
   }
 `;
@@ -45,11 +29,21 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       username
-      profileImageKey
-      email
       first_name
       last_name
-      documents
+      store {
+        name
+        resourceKey
+      }
+      location {
+        lat
+        lng
+      }
+      vehicles {
+        name
+        make
+        model
+      }
       createdAt
       updatedAt
     }

@@ -6,11 +6,21 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser {
       id
       username
-      profileImageKey
-      email
       first_name
       last_name
-      documents
+      store {
+        name
+        resourceKey
+      }
+      location {
+        lat
+        lng
+      }
+      vehicles {
+        name
+        make
+        model
+      }
       createdAt
       updatedAt
     }
@@ -21,11 +31,21 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser {
       id
       username
-      profileImageKey
-      email
       first_name
       last_name
-      documents
+      store {
+        name
+        resourceKey
+      }
+      location {
+        lat
+        lng
+      }
+      vehicles {
+        name
+        make
+        model
+      }
       createdAt
       updatedAt
     }
@@ -36,11 +56,21 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser {
       id
       username
-      profileImageKey
-      email
       first_name
       last_name
-      documents
+      store {
+        name
+        resourceKey
+      }
+      location {
+        lat
+        lng
+      }
+      vehicles {
+        name
+        make
+        model
+      }
       createdAt
       updatedAt
     }

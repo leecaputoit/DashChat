@@ -66,25 +66,18 @@ class LogIn extends React.Component {
          //establish user object to be saved to dynamo
         let userObject = {
           id:userFromAuth.signInUserSession.idToken.payload.sub,
-          profileImageKey:'',
           username:this.state.username,
-          email: this.state.username,
           first_name:userFromAuth.signInUserSession.idToken.payload.given_name,
-          last_name:userFromAuth.signInUserSession.idToken.payload.family_name,
-          documents:[]
+          last_name:userFromAuth.signInUserSession.idToken.payload.family_name, 
         };
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
         this.props.setUser(userObject);
-        this.props.setLoggedIn(true);
+        this.props.navigation.navigate("DocumentUpload");
         return;
       }
 
       //if user object already exists
-      if(user.createdAt)
-        delete user.createdAt;
-      if(user.updatedAt)
-        delete user.updatedAt;
       console.log(user)
       this.props.setUser(user);
       this.props.setLoggedIn(true);
