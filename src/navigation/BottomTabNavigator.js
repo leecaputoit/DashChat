@@ -44,7 +44,7 @@ class BottomTabNavigator extends React.Component{
                         inactiveBackgroundColor:colors.background
                     }}
             >
-                { this.props.userType == 'civlian'
+                { this.props.userType == 'civilian'
                     ? <Tab.Screen name="Calls" component={Calls} />
                     : <Tab.Screen name="Search" component={Search} />
                 }
