@@ -80,7 +80,12 @@ class LogIn extends React.Component {
       //if user object already exists
       console.log(user)
       this.props.setUser(user);
-      this.props.setLoggedIn(true);
+      if (this.props.userType == "civilian") {
+        this.props.navigation.navigate("DocumentUpload");
+      }
+      else {
+        this.props.setLoggedIn(true);
+      }
     } catch (err) {
       this.setState({showErrorMessage: true})
       if (err.code === 'UserNotConfirmedException') {

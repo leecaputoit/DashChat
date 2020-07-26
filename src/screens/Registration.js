@@ -99,7 +99,11 @@ class Registration extends React.Component {
         let result = await Auth.signUp({ username, password, attributes: { email, given_name, family_name } })
         console.log('successful sign up..')
         console.log(JSON.stringify(result));
-        this.props.navigation.navigate("LogIn");
+        this.props.navigation.navigate(
+          'ConfirmationCode',
+          { username: username,
+            password: password }
+        )
       } catch (err) {
         console.log('error signing up...', err)
         console.log(err.stack);
