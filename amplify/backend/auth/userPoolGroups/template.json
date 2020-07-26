@@ -5,10 +5,12 @@
             "Type": "String",
             "Default": "authdashchat5a0f544dUserPoolId"
         },
+        
         "authdashchat5a0f544dIdentityPoolId": {
             "Type": "String",
             "Default": "authdashchat5a0f544dIdentityPoolId"
         },
+        
         "authdashchat5a0f544dAppClientID": {
             "Type": "String",
             "Default": "authdashchat5a0f544dAppClientID"
@@ -44,17 +46,20 @@
           "Properties" : {
               "GroupName" : "Civilians",
               "Precedence" : 1,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "CiviliansGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authdashchat5a0f544dUserPoolId"
               } 
             }
         },
+        
         "CiviliansGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -78,29 +83,37 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authdashchat5a0f544dIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
     
         "PoliceGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "Police",
               "Precedence" : 2,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "PoliceGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authdashchat5a0f544dUserPoolId"
               } 
             }
         },
+        
         "PoliceGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -124,12 +137,18 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authdashchat5a0f544dIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -325,7 +344,9 @@
             },
             "DependsOn": ["RoleMapFunction"]
         }
+   
     },
+    
     "Outputs": {
       
         "CiviliansGroupRole": {
@@ -351,4 +372,5 @@
         
       
     }
+    
 }
