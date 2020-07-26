@@ -9,7 +9,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from '@react-native-community/geolocation';
+
 
 
 class LandingPage extends Component {
@@ -67,6 +68,7 @@ requestLocationPermission = async () => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         this.setState({ hasLocationPermission: true });
         console.log("Location permission granted");
+        Geolocation.setRNConfiguration(config);
         this.updatePosition();
       } else {
         console.log("Location permission denied");
@@ -85,7 +87,7 @@ requestLocationPermission = async () => {
           (error) => {
             console.log(error.code, error.message);
           },
-          { enableHighAccuracy: true, interval: 5000 }
+          { enableHighAccuracy: true, timeout: 5000 }
       );
     }
   }
