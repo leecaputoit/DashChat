@@ -119,7 +119,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-dashchat-dashchat-201814-deployment",
-					"S3Key": "amplify-builds/dashchat5a0f544dCustomMessage-4a443461323453375138-build.zip"
+					"S3Key": "amplify-builds/dashchat5a0f544dCustomMessage-6a39706d64332b6e5073-build.zip"
 				}
 			}
 		},

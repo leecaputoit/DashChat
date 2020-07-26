@@ -56,14 +56,19 @@ class LogIn extends React.Component {
       const userFromAuth = await Auth.signIn({ username, password })
       console.log('successful signed in..')
       
-
+      console.log("Here is user 1");
+      // FIXME: STOPS RIGHT HERE
+      
       //Grab userobject from dynamo
       const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.signInUserSession.idToken.payload.sub}));
-      let user = result.data.getUser;
+      console.log("Here is user");
 
+      let user = result.data.getUser;
+      console.log(user);
       //if userobject was not found
       if(!user){
          //establish user object to be saved to dynamo
+         console.log("User object not found");
         let userObject = {
           id:userFromAuth.signInUserSession.idToken.payload.sub,
           profileImageKey:'',
