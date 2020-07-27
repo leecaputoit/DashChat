@@ -91,6 +91,8 @@ target 'trafficstop' do
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
 
+  pod 'react-native-location', :path => '../node_modules/react-native-location'
+
   post_install do |installer|
     flipper_post_install(installer)
   end

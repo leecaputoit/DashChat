@@ -9,16 +9,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
-import Geolocation from '@react-native-community/geolocation';
-
 
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = { user: null, hasLocationPermission: false, customState: null };
-    this.updatePosition = this.updatePosition.bind(this);
-    this.requestLocationPermission = this.requestLocationPermission.bind(this);
     this.onCreateAccountPress = this.onCreateAccountPress.bind(this);
     this.onFacebookPress = this.onFacebookPress.bind(this);
     this.onGooglePress = this.onGooglePress.bind(this);
@@ -51,48 +47,6 @@ s
     this.props.navigation.navigate('LogIn');
   }
 
-requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Location Permission",
-          message:
-            "DashChat needs to access your location " +
-            "so you can be located by police users.",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        this.setState({ hasLocationPermission: true });
-        console.log("Location permission granted");
-        Geolocation.setRNConfiguration(config);
-        this.updatePosition();
-      } else {
-        console.log("Location permission denied");
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  }
-
-  updatePosition() {
-    if (this.state.hasLocationPermission) {
-      Geolocation.watchPosition(
-          (position) => {
-            console.log(position);
-          },
-          (error) => {
-            console.log(error.code, error.message);
-          },
-          { enableHighAccuracy: true, timeout: 5000 }
-      );
-    }
-  }
-
-
   render() {
     const { user } = this.state;
     return (
@@ -105,10 +59,6 @@ requestLocationPermission = async () => {
           <Text style={baseStyles.headerText}>
             Welcome to DashChat.
           </Text>
-          <View style={styles.container}>
-            <Text style={styles.item}>DashChat requires location services.</Text>
-            <Button title="Turn on location permissions" onPress={this.requestLocationPermission} />
-          </View>
           <RoundedButton
             text="Continue with Facebook"
             textColor={colors.white}
