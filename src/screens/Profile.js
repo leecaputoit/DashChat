@@ -9,11 +9,19 @@ import ImageSelector from '../common-components/ImageSelector'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DocumentSelector from '../common-components/DocumentSelector'
 import { uploadFileToStorage } from '../Utility/FileStorageAPI'
+import FileDisplayModal from '../common-components/FileDisplayModal'
 
 import Amplify from '@aws-amplify/core'
 import { Auth } from 'aws-amplify';
 class Profile extends Component {
 
+  state = {
+    driversLicenceModalToggle: false
+  };
+
+  toggleDriversLicenceModal(){
+    this.setState(prevState => ({driversLicenceModalToggle: !prevState.driversLicenceModalToggle}));
+  }
 
   constructor(props) {
     super(props);
@@ -42,6 +50,31 @@ class Profile extends Component {
     }else{
       imageSource = {uri: this.props.profileImageURI}
     }
+    
+
+    let driversLicenceButton;
+    if(this.props.user.store && this.props.user.store.find(doc => doc.name === 'DriversLicence')){
+      driversLicenceButton = (<View style={styles.driversLicenceContentContainer}>
+                                <FileDisplayModal isVisible={this.state.driversLicenceModalToggle} toggleVisibility={() => {this.toggleDriversLicenceModal()}} resource={this.props.user.store.find(doc => doc.name ==='DriversLicence')}/>
+                                <TouchableOpacity style ={styles.buttonStyles} onPress={() => {this.toggleDriversLicenceModal()}}>
+                                  <Text style={styles.textStyles}>
+                                    {"View Driver's Licence"}
+                                  </Text>
+                                </TouchableOpacity>
+                                <DocumentSelector style={styles.documentUpload} handleResult={uploadFileToStorage} documentType="DriversLicence">
+                                  <MaterialCommunityIcons name='file-upload-outline' size={40} color="white" />
+                                </DocumentSelector>
+                              </View>
+      );
+    }else{
+      driversLicenceButton = (
+                              <DocumentSelector style={styles.buttonStyles} handleResult={uploadFileToStorage} documentType="DriversLicence">
+                                <Text style={styles.textStyles}>
+                                  {"Upload Driver's Licence"}
+                                </Text>
+                              </DocumentSelector>
+                              );
+    }
     return (
       <View style={styles.mainWrapper}>
         <TouchableOpacity
@@ -69,12 +102,7 @@ class Profile extends Component {
         </View>
         
         <View style={styles.buttonContainer}>
-          <DocumentSelector style={styles.buttonStyles} handleResult={uploadFileToStorage} documentType="DriversLicence">
-            <Text style={styles.textStyles}>
-              {"Driver's License"}
-            </Text>
-          </DocumentSelector>
-          
+            {driversLicenceButton}
             <Text style={styles.vehiclesTitle}>
              {"Registered Vehicles"}
            </Text>
