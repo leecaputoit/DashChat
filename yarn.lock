@@ -8179,6 +8179,11 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-agora@^3.0.1-rc.2:
+  version "3.0.1-rc.2"
+  resolved "https://registry.yarnpkg.com/react-native-agora/-/react-native-agora-3.0.1-rc.2.tgz#8e275b36f800195ee72ba6c0bb09ac5361596ee5"
+  integrity sha512-61XrnqS+d4juPAi2N9GCKBnxR1kd9ost+hDKT8nvR/CiJCZCXCK4/92xTY0DzENvOYy0APs3/4UiTu4vV4fkZQ==
+
 react-native-appearance@~0.3.3:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/react-native-appearance/-/react-native-appearance-0.3.4.tgz#2cbcbc5142cdc1898c116684f519b16c879cbec2"
