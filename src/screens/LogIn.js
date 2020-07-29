@@ -23,6 +23,8 @@ import { getUser } from '../graphql/queries'
 import { createUser } from '../graphql/mutations'
 import { API, graphqlOperation } from 'aws-amplify'
 import { Auth } from 'aws-amplify';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
 class LogIn extends React.Component {
   constructor(props) {
@@ -46,7 +48,31 @@ class LogIn extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
+    this.getLocationAsync = this.getLocationAsync.bind(this);
   }
+
+  getLocationAsync = async () => {
+    const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      this.setState({ hasLocationPermission: true });
+      console.log("Location permission granted");
+      this.updatePosition();
+    } else {
+      throw new Error('Location permission not granted');
+    }
+  }
+
+  updatePosition = async () => {
+    if (this.state.hasLocationPermission) {
+      await Location.watchPositionAsync(
+        { timeInterval: 5000 },
+        (position) => {
+          console.log(position);
+        }
+      );
+    }
+  }
+
 
   signIn = async () => {
     const {
@@ -79,6 +105,7 @@ class LogIn extends React.Component {
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
         this.props.setUser(userObject);
         this.props.navigation.navigate("DocumentUpload");
+        await this.getLocationAsync();
         return;
       }
 
@@ -91,6 +118,7 @@ class LogIn extends React.Component {
       else {
         this.props.setLoggedIn(true);
       }
+      await this.getLocationAsync();
     } catch (err) {
       this.setState({showErrorMessage: true})
       if (err.code === 'UserNotConfirmedException') {
@@ -119,7 +147,6 @@ class LogIn extends React.Component {
     this.setState({ username: text });
     text.match(emailformat) ? this.setState({ validEmail: true }) : this.setState({ validEmail: false });
   }
-
 
   handleBadgeChange(text) {
     text.length >= 4 ? this.setState({ validBadgeNumber: true }) : this.setState({ validBadgeNumber: false })

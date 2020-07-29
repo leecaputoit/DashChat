@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
+import Constants from "expo-constants";
 
 let termsTextSize = 13;
 let headingTextSize = 30;
@@ -34,6 +35,19 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 16,
   },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#ecf0f1",
+    padding: 8
+  },
+  item: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center"
+  }
 });
 
 export default styles;
