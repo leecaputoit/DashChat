@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     display:"flex",
     justifyContent:"center",
     alignItems:"center",
-    marginBottom:20
+    marginBottom:20,
   },
   logOutButtonStyle:{
     display:"flex",
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     fontSize:14,
   },
   textStyles:{
-    fontSize:18,
+    fontSize:15,
   },
   vehiclesTitle:{
     color:colors.white,
@@ -72,6 +72,17 @@ const styles = StyleSheet.create({
   },
   imagePicker:{
     alignSelf:"flex-end"
+  },
+  documentUpload:{
+    
+    paddingBottom:15
+  },
+  driversLicenceContentContainer:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    alignContent:'center'
   }
 });
 
