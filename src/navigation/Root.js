@@ -10,6 +10,7 @@ class Root extends React.Component {
     render() {
         //console.disableYellowBox = true;
         const isSignedIn = this.props.loggedIn;
+        //const isSignedIn = true;
         return (
             <NavigationContainer>
                 {
