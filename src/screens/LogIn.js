@@ -25,6 +25,7 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { Auth } from 'aws-amplify';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import { initBackgroundLocationTracking } from '../Utility/ProximitySearch'
 
 class LogIn extends React.Component {
   constructor(props) {
@@ -48,30 +49,31 @@ class LogIn extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
-    this.getLocationAsync = this.getLocationAsync.bind(this);
+    //this.getLocationAsync = this.getLocationAsync.bind(this);
   }
 
-  getLocationAsync = async () => {
-    const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      this.setState({ hasLocationPermission: true });
-      console.log("Location permission granted");
-      this.updatePosition();
-    } else {
-      throw new Error('Location permission not granted');
-    }
-  }
+  
+  // getLocationAsync = async () => {
+  //   const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
+  //   if (status === 'granted') {
+  //     this.setState({ hasLocationPermission: true });
+  //     console.log("Location permission granted");
+  //     this.updatePosition();
+  //   } else {
+  //     throw new Error('Location permission not granted');
+  //   }
+  // }
 
-  updatePosition = async () => {
-    if (this.state.hasLocationPermission) {
-      await Location.watchPositionAsync(
-        { timeInterval: 5000 },
-        (position) => {
-          console.log(position);
-        }
-      );
-    }
-  }
+  // updatePosition = async () => {
+  //   if (this.state.hasLocationPermission) {
+  //     await Location.watchPositionAsync(
+  //       { timeInterval: 5000 },
+  //       (position) => {
+  //         console.log(position);
+  //       }
+  //     );
+  //   }
+  // }
 
 
   signIn = async () => {
@@ -107,7 +109,8 @@ class LogIn extends React.Component {
       //if user object already exists
       console.log(user)
       this.props.setUser(user);
-      await this.getLocationAsync();
+      //await this.getLocationAsync();
+     // await initBackgroundLocationTracking();
       this.props.setLoggedIn(true);
     } catch (err) {
       this.setState({showErrorMessage: true})
