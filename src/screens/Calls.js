@@ -29,7 +29,7 @@ export default class LandingPage extends Component {
     let AppID = this.state.AppID;
     let ChannelName = this.state.ChannelName;
     if (AppID !== '' && ChannelName !== '') {
-      Actions.videoTest({AppID, ChannelName});
+      Actions.videoCall({AppID, ChannelName});
     }
   }
 
@@ -40,32 +40,23 @@ export default class LandingPage extends Component {
         // Use a flat-list to display previous recordings
       <View style={baseStyles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />
-          {/* <Text style={baseStyles.headerText}>
-            Incoming Calls will become available here 
-          </Text> */}
           <View style={styles.container}>
-        <Text style={styles.formLabel}>App ID</Text>
-        <TextInput
-          style={styles.formInput}
-          onChangeText={AppID => this.setState({AppID})}
-          value={this.state.AppID}
-        />
-        <Text style={styles.formLabel}>Channel Name</Text>
-        <TextInput
-          style={styles.formInput}
-          onChangeText={ChannelName => this.setState({ChannelName})}
-          value={this.state.ChannelName}
-        />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            title="Start Call!"
-            onPress={this.handleSubmit}
-            style={styles.submitButton}>
-            <Text style={styles.white}> Start Call </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
+            {/* Removed App ID*/}
+            <Text style={styles.formLabel}>Channel Name</Text>
+            <TextInput
+              style={styles.formInput}
+              onChangeText={ChannelName => this.setState({ChannelName})}
+              value={this.state.ChannelName}
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                title="Start Call!"
+                onPress={this.handleSubmit}
+                style={styles.submitButton}>
+                <Text style={styles.white}> Start Call </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
       </View>
     );
   }
