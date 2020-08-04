@@ -23,7 +23,7 @@
             "function": {
                 "dashchat5a0f544dCustomMessage": {
                     "REDIRECTURL": "expoamplifytest://",
-                    "EMAILSUBJECT": "Dashchat- Your confirmation code",
+                    "EMAILSUBJECT": "Dashchart- Your confirmation code",
                     "EMAILMESSAGE": "Your confirmation code is {####}"
                 }
             }
