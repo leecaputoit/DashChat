@@ -129,7 +129,7 @@ export const getUserByLicensePlateNumber = async (licensePlateNumber) => {
                     result = true;
                 }
             });
-            return true;
+            return result;
         }
         return false;
     });
