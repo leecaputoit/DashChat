@@ -25,8 +25,12 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { Auth } from 'aws-amplify';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import { initLocationTracking } from '../Utility/ProximitySearch'
 
 class LogIn extends React.Component {
+
+  state = {refresh:''};
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,29 +52,6 @@ class LogIn extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.onCreatePoliceAccount = this.onCreatePoliceAccount.bind(this);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
-    this.getLocationAsync = this.getLocationAsync.bind(this);
-  }
-
-  getLocationAsync = async () => {
-    const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      this.setState({ hasLocationPermission: true });
-      console.log("Location permission granted");
-      this.updatePosition();
-    } else {
-      throw new Error('Location permission not granted');
-    }
-  }
-
-  updatePosition = async () => {
-    if (this.state.hasLocationPermission) {
-      await Location.watchPositionAsync(
-        { timeInterval: 5000 },
-        (position) => {
-          console.log(position);
-        }
-      );
-    }
   }
 
 
@@ -100,6 +81,14 @@ class LogIn extends React.Component {
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
         this.props.setUser(userObject);
+        //start location tracking
+        await initLocationTracking();
+        //force re-render the page so that the location tracking service notices ->
+        //that the app is in the foreground, otherwise the service starts by ->
+        //default in the background mode while the app is actually active and in the foreground ->
+        //which causes irregular update behavior that prevents syncing location to the backend
+        this.setState({refresh:''});
+
         this.props.navigation.navigate("DocumentUpload");
         return;
       }
@@ -107,7 +96,9 @@ class LogIn extends React.Component {
       //if user object already exists
       console.log(user)
       this.props.setUser(user);
-      await this.getLocationAsync();
+      //wait for location tracking to start
+      await initLocationTracking();
+      this.setState({refresh:''}); //explained in above comment
       this.props.setLoggedIn(true);
     } catch (err) {
       this.setState({showErrorMessage: true})
