@@ -10,6 +10,10 @@ import *  as TaskManager from 'expo-task-manager'
 //-------------------Relevant functions for civilian location tracking-----------------
 let tmpTimeStamp = 0; //for foreground tracking, records the timestamp of each rapid location update
 let tmpTimeCount = 0; //for foreground tracking, determines when a location update should be uploaded to the backend
+const Config = {
+    updateInterval: 60000, //how often should location updates be captured and synced to the backend in miliseconds
+    selectionDistanceThreshold: 62, //in meters, if a user's distance from the police officer is larger than the threshold, he/she will not be selected and returned by proximity search
+};
 
 //necessary
 export const defineLocationTrackingTask = () => {
@@ -43,9 +47,9 @@ export const initLocationTracking = async () => {
 
     let locationTrackingOptions = {
         accuracy: Location.Accuracy.Highest,
-        distanceInterval:0,     //inconsistent location update interval if not set to 0, at least for out purpose
+        distanceInterval:0,     //inconsistent location update interval if not set to 0, at least for our purpose
         timeInterval: 0, //same comment as above
-        deferredUpdatesInterval: 60000, //one minute
+        deferredUpdatesInterval: Config.updateInterval, //one minute
         foregroundService:{
             notificationTitle: 'DashChat',
             notificationBody:'Tracking location',
@@ -74,12 +78,12 @@ const uploadUserLocation = async ({data: { locations }, error }) => {
         //if the app is currently active, handles what to do when active since rate of location update when app is in foreground cannot be set manually
         if(AppState.currentState === 'active'){
             tmpTimeCount += mostRecentLoc.timestamp - tmpTimeStamp
-            if(tmpTimeCount > 70000){
+            if(tmpTimeCount > (Config.updateInterval + 10000) ){
                 //So that no update is performed every time a user returns from background
                 tmpTimeCount = 0;
             }
             tmpTimeStamp = mostRecentLoc.timestamp; 
-            if(tmpTimeCount >= 60000){
+            if(tmpTimeCount >= Config.updateInterval){
                 console.log('Proceeds To foreground update')
                 tmpTimeCount = 0;
             }else{
@@ -171,7 +175,7 @@ const selectUserByProximity = async (users) => {
     });
 
     //if distance to user is not within 62 meters, do not return the user for privacy reasons
-    if(distance <= 62){
+    if(distance <= Config.selectionDistanceThreshold){
         return user;
     }else{
         return null;
