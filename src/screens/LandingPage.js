@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
-import { handleAppActivationState } from '../Utility/ProximitySearch'
+import { handleAppActivationState, initBackgroundLocationTracking } from '../Utility/ProximitySearch'
 
 
 class LandingPage extends Component {
@@ -22,13 +22,6 @@ class LandingPage extends Component {
     this.onApplePress = this.onApplePress.bind(this);
     this.logInPress = this.onLoginPress.bind(this);
   }
-
-
-  componentDidMount(){
-    handleAppActivationState();
-  }
-
-  
 
 
   async onFacebookPress() {

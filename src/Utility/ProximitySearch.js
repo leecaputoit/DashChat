@@ -2,82 +2,92 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { updateUser } from '../graphql/mutations'
 import * as Location from 'expo-location'
 import { Auth } from 'aws-amplify'
-import AsyncStorage from '@react-native-community/async-storage'
 import { AppState } from 'react-native'
-import * as TaskManager from 'expo-task-manager'
 import { listUsers } from '../graphql/queries'
-import * as CalculateDistance from 'haversine'
+import haversine from 'haversine'
+import *  as TaskManager from 'expo-task-manager'
  
 //-------------------Relevant functions for civilian location tracking-----------------
-let subscription;
+let tmpTimeStamp = 0; //for foreground tracking, records the timestamp of each rapid location update
+let tmpTimeCount = 0; //for foreground tracking, determines when a location update should be uploaded to the backend
 
+//necessary
+export const defineLocationTrackingTask = () => {
+    //Defines the background task 'userLocationTracking' which Location.startLocationUpdatesAsync use, invokes the function passed as argument whenver task activates
+    TaskManager.defineTask('userLocationTracking', uploadUserLocation);
+    //also sets up AppState change listener
+    manageTransitionBetweenAppState();
+}
 
+//Check for location permission, if not, ask for it, and returns whehter location was granted
 export const configureLocationPermission = async () => {
     const { status } = await Location.getPermissionsAsync();
+
     if(status !== 'granted'){
         const {status: newStatus} = await Location.requestPermissionsAsync();
+
         if(newStatus !== 'granted'){
-            console.log("permission denied");
+            console.log("location permission denied");
             return false;
         }
     }
     return true;
 };
 
-export const initBackgroundLocationTracking = async () => {
+//Sets up location tracking for the entire app
+export const initLocationTracking = async () => {
     let granted = await configureLocationPermission();
     if(!granted){
-        return;
+        return; 
     }
 
     let locationTrackingOptions = {
         accuracy: Location.Accuracy.Highest,
-        distanceInterval:0,
-        timeInterval: 0,
-        deferredUpdatesInterval: 60000,
+        distanceInterval:0,     //inconsistent location update interval if not set to 0, at least for out purpose
+        timeInterval: 0, //same comment as above
+        deferredUpdatesInterval: 60000, //one minute
         foregroundService:{
             notificationTitle: 'DashChat',
             notificationBody:'Tracking location',
             notificationColor:'#5fb2f2'
         }
     };
+
     await Location.startLocationUpdatesAsync('userLocationTracking', locationTrackingOptions);
-    console.log("background locatin tracking started")
+    console.log("Location tracking started")
     
 };
 
-export const initForegroundLocationTracking = async () => {
-    console.log("init foreground")
-    let granted = await configureLocationPermission();
-    if(!granted){
-        return;
-    }
-
-    const locationTrackingOptions = {
-        accuracy: Location.Accuracy.High,
-        timeInterval: 60000,
-        distanceInterval:0
-    };
-    const unSubscribe = await Location.watchPositionAsync(locationTrackingOptions, uploadUserLocationForeground);
-    return unSubscribe;
-};
-
-
-export const uploadUserLocationBackground = async ({data: { locations }, error }) => {
+//Handles syncing the location coordinate to the backend
+const uploadUserLocation = async ({data: { locations }, error }) => {
     if(error){
+        //any error thrown by expo-location
         console.log(JSON.stringify(error));
         return;
     }
 
     try{
+        //check whether there is an active user, if not, throws an error and function proceeds to catch block
         let user = await Auth.currentAuthenticatedUser();
         
-        //stopLocationUpdateAsync clears the previously defined task and causes errors, this is a temporary workaround
+        let mostRecentLoc = locations.pop(); //gets the last location object in the array provided
+        //if the app is currently active, handles what to do when active since rate of location update when app is in foreground cannot be set manually
         if(AppState.currentState === 'active'){
-            return;
+            tmpTimeCount += mostRecentLoc.timestamp - tmpTimeStamp
+            if(tmpTimeCount > 70000){
+                //So that no update is performed every time a user returns from background
+                tmpTimeCount = 0;
+            }
+            tmpTimeStamp = mostRecentLoc.timestamp; 
+            if(tmpTimeCount >= 60000){
+                console.log('Proceeds To foreground update')
+                tmpTimeCount = 0;
+            }else{
+                return;
+            }
         }
+
         let updateObject = { id: user.signInUserSession.idToken.payload.sub };
-        let mostRecentLoc = locations.pop(); //get last location object from provided locations array
         let update = {
             lat: mostRecentLoc.coords.latitude,
             lng: mostRecentLoc.coords.longitude
@@ -85,93 +95,27 @@ export const uploadUserLocationBackground = async ({data: { locations }, error }
         updateObject.location = update;
 
         await API.graphql(graphqlOperation(updateUser, {input: updateObject}));
-        console.log("backround upload complete : " + mostRecentLoc);
+        console.log("location update performed : " + JSON.stringify(mostRecentLoc));
         
     }catch(error){
-        if(AppState.currentState !== "active"){
-            console.log("this is background")
-            console.log(JSON.stringify(error))
+        if(AppState.currentState === "background"){
+            console.log("background: " + JSON.stringify(error))
+        }else{
+            console.log('foreground: ' + JSON.stringify(error))
         }
-        ;
-        //if user is not logged in, stop background tracking
-       // await Location.stopLocationUpdatesAsync('userLocationTracking');
     }
 
 
 };
 
-export const uploadUserLocationForeground = async (location) => {
-    try{
-        let user = await Auth.currentAuthenticatedUser(); 
-
-        let updateObject = { id: user.signInUserSession.idToken.payload.sub };
-        let update = {
-            lat: location.coords.latitude,
-            lng: location.coords.longitude
-        };
-        updateObject.location = update;
-
-        await API.graphql(graphqlOperation(updateUser, {input: updateObject}));
-        console.log("foreground upload complete: " + location);
-        
-    }catch(error){
-        console.log(JSON.stringify(error));
-    }
-
-
-};
-
-// export const helperSaveToAsyncStorage = async (key, value) => {
-//     try {
-//       const jsonValue = JSON.stringify(value)
-//       await AsyncStorage.setItem(key, jsonValue)
-//     } catch (e) {
-//       console.log(e);
-//     }
-// };
-
-// export const helperGetDataFromAsyncStorage = async (key) => {
-//     try {
-//       const jsonValue = await AsyncStorage.getItem(key)
-//       return jsonValue != null ? JSON.parse(jsonValue) : null;
-//     } catch(e) {
-//       console.log(e);
-//     }
-// };
-
-export const handleAppActivationState = () => {
-    //handle which tracking method to use when app transitions between foreground and background
-    AppState.addEventListener('change', async () => {
-        //define the userlocationtracking task if not already defined
-        //checkBackgroundLocationTrackingTaskDefinition();
-        if (AppState.currentState === 'active')
-        {
-            //await Location.stopLocationUpdatesAsync('userLocationTracking');
-           subscription =  await initForegroundLocationTracking();
-        }else if(AppState.currentState === 'background')
-        {
-            try{
-                await Auth.currentAuthenticatedUser();
-            }catch(error){
-                console.log("no user currenly availableo")
-                return;
-            }
-            // let removeForegroundSubscription = await helperGetDataFromAsyncStorage('locationUnSubscribe')
-            // removeForegroundSubscription.remove();
-            subscription.remove();
-            await initBackgroundLocationTracking();
+const manageTransitionBetweenAppState = () => {
+    AppState.addEventListener('change', () => {
+        if(AppState.currentState === 'active'){
+            //reset time count to 0 so everytime returning from background to foreground timer recounts from 0
+            tmpTimeCount = 0;
         }
     });
-};
-
-// export const checkBackgroundLocationTrackingTaskDefinition = () => {
-//     if(!TaskManager.isTaskDefined('userLocationTracking')){
-//         TaskManager.defineTask('userLocationTracking', uploadUserLocationBackground);
-//     }
-// };
-
-
-
+}
 
 //-------------------------Police Search Functionalities----------------------
 export const getUserByLicensePlateNumber = async (licensePlateNumber) => {
@@ -191,14 +135,12 @@ export const getUserByLicensePlateNumber = async (licensePlateNumber) => {
     });
 
     let user = await selectUserByProximity(filteredUsers);
+    console.log(JSON.stringify(user));
 
     return user;
-
-
 };
 
-
-export const selectUserByProximity = async (users) => {
+const selectUserByProximity = async (users) => {
     let granted = await configureLocationPermission();
     if(!granted){
         return;
@@ -212,17 +154,26 @@ export const selectUserByProximity = async (users) => {
 
     let user;
     let distance = Number.MAX_VALUE;
+
     users.forEach((curUser) => {
         let location = {
             latitude: curUser.location.lat,
             longitude: curUser.location.lng
         };
-        tmpDistance = CalculateDistance(startLocation, location);
+
+        tmpDistance = haversine(startLocation, location, { unit: 'meter' }); //calculates the great-circle distance between two points on a sphere given their lat and lng in meters
+
         if(tmpDistance < distance){
             distance = tmpDistance;
             user = curUser;
         }
+        console.log("distances: " + tmpDistance);
     });
-    return user;
 
+    //if distance to user is not within 62 meters, do not return the user for privacy reasons
+    if(distance <= 62){
+        return user;
+    }else{
+        return null;
+    }
 }

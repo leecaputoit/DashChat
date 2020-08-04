@@ -3,8 +3,7 @@ import { registerRootComponent } from 'expo';
 import App from './App';
 import Amplify from '@aws-amplify/core'
 import config from './aws-exports'
-import * as TaskManager from 'expo-task-manager'
-import {  uploadUserLocationBackground } from './src/Utility/ProximitySearch'
+import { defineLocationTrackingTask } from './src/Utility/ProximitySearch'
 
 
 
@@ -13,5 +12,5 @@ import {  uploadUserLocationBackground } from './src/Utility/ProximitySearch'
 // the environment is set up appropriately
 
 Amplify.configure(config);
-TaskManager.defineTask('userLocationTracking', uploadUserLocationBackground);
+defineLocationTrackingTask();
 registerRootComponent(App);
