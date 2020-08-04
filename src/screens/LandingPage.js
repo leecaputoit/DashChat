@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, Text, View, Image, TouchableHighlight, ScrollView, StyleSheet, SafeAreaView, PermissionsAndroid, Button } from 'react-native';
+import { AppState, StatusBar, Text, View, Image, TouchableHighlight, ScrollView, StyleSheet, SafeAreaView, PermissionsAndroid, Button } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import RoundedButton from '../common-components/RoundedButton';
@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth } from 'aws-amplify';
+import { handleAppActivationState, initBackgroundLocationTracking } from '../Utility/ProximitySearch'
 
 
 class LandingPage extends Component {
@@ -21,6 +22,7 @@ class LandingPage extends Component {
     this.onApplePress = this.onApplePress.bind(this);
     this.logInPress = this.onLoginPress.bind(this);
   }
+
 
   async onFacebookPress() {
     Auth.federatedSignIn({ provider: "Facebook" });

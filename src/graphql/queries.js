@@ -4,22 +4,27 @@
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
-      id
-      username
+      createdAt
       first_name
+      id
       last_name
+      location {
+        lat
+        lng
+        averageSpeed
+        lastTimeUpdated
+      }
       store {
         name
         resourceKey
       }
-      location {
-        lat
-        lng
-      }
+      updatedAt
+      username
       vehicles {
-        name
         make
         model
+        name
+        licensePlateNumber
       }
     }
   }
@@ -32,12 +37,29 @@ export const listUsers = /* GraphQL */ `
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
-        username
-        first_name
-        last_name
         createdAt
+        first_name
+        id
+        last_name
+        location {
+          lat
+          lng
+          averageSpeed
+          lastTimeUpdated
+        }
+        store {
+          name
+          resourceKey
+        }
         updatedAt
+        username
+        vehicles {
+          make
+          model
+          name
+          licensePlateNumber
+        }
+        
       }
       nextToken
     }
