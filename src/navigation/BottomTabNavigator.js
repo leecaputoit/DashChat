@@ -9,6 +9,7 @@ import colors from '../styles/colors';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
+import RouterComponent from '../navigation/Router'
 
 class BottomTabNavigator extends React.Component{
 
@@ -46,7 +47,7 @@ class BottomTabNavigator extends React.Component{
                     }}
             >
                 { this.props.userType == 'civilian'
-                    ? <Tab.Screen name="Calls" component={Calls} />
+                    ? <Tab.Screen name="Calls" component={RouterComponent} />
                     : <Tab.Screen name="Search" component={Search} />
                 }
                 <Tab.Screen name="Call History"   component={CallHistory} />

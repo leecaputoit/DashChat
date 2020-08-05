@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.trafficstop"
+        applicationId 'com.trafficstop'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -192,9 +192,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
-    implementation project(':react-native-location')
-    implementation project(':react-native-community-geolocation')
-    implementation project(':@react-native-community_geolocation')
     implementation "com.google.android.gms:play-services-base:16.0.1"
     implementation "com.google.android.gms:play-services-location:16.0.0"
     implementation "com.facebook.react:react-native:+"  // From node_modules

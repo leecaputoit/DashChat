@@ -3,9 +3,17 @@ import { StatusBar, Text, View, TouchableHighlight, ScrollView } from 'react-nat
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import colors from '../styles/colors';
 import styles from './styles/CallHistory';
+import { getUserByLicensePlateNumber } from '../Utility/ProximitySearch'
 
 export default class LandingPage extends Component {
 
+  // async getUser(){
+  //   await getUserByLicensePlateNumber('123');
+  // }
+
+  componentDidMount(){
+    // this.getUser();
+  }
   constructor(props) {
     super(props);
     this.state = { user: null, customState: null };

@@ -10,6 +10,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DocumentSelector from '../common-components/DocumentSelector'
 import { uploadFileToStorage } from '../Utility/FileStorageAPI'
 import FileDisplayModal from '../common-components/FileDisplayModal'
+import { getUserByLicensePlateNumber } from '../Utility/ProximitySearch'
+import * as Location from 'expo-location'
 
 import Amplify from '@aws-amplify/core'
 import { Auth } from 'aws-amplify';
@@ -40,6 +42,8 @@ class Profile extends Component {
   onLogOutPress() {
     Auth.signOut({ global: true })
     this.props.setLoggedIn(false)
+    Location.stopLocationUpdatesAsync('userLocationTracking')
+
   }
 
 
@@ -84,6 +88,7 @@ class Profile extends Component {
              {"Log out"}
            </Text>
         </TouchableOpacity>
+
         <StatusBar backgroundColor={colors.background} barStyle="light-content" />
         <View style={styles.imageContainer}>
           <Image 
