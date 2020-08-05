@@ -8,6 +8,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.trafficstop"
+    },
+    "ios": {
+      "bundleIdentifier": "com.trafficstop"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }

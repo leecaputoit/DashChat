@@ -23,8 +23,14 @@ import { getUser } from '../graphql/queries'
 import { createUser } from '../graphql/mutations'
 import { API, graphqlOperation } from 'aws-amplify'
 import { Auth } from 'aws-amplify';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import { initLocationTracking } from '../Utility/ProximitySearch'
 
 class LogIn extends React.Component {
+
+  state = {refresh:''};
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +54,7 @@ class LogIn extends React.Component {
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
   }
 
+
   signIn = async () => {
     const {
       username, password
@@ -55,13 +62,9 @@ class LogIn extends React.Component {
     try {
       const userFromAuth = await Auth.signIn({ username, password })
       console.log('successful signed in..')
-      
-      console.log("Here is user 1");
-      // FIXME: STOPS RIGHT HERE
-      
+
       //Grab userobject from dynamo
       const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.signInUserSession.idToken.payload.sub}));
-      console.log("Here is user");
 
       let user = result.data.getUser;
       console.log(user);
@@ -78,6 +81,14 @@ class LogIn extends React.Component {
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
         this.props.setUser(userObject);
+        //start location tracking
+        await initLocationTracking();
+        //force re-render the page so that the location tracking service notices ->
+        //that the app is in the foreground, otherwise the service starts by ->
+        //default in the background mode while the app is actually active and in the foreground ->
+        //which causes irregular update behavior that prevents syncing location to the backend
+        this.setState({refresh:''});
+
         this.props.navigation.navigate("DocumentUpload");
         return;
       }
@@ -85,12 +96,16 @@ class LogIn extends React.Component {
       //if user object already exists
       console.log(user)
       this.props.setUser(user);
+      //wait for location tracking to start
+      await initLocationTracking();
+      this.setState({refresh:''}); //explained in above comment
       if (this.props.userType == "civilian") {
         this.props.navigation.navigate("DocumentUpload");
       }
       else {
         this.props.setLoggedIn(true);
       }
+      this.props.setLoggedIn(true);
     } catch (err) {
       this.setState({showErrorMessage: true})
       if (err.code === 'UserNotConfirmedException') {
@@ -119,7 +134,6 @@ class LogIn extends React.Component {
     this.setState({ username: text });
     text.match(emailformat) ? this.setState({ validEmail: true }) : this.setState({ validEmail: false });
   }
-
 
   handleBadgeChange(text) {
     text.length >= 4 ? this.setState({ validBadgeNumber: true }) : this.setState({ validBadgeNumber: false })

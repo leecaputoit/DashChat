@@ -4,75 +4,84 @@
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
-      id
-      username
+      createdAt
       first_name
+      id
       last_name
+      location {
+        lat
+        lng
+        averageSpeed
+        lastTimeUpdated
+      }
       store {
         name
         resourceKey
       }
-      location {
-        lat
-        lng
-      }
-      vehicles {
-        name
-        make
-        model
-      }
-      createdAt
       updatedAt
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
-      id
       username
-      first_name
-      last_name
-      store {
-        name
-        resourceKey
-      }
-      location {
-        lat
-        lng
-      }
       vehicles {
-        name
         make
         model
+        name
+        licensePlateNumber
       }
-      createdAt
-      updatedAt
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
-      id
-      username
+      createdAt
       first_name
+      id
       last_name
+      location {
+        lat
+        lng
+        averageSpeed
+        lastTimeUpdated
+      }
       store {
         name
         resourceKey
       }
+      updatedAt
+      username
+      vehicles {
+        make
+        model
+        name
+        licensePlateNumber
+      }
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser {
+    onUpdateUser {
+      createdAt
+      first_name
+      id
+      last_name
       location {
         lat
         lng
+        averageSpeed
+        lastTimeUpdated
       }
-      vehicles {
+      store {
         name
+        resourceKey
+      }
+      updatedAt
+      username
+      vehicles {
         make
         model
+        name
+        licensePlateNumber
       }
-      createdAt
-      updatedAt
     }
   }
 `;
