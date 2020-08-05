@@ -103,22 +103,17 @@ class LogIn extends React.Component {
         };
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
+        await this.getLocationAsync();
         this.props.setUser(userObject);
         this.props.navigation.navigate("DocumentUpload");
-        await this.getLocationAsync();
         return;
       }
-
+      
       //if user object already exists
       console.log(user)
       this.props.setUser(user);
-      if (this.props.userType == "civilian") {
-        this.props.navigation.navigate("DocumentUpload");
-      }
-      else {
-        this.props.setLoggedIn(true);
-      }
       await this.getLocationAsync();
+      this.props.setLoggedIn(true);
     } catch (err) {
       this.setState({showErrorMessage: true})
       if (err.code === 'UserNotConfirmedException') {
