@@ -45,7 +45,7 @@ export const ProfileContainer = ( props ) => {
     //retrieve vehicle info
     let plateNumber;
     let vehicleText;
-    if(props.searchParameter){
+    if(props.searchParameter && props.userInfo.vehicles){
         plateNumber = props.searchParameter;
         let vehicleInfo = props.userInfo.vehicles.find((vehicle => (vehicle.licensePlateNumber === plateNumber)));
         if(vehicleInfo){
