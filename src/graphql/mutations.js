@@ -7,7 +7,7 @@ export const createUser = /* GraphQL */ `
     $input: CreateUserInput!
   ) {
     createUser(condition: $condition, input: $input) {
-      id
+     id
     }
   }
 `;
@@ -17,28 +17,7 @@ export const deleteUser = /* GraphQL */ `
     $input: DeleteUserInput!
   ) {
     deleteUser(condition: $condition, input: $input) {
-      createdAt
-      first_name
       id
-      last_name
-      location {
-        lat
-        lng
-        averageSpeed
-        lastTimeUpdated
-      }
-      store {
-        name
-        resourceKey
-      }
-      updatedAt
-      username
-      vehicles {
-        make
-        model
-        name
-        licensePlateNumber
-      }
     }
   }
 `;
