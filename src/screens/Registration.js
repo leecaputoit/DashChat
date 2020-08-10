@@ -231,7 +231,7 @@ class Registration extends React.Component {
             textColor={colors.white}
             iconPosition="left"
             borderBottomColor={colors.white}
-            inputType="text"
+            inputType="password"
             showCheckmark={this.state.validPassword}
             validPassword={this.state.validPassword}
             customStyle={{ marginBottom: 15 }}
