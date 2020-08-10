@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+import colors from '../../styles/colors';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -32,6 +34,19 @@ const styles = StyleSheet.create({
       },
       white: {
         color: '#fff',
+      },
+      black: {
+        color: '#000000',
+      },
+      buttonStyles:{
+        borderRadius:15,
+        backgroundColor:colors.white,
+        width:Dimensions.get('window').width * 0.45,
+        height:48,
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        marginBottom:20,
       },
 });
 
