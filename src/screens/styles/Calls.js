@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
       submitButton: {
         paddingHorizontal: 60,
         paddingVertical: 10,
-        backgroundColor: '#0093E9',
+        backgroundColor: 'white',
         borderRadius: 25,
       },
       formInput: {

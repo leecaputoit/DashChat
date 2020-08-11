@@ -1,6 +1,6 @@
 import requestCameraAndAudioPermission from '../screens/Permission';
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, NativeModules } from 'react-native';
 import RtcEngine, { RtcLocalView, RtcRemoteView } from 'react-native-agora';
 import styles from './styles/VideoCall';
 import { Actions } from 'react-native-router-flux';
@@ -17,10 +17,11 @@ class VideoCall extends Component {
     this.state = {
       peerIds: [],                                       //Array for storing connected peers
       appid: this.props.AppID,
-      channelName: this.props.ChannelName,                        //Channel Name for the current session
+      channelName: this.props.ChannelName,               //Channel Name for the current session
       joinSucceed: false,                                //State variable for storing success
       vidMute: false,
       audMute: false,
+      content: true,
     };
   }
 
@@ -59,8 +60,10 @@ class VideoCall extends Component {
   * @description Function to start the call
   */
   startCall = () => {
+    //console.log("The state: " + JSON.stringify(this.state));
     this.setState({ joinSucceed: true }); //Set state variable to true
     engine.joinChannel(null, this.state.channelName, null, 0);  //Join Channel using null token and channel name
+    this.setState(previousState => ({content: !previousState.content}))
   }
 
   /**
@@ -70,13 +73,17 @@ class VideoCall extends Component {
   endCall = () => {
     engine.leaveChannel();
     this.setState({ peerIds: [], joinSucceed: false });
-    Actions.calls(); // Returns to Calls screen
+    if (this.props.userType == 'civilian') {
+      Actions.calls(); // Returns to Calls screen
+    }
+    else {
+      Actions.search();
+    }
   }
 
   toggleAudio = () => {
     let mute = this.state.audMute;
     console.log('Audio toggled: ', mute);
-    //RtcEngine.muteLocalAudioStream(!mute);
     engine.muteLocalAudioStream(!mute);
     this.setState({
         audMute: !mute
@@ -85,15 +92,6 @@ class VideoCall extends Component {
 
   swapCamera = () => {
       engine.switchCamera();
-  }
-
-  toggleVideo = () => {
-    let videoToggle = this.state.vidMute;
-    console.log('Video toggled: ', videoToggle);
-    this.setState({
-        vidMute: !videoToggle
-    });
-    engine.muteLocalVideoStream(!this.state.vidMute);
   }
 
   /**
@@ -106,38 +104,60 @@ class VideoCall extends Component {
         {
           <View style={styles.max}>
             <View style={styles.buttonHolder}>
-              <TouchableOpacity title="Start Call" onPress={this.startCall} style={styles.button}>
-                <Text style={styles.buttonText}> Start Call </Text>
-              </TouchableOpacity>
-              <TouchableOpacity title="End Call" onPress={this.endCall} style={styles.button}>
+              {/* <TouchableOpacity title="Start Call" onPress={this.startCall} style={styles.button}> */}
+                {/* <Text style={styles.buttonText}> Start Call </Text> */}
+                { //hide it when pressed
+                  this.state.content 
+                  ? <Icon.Button
+                      name="call"
+                      backgroundColor="transparent"
+                      onPress={this.startCall}
+                      style={styles.button}
+                    />
+                  : null
+                }
+              {/* </TouchableOpacity> */}
+              {/* <TouchableOpacity title="End Call" onPress={this.endCall} style={styles.button}>
                 <Text style={styles.buttonText}> End Call </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
+            
             {
               !this.state.joinSucceed ?
                 <View />
                 :
                 <View style={styles.fullView}>
-                    <View style={styles.buttonBar}>
-                        <Icon.Button
-                            style={styles.iconStyle}
-                            backgroundColor="#0093E9"
-                            name={this.state.audMute ? 'mic-off' : 'mic'}
-                            onPress={() => this.toggleAudio()}
-                        />
-                        {/* <Icon.Button
-                            style={styles.iconStyle}
-                            backgroundColor="#0093E9"
-                            name={this.state.videoMute ? 'cam-off' : 'cam'}
-                            onPress={() => this.toggleVideo()}
-                        /> */}
-                        <Icon.Button
-                            style={styles.iconStyle}
-                            backgroundColor="#0093E9"
-                            name={this.state.vidMute = 'switch-video'}
-                            onPress={() => this.swapCamera()}
-                        />
-                    </View>
+                  <View style={styles.buttonBar}>
+                    <Icon.Button
+                      style={styles.iconStyle}
+                      backgroundColor='transparent'
+                      name={this.state.audMute ? 'mic-off' : 'mic'}
+                      onPress={() => this.toggleAudio()}
+                    />
+                    <Icon.Button
+                      style={styles.iconStyle}
+                      backgroundColor="red"
+                      name="call-end"
+                      onPress={() => this.endCall()}
+                    />
+                    <Icon.Button
+                      style={styles.iconStyle}
+                      backgroundColor="transparent"
+                      name={this.state.vidMute = 'switch-video'}
+                      onPress={() => this.swapCamera()}
+                    />
+                  </View>
+                  {/* <View>
+                    <TouchableOpacity style={styles.testStyle}>
+                      <Icon.Button
+                        style={styles.circle}
+                        backgroundColor='red'
+                        name={this.state.audMute ? 'mic-off' : 'mic'}
+                        onPress={() => this.toggleAudio()}
+                      />
+                    </TouchableOpacity>
+                  </View> */}
+
                   {
                     this.state.peerIds.length > 3                   //view for four videostreams
                       ? <View style={styles.full}>
@@ -169,16 +189,19 @@ class VideoCall extends Component {
                         </View>
                         : this.state.peerIds.length > 1                   //view for two videostreams
                           ? <View style={styles.full}>
-                            <RemoteView style={styles.full}
-                              uid={this.state.peerIds[0]} renderMode={1} />
-                            <RemoteView style={styles.full}
-                              uid={this.state.peerIds[1]} renderMode={1} />
+                              <RemoteView style={styles.full}
+                                uid={this.state.peerIds[0]} renderMode={1} />
+                              <RemoteView style={styles.full}
+                                uid={this.state.peerIds[1]} renderMode={1} />
                           </View>
                           : this.state.peerIds.length > 0                   //view for videostream
-                            ? <RemoteView style={styles.full}
-                              uid={this.state.peerIds[0]} renderMode={1} />
+                            ? <View style={styles.max}>
+                                <RemoteView style={styles.full}
+                                uid={this.state.peerIds[0]} renderMode={1} />
+                              </View>
+
                             : <View>
-                              <Text style={styles.noUserText}> No users connected </Text>
+                                <Text style={styles.noUserText}> No users connected </Text>
                             </View>
                   }
                   <LocalView style={styles.localVideoStyle}               //view for local videofeed
@@ -191,6 +214,8 @@ class VideoCall extends Component {
     );
   }
   render() {
+    //setTimeout(this.startCall, 2500);
+    //this.startCall();
     return this.videoView();
   }
 }
