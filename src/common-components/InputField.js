@@ -94,6 +94,7 @@ export default class InputField extends Component {
           
         <TextInput
           style={[{ color: inputColor, borderBottomColor: borderBottom }, inputStyle, styles.inputField]}
+          secureTextEntry= {inputType == "password"}
           onChangeText={this.onChangeText}
           keyboardType={keyboardType}
           autoFocus={autoFocus}
