@@ -70,7 +70,12 @@ class VideoCall extends Component {
   endCall = () => {
     engine.leaveChannel();
     this.setState({ peerIds: [], joinSucceed: false });
-    Actions.calls(); // Returns to Calls screen
+    if (this.props.userType == 'civilian') {
+      Actions.calls(); // Returns to Calls screen
+    }
+    else {
+      Actions.search();
+    }
   }
 
   toggleAudio = () => {
@@ -194,4 +199,5 @@ class VideoCall extends Component {
     return this.videoView();
   }
 }
+
 export default VideoCall;

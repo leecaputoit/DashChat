@@ -47,6 +47,9 @@ end
 
 target 'trafficstop' do
   # Pods for trafficstop
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -87,12 +90,8 @@ target 'trafficstop' do
   # you should disable these next few lines.
   add_flipper_pods!
   pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
-  pod 'react-native-geolocation-service', :path => '../node_modules/react-native-geolocation-service'
 
-  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
-
-  pod 'react-native-location', :path => '../node_modules/react-native-location'
 
   post_install do |installer|
     flipper_post_install(installer)

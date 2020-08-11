@@ -2,6 +2,7 @@ import { Router, Scene, ActionConst } from 'react-native-router-flux'
 import React from 'react'
 import VideoCall from '../screens/VideoCall'
 import Calls from '../screens/Calls'
+import Search from '../screens/Search'
 
 const RouterComponent = () => {
     return (
@@ -21,9 +22,16 @@ const RouterComponent = () => {
                     type={ActionConst.RESET}
                     hideNavBar={true}
                 />
+                <Scene
+                    key="search"
+                    component={Search}
+                    title="Video Feeder"
+                    initial = {true}
+                    type={ActionConst.RESET}
+                    hideNavBar={true}
+                />
             </Scene>
         </Router>
-
     );
 }
 

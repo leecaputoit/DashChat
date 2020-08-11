@@ -25,38 +25,15 @@ export default class LandingPage extends Component {
     }
   }
 
-  handleSubmit = () => {
-    let AppID = this.state.AppID;
-    let ChannelName = this.state.ChannelName;
-    if (AppID !== '' && ChannelName !== '') {
-      Actions.videoCall({AppID, ChannelName});
-    }
-  }
-
   render() {
     const { user } = this.state;
 
     return (
-        // Use a flat-list to display previous recordings
       <View style={baseStyles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />
-          <View style={styles.container}>
-            {/* Removed App ID*/}
-            <Text style={styles.formLabel}>Channel Name</Text>
-            <TextInput
-              style={styles.formInput}
-              onChangeText={ChannelName => this.setState({ChannelName})}
-              value={this.state.ChannelName}
-            />
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                title="Start Call!"
-                onPress={this.handleSubmit}
-                style={styles.submitButton}>
-                <Text style={styles.white}> Start Call </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+        <Text style={baseStyles.headerText}>
+            Incoming calls will be available here. To accept a call, click the "Accept" button when it appears.
+          </Text>
       </View>
     );
   }
