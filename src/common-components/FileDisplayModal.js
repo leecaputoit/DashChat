@@ -10,6 +10,11 @@ import ImageViewer from 'react-native-image-zoom-viewer'
 
 
 const FileDisplayModal = (props) => {
+    if(!props.resource){
+      console.log("Please specify a valid resource");
+      return null;
+    }
+
     let fileType = props.resource.resourceKey.split('.').pop();
     let isPDF = fileType === 'pdf';
     let uri; //file uri
@@ -18,7 +23,16 @@ const FileDisplayModal = (props) => {
     const [source, setSource] = React.useState({uri:''}); 
     React.useEffect(() => {
       const getURI = async () => {
-        uri = await retrieveFileURI(props.resource.name, props.user);
+        //due to crappy planning by myself, this atrocious interjection of code
+        //have to be included so that this component could be used on the 
+        //police search UI for retriving target users beside the current user
+        //note: props.user refers to the current user object stored by redux
+        if(props.isPolice){
+          uri = await retrieveFileURI(props.resource.name, props.passedUser);
+        }else{
+          uri = await retrieveFileURI(props.resource.name, props.user);
+        }
+        
         if(isPDF){
           uri = 'https://docs.google.com/gview?embedded=true&url=' + encodeURIComponent(uri);
         }

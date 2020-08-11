@@ -26,6 +26,7 @@ export const onCreateUser = /* GraphQL */ `
         name
         licensePlateNumber
       }
+      awsIdentityId
     }
   }
 `;
@@ -54,6 +55,7 @@ export const onDeleteUser = /* GraphQL */ `
         name
         licensePlateNumber
       }
+      awsIdentityId
     }
   }
 `;
@@ -82,6 +84,7 @@ export const onUpdateUser = /* GraphQL */ `
         name
         licensePlateNumber
       }
+      awsIdentityId
     }
   }
 `;

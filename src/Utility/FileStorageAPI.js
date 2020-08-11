@@ -52,7 +52,7 @@ export const retrieveFileURI = async  (name, user) => {
              
     try {
         if(key && key.length > 0){
-            const uriToFile = await Storage.get(key, {level: 'protected'});
+            const uriToFile = await Storage.get(key, {level: 'protected', identityId: user.awsIdentityId});
             return uriToFile;
         }else{
             return '';
