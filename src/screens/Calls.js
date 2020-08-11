@@ -16,7 +16,7 @@ export default class LandingPage extends Component {
       user: null, 
       customState: null, 
       AppID: 'ea0b715536634dff9a08f603983f7d18', 
-      ChannelName: '' 
+      ChannelName: 'CEN3031' 
     };
     if(Platform.OS === 'android') {
       requestCameraAndAudioPermission.apply().then(_ => {
@@ -31,9 +31,23 @@ export default class LandingPage extends Component {
     return (
       <View style={baseStyles.wrapper}>
         <StatusBar backgroundColor={colors.black} barStyle="light-content" />
-        <Text style={baseStyles.headerText}>
-            Incoming calls will be available here. To accept a call, click the "Accept" button when it appears.
-          </Text>
+          <View style={styles.container}>
+            {/* Removed App ID*/}
+            {/* <Text style={styles.formLabel}>Channel Name</Text>
+            <TextInput
+              style={styles.formInput}
+              onChangeText={ChannelName => this.setState({ChannelName})}
+              value={this.state.ChannelName}
+            /> */}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                title="Start Call!"
+                onPress={this.handleSubmit}
+                style={styles.submitButton}>
+                <Text style={styles.black}> Start Call </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
       </View>
     );
   }

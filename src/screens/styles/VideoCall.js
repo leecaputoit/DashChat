@@ -8,6 +8,7 @@ let dimensions = {                                //get dimensions of the device
 const styles = StyleSheet.create({
     max: {
         flex: 1,
+        backgroundColor: 'black',
     },
     buttonHolder: {
         height: 100,
@@ -16,10 +17,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
     },
+    submitButton: {
+        paddingHorizontal: 60,
+        paddingVertical: 10,
+        backgroundColor: '#0093E9',
+        borderRadius: 25,
+      },
     button: {
         paddingHorizontal: 20,
         paddingVertical: 10,
-        backgroundColor: '#0093E9',
+        backgroundColor: 'green',
         borderRadius: 25,
     },
     buttonText: {
@@ -27,7 +34,7 @@ const styles = StyleSheet.create({
     },
     fullView: {
         width: dimensions.width,
-        height: dimensions.height - 100,
+        height: dimensions.height,
     },
     halfViewRow: {
         flex: 1 / 2,
@@ -50,27 +57,53 @@ const styles = StyleSheet.create({
     noUserText: {
         paddingHorizontal: 10,
         paddingVertical: 5,
-        color: '#0093E9',
+        color: 'white',
     },
     buttonBar: {
-        height: 50,
-        backgroundColor: '#0093E9',
+        height: 80,
         display: 'flex',
-        width: '100%',
+        width: "75%",
+        borderRadius: 80,
+        //width: 100%,
         position: 'absolute',
-        bottom: 0,
-        left: 0,
+        bottom: 100,
+        left: 50,
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center'
+        justifyContent: 'space-between',
+        //alignContent: 'center',
+        zIndex: 1,
+
     },
     iconStyle: {
-        fontSize: 34,
+        fontSize: 40,
         paddingTop: 15,
-        paddingLeft: 40,
-        paddingRight: 40,
+        paddingLeft: 25,
+        paddingRight: 15,
         paddingBottom: 15,
-        borderRadius: 0,
+        height: 80,
+        width: 80,
+        //borderRadius: 80,
+        borderWidth: 2,
+        alignContent: 'center',
+        justifyContent: 'center'
+        
+    },
+    testStyle: {
+        height: 80,
+        width: 50,
+        borderRadius: 25,
+        borderWidth: 2,
+        position: 'absolute',
+        bottom: 0,
+        top: 500,
+        left: 0,
+        right: 0,
+        zIndex: 1,
+    },
+    circle: {
+        height: 80,
+        width: 80,
+        borderRadius: 40,
     }
 });
 

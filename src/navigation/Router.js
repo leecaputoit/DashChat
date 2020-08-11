@@ -13,6 +13,7 @@ const RouterComponent = () => {
                     component={Calls}
                     title="Video Call"
                     initial = {true}
+                    hideNavBar = {true}
                     type={ActionConst.RESET}
                 />
                 <Scene
