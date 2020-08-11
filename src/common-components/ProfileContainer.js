@@ -22,7 +22,7 @@ export const ProfileContainer = ( props ) => {
 
     //handle the drivers license button that displays user files
     let driversLicenceButton;
-    if(props.userInfo.store.length > 0){
+    if(props.userInfo.store?.length && props.userInfo.store.length > 0){
         driversLicenceButton = (<View style={styles.driversLicenceContentContainer}>
             <FileDisplayModal isPolice= {true} passedUser={props.userInfo} isVisible={isVisible} toggleVisibility={() => { setVisibility(!isVisible) }} resource={props.userInfo.store.find(doc => doc.name ==='DriversLicence')} />
             <TouchableOpacity style ={styles.buttonStyles} onPress={() => { setVisibility(!isVisible) }}>
@@ -54,8 +54,8 @@ export const ProfileContainer = ( props ) => {
             vehicleText = "N/a";
         }
     }else{
-        plateNumber = "XXXXXXX";
-        vehicleText = "N/a";
+        plateNumber = "ERMT73";
+        vehicleText = "Honda CR-V";
     }
 
     //set profile image
@@ -116,14 +116,15 @@ const style = StyleSheet.create({
     },
     textLarge:{
         color:"white",
-        fontSize:42
+        fontSize:36
     },
     textMedium:{
         color:"white",
-        fontSize:30
+        fontSize:24,
+        marginBottom: 15
     },
     scrollView:{
-        height: Dimensions.get('window').height * 0.75,
+        height: Dimensions.get('window').height * 1,
         width: Dimensions.get('window').width
     }
 });

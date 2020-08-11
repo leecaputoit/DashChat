@@ -43,6 +43,7 @@ class ForgotPassword extends React.Component {
     this.handleNextButton = this.handleNextButton.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
     this.handleConfirmationCode = this.handleConfirmationCode.bind(this);
+    this.handleCloseNotification = this.handleCloseNotification.bind(this);
     this.signIn = this.signIn.bind(this);
   }
 

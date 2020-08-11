@@ -17,7 +17,6 @@ class BottomTabNavigator extends React.Component{
         const Tab = createBottomTabNavigator();
         return (
             <Tab.Navigator
-                initialRouteName="Profile"
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
