@@ -12,10 +12,25 @@ import * as ActionCreators from '../redux/actions';
 import RouterComponent from '../navigation/Router'
 
 import EditVehicle from '../screens/EditVehicle'
+import { createStackNavigator } from '@react-navigation/stack';
 
 class BottomTabNavigator extends React.Component{
 
+    stackNav = () => {
+        const Stack = createStackNavigator();
+        return (
+            <Stack.Navigator initialRouteName="Profile"
+            screenOptions={{
+                headerShown: false
+              }}>
+                    <Stack.Screen name="Profile" component={Profile} />
+                    <Stack.Screen name="VehicleManagement" component={EditVehicle} />
+            </Stack.Navigator>
+        );
+    }
+
     render(){
+        
         const Tab = createBottomTabNavigator();
         return (
             <Tab.Navigator
@@ -48,11 +63,11 @@ class BottomTabNavigator extends React.Component{
                     }}
             >
                 { this.props.userType == 'civilian'
-                    ? <Tab.Screen name="Calls" component={EditVehicle} />
+                    ? <Tab.Screen name="Calls" component={Calls} />
                     : <Tab.Screen name="Search" component={Search} />
                 }
                 <Tab.Screen name="Call History"   component={CallHistory} />
-                <Tab.Screen name="Profile"       component={Profile}     />
+                <Tab.Screen name="Profile" component={this.stackNav} />
             </Tab.Navigator>
         );
     }
