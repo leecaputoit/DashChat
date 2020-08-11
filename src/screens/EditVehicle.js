@@ -56,19 +56,26 @@ class EditVehicle extends React.Component {
   
 
   async updateBackend(){
-    let updateObject = { id: user.id };
+    let updateObject = { id: this.props.user.id };
     let update = {
         entryName: this.state.entryName,
-        
+        name: this.state.name,
+        year: this.state.year,
+        licensePlateNumber: this.state.licensePlateNumber
     };
 
-    if(user.store){
-        updateObject.store = [ ...user.store.filter(item => item.name !== name), update];
+    if(this.props.user.vehicles){
+        updateObject.vehicles = [ ...this.props.user.vehicles.filter(vehicle => vehicle.name !== update.name), update];
     }else {
-        updateObject.store = [ update ];
+        updateObject.vehicles = [ update ];
     }
     
      await API.graphql(graphqlOperation(updateUser, {input: updateObject}));
+
+     this.props.setUser({
+         ...this.props.user,
+         vehicles: updateObject.vehicles
+     })
   }
 
  
@@ -137,22 +144,22 @@ class EditVehicle extends React.Component {
             //showCheckmark={this.state.validPassword}
            // validPassword={this.state.validPassword}
             customStyle={{ marginBottom: 15 }}
-            onChangeText={this.handlePasswordChange}
+            onChangeText={this.handleLicensePlateNumberChange}
             autoFocus
             autoCapitalize={"words"}
           />
           
           <TouchableOpacity
             style={baseStyles.nextButtonStyle}
-            title={"Add"}
-            //onPress={this.props.navigation.goBack()}
+            title={"Add Vehicle"}
+            onPress={async() => {await this.updateBackend(); this.props.navigation.goBack();}}
            // disabled={!formValid}
           >
             <Text style={
               Object.assign({},
                 baseStyles.nextButtonText,
                 { color:  colors.white })}
-            > Sign Up </Text>
+            > Submit </Text>
             <Icon
               name="angle-right"
               color={colors.white }
@@ -177,7 +184,7 @@ class EditVehicle extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userType: state.userType,
+    user:state.user
   }
 };
 

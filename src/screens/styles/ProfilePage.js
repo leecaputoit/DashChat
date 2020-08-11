@@ -8,8 +8,16 @@ const styles = StyleSheet.create({
     height:Dimensions.get('window').height,
     backgroundColor: colors.background,
     alignItems:"center",
-    paddingTop:50,
-    
+    paddingTop:10,
+ 
+  },
+  wrapper: {
+    display:'flex',
+    width:Dimensions.get('window').width,
+    backgroundColor: colors.background,
+    alignItems:"center",
+    paddingTop:10,
+ 
   },
   imageContainer:{
     marginBottom: 10
