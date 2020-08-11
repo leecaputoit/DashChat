@@ -7,7 +7,7 @@ export const createUser = /* GraphQL */ `
     $input: CreateUserInput!
   ) {
     createUser(condition: $condition, input: $input) {
-     id
+      id
     }
   }
 `;
@@ -17,7 +17,7 @@ export const deleteUser = /* GraphQL */ `
     $input: DeleteUserInput!
   ) {
     deleteUser(condition: $condition, input: $input) {
-      id
+     id
     }
   }
 `;
@@ -27,7 +27,7 @@ export const updateUser = /* GraphQL */ `
     $input: UpdateUserInput!
   ) {
     updateUser(condition: $condition, input: $input) {
-      id
+     id
     }
   }
 `;

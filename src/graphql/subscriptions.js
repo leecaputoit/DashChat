@@ -21,9 +21,9 @@ export const onCreateUser = /* GraphQL */ `
       updatedAt
       username
       vehicles {
-        make
-        model
+        entryName
         name
+        year
         licensePlateNumber
       }
       awsIdentityId
@@ -50,9 +50,9 @@ export const onDeleteUser = /* GraphQL */ `
       updatedAt
       username
       vehicles {
-        make
-        model
+        entryName
         name
+        year
         licensePlateNumber
       }
       awsIdentityId
@@ -79,9 +79,9 @@ export const onUpdateUser = /* GraphQL */ `
       updatedAt
       username
       vehicles {
-        make
-        model
+        entryName
         name
+        year
         licensePlateNumber
       }
       awsIdentityId

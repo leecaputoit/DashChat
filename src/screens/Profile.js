@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, Text, View, Image, TouchableOpacity, ImageStore } from 'react-native';
+import { StatusBar, Text, View, Image, TouchableOpacity, ImageStore, FlatList } from 'react-native';
 import colors from '../styles/colors';
 import styles from './styles/ProfilePage';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import { uploadFileToStorage } from '../Utility/FileStorageAPI'
 import FileDisplayModal from '../common-components/FileDisplayModal'
 import { getUserByLicensePlateNumber } from '../Utility/ProximitySearch'
 import * as Location from 'expo-location'
+import { VehicleListing } from '../common-components/VehicleListing'
 
 import Amplify from '@aws-amplify/core'
 import { Auth } from 'aws-amplify';
@@ -54,6 +55,22 @@ class Profile extends Component {
     }else{
       imageSource = {uri: this.props.profileImageURI}
     }
+
+    let vehicleArray = [
+      {
+        entryName:'Family Car',
+        name:"Honda CR-V",
+        year:'2012',
+        licensePlateNumber:'123'
+      }
+    ];
+    if(this.props.user.vehicles){
+      vehicleArray = this.props.user.vehicles;
+    }
+
+    const renderVehicleListing = ({item}) => (
+      <VehicleListing data={item} />
+    );
     
 
     let driversLicenceButton;
@@ -111,6 +128,12 @@ class Profile extends Component {
             <Text style={styles.vehiclesTitle}>
              {"Registered Vehicles"}
            </Text>
+
+            <FlatList 
+              data={vehicleArray}
+              renderItem={renderVehicleListing}
+              keyExtractor={item => item.id}
+              />
         </View>
       </View>
     );
