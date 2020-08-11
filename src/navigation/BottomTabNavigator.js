@@ -11,6 +11,8 @@ import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import RouterComponent from '../navigation/Router'
 
+import EditVehicle from '../screens/EditVehicle'
+
 class BottomTabNavigator extends React.Component{
 
     render(){
@@ -46,8 +48,8 @@ class BottomTabNavigator extends React.Component{
                     }}
             >
                 { this.props.userType == 'civilian'
-                    ? <Tab.Screen name="Calls" component={RouterComponent} />
-                    : <Tab.Screen name="Search" component={RouterComponent} />
+                    ? <Tab.Screen name="Calls" component={EditVehicle} />
+                    : <Tab.Screen name="Search" component={Search} />
                 }
                 <Tab.Screen name="Call History"   component={CallHistory} />
                 <Tab.Screen name="Profile"       component={Profile}     />

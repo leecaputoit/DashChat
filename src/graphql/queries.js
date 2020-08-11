@@ -21,9 +21,9 @@ export const getUser = /* GraphQL */ `
       updatedAt
       username
       vehicles {
-        make
-        model
+        entryName
         name
+        year
         licensePlateNumber
       }
       awsIdentityId
@@ -39,28 +39,28 @@ export const listUsers = /* GraphQL */ `
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         createdAt
-        first_name
-        id
-        last_name
-        location {
-          lat
-          lng
-          averageSpeed
-          lastTimeUpdated
-        }
-        store {
-          name
-          resourceKey
-        }
-        updatedAt
-        username
-        vehicles {
-          make
-          model
-          name
-          licensePlateNumber
-        }
-        awsIdentityId
+      first_name
+      id
+      last_name
+      location {
+        lat
+        lng
+        averageSpeed
+        lastTimeUpdated
+      }
+      store {
+        name
+        resourceKey
+      }
+      updatedAt
+      username
+      vehicles {
+        entryName
+        name
+        year
+        licensePlateNumber
+      }
+      awsIdentityId
       }
       nextToken
     }
