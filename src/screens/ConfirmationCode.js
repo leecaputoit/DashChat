@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
+import {initLocationTracking} from '../Utility/ProximitySearch'
 
 class ForgotPassword extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class ForgotPassword extends React.Component {
       showErrorMessage: false,
       errorMessage: '',
       resolutionMessage: '',
+      refresh:''
     };
 
     this.handleNextButton = this.handleNextButton.bind(this);
@@ -51,7 +53,7 @@ class ForgotPassword extends React.Component {
     const password = this.props.route.params.password;
     await Auth.confirmSignUp(username, confirmationCode, {})
       .then(async () => {
-        this.signIn(username, password);
+        await this.signIn(username, password);
       })
       .catch((err) => {
         this.setState({ showErrorMessage: true })
@@ -88,15 +90,24 @@ class ForgotPassword extends React.Component {
       //if userobject was not found
       if(!user){
          //establish user object to be saved to dynamo
+         let awsCreds = await Auth.currentCredentials();
         let userObject = {
           id:userFromAuth.signInUserSession.idToken.payload.sub,
           username:this.state.username,
           first_name:userFromAuth.signInUserSession.idToken.payload.given_name,
           last_name:userFromAuth.signInUserSession.idToken.payload.family_name, 
+          awsIdentityId: awsCreds.identityId
         };
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
         this.props.setUser(userObject);
+        //start location tracking
+        await initLocationTracking();
+        //force re-render the page so that the location tracking service notices ->
+        //that the app is in the foreground, otherwise the service starts by ->
+        //default in the background mode while the app is actually active and in the foreground ->
+        //which causes irregular update behavior that prevents syncing location to the backend
+        this.setState({refresh:''});
         if (this.props.userType == "civilian") {
           this.props.navigation.navigate("DocumentUpload");
         }

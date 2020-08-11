@@ -53,19 +53,9 @@ class Registration extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
-    this.getLocationAsync = this.getLocationAsync.bind(this);
+    
   }
 
-  getLocationAsync = async () => {
-    const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      this.setState({ hasLocationPermission: true });
-      console.log("Location permission granted");
-      this.updatePosition();
-    } else {
-      throw new Error('Location permission not granted');
-    }
-  }
 
   handleFirstNameChange(text) {
     text.length >= 3 ? this.setState({ validFirstName: true }) : this.setState({ validFirstName: false })
@@ -118,7 +108,6 @@ class Registration extends React.Component {
           { username: username,
             password: password }
         )
-        await this.getLocationAsync();
       } catch (err) {
         console.log('error signing up...', err)
         console.log(err.stack);
