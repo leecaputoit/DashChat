@@ -59,12 +59,7 @@ class Profile extends Component {
     }
 
     let vehicleArray = [
-      {
-        entryName:'PlaceHolder',
-        name:"N/A",
-        year:'N/A',
-        licensePlateNumber:'N/A'
-      }
+      
     ];
     if(this.props.user.vehicles){
       vehicleArray = this.props.user.vehicles;

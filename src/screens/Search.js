@@ -23,22 +23,26 @@ const style = StyleSheet.create({
 
 class Search extends Component {
 
-  // async getUser(){
-  //   await getUserByLicensePlateNumber('123');
-  // }
+ 
 
-  componentDidMount() {
-    // this.getUser();
-  }
   constructor(props) {
     super(props);
-    this.state = { user: null, customState: null, AppID: 'ea0b715536634dff9a08f603983f7d18', ChannelName: 'CEN3031' };
+    this.state = { user: null, customState: null, AppID: 'ea0b715536634dff9a08f603983f7d18', ChannelName: 'CEN3031', search:'' };
     this.handleSubmit = this.handleSubmit.bind(this);
     if (Platform.OS === 'android') {
       requestCameraAndAudioPermission.apply().then(_ => {
         console.log('request made');
       });
     }
+  }
+
+  async getUser(){
+    let user = await getUserByLicensePlateNumber(this.state.search);
+    this.setState({user});
+  }
+
+  updateSearch(text) {
+    this.setState({search:text});
   }
 
   handleSubmit = () => {
@@ -50,6 +54,16 @@ class Search extends Component {
   }
 
   render() {
+    let profileDisplay;
+    if(this.state.user){
+      profileDisplay = (
+        <ProfileContainer userInfo={this.state.user} searchParameter={this.state.search} />
+      );
+    }else{
+      profileDisplay = (
+        <Text style={{color:"white", fontSize:40, alignSelf:'center', paddingTop:40}}> No User Found</Text>
+      )
+    }
 
     return (
       // Use a flat-list to display previous recordings
@@ -65,16 +79,21 @@ class Search extends Component {
             labelColor={colors.white}
             textColor={colors.white}
             borderBottomColor={colors.white}
-            inputType="email"
+            inputType="text"
             customStyle={{ marginTop: 0, marginBottom: 0 }}
-            onChangeText={this.updateSearch}
+            onChangeText={(text) => {this.updateSearch(text)}}
             showCheckmark={false}
             autoCapitalize={"none"}
             iconName="search"
           />
-          <Text style={styles.welcomeText}>
-            Search
-          </Text>
+          <View style={callStyles.buttonContainer} >
+            <TouchableOpacity
+              title="search"
+              onPress={async () => {await this.getUser();}}
+              style={callStyles.buttonStyles}>
+              <Text style={callStyles.black}> Search </Text>
+            </TouchableOpacity>
+          </View>
           <View style={callStyles.buttonContainer} >
             <TouchableOpacity
               title="Start Call!"
@@ -83,7 +102,7 @@ class Search extends Component {
               <Text style={callStyles.black}> Start Call </Text>
             </TouchableOpacity>
           </View>
-          <ProfileContainer userInfo={this.props.user} searchParameter={'1'} />
+          {profileDisplay}
         </ScrollView>
       </KeyboardAvoidingView>
     );

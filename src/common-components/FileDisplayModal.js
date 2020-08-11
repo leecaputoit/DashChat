@@ -39,7 +39,7 @@ const FileDisplayModal = (props) => {
         setSource({uri});
       }
       getURI();
-    }, [props.user.store]);
+    }, [props.user.store, props.passedUser]);
 
     //small loading bar at the bottom, useless but felt like leaving it here
     const loadingView = (

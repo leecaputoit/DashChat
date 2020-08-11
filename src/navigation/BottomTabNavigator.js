@@ -64,7 +64,7 @@ class BottomTabNavigator extends React.Component{
             >
                 { this.props.userType == 'civilian'
                     ? <Tab.Screen name="Calls" component={Calls} />
-                    : <Tab.Screen name="Search" component={Search} />
+                    : <Tab.Screen name="Search" component={RouterComponent} />
                 }
                 <Tab.Screen name="Call History"   component={CallHistory} />
                 <Tab.Screen name="Profile" component={this.stackNav} />
