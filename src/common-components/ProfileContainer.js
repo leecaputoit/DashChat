@@ -3,6 +3,15 @@ import { StatusBar, Text, View, Image, TouchableOpacity, StyleSheet, ScrollView,
 import styles from '../screens/styles/ProfilePage';
 import FileDisplayModal from '../common-components/FileDisplayModal'
 import { retrieveFileURI } from '../Utility/FileStorageAPI'
+import { FlatList } from 'react-native-gesture-handler';
+import VehicleListing from '../common-components/VehicleListing'
+import { YellowBox } from 'react-native'
+
+//removes warning for nesting flatlist inside scrollview
+YellowBox.ignoreWarnings([
+    'VirtualizedLists should never be nested', // TODO: Remove when fixed
+  ])
+  
 
 export const ProfileContainer = ( props ) => {
 
@@ -58,6 +67,17 @@ export const ProfileContainer = ( props ) => {
         vehicleText = "Honda CR-V";
     }
 
+    //retrieve vehicle listings
+    const renderVehicleListing = ({item}) => (
+        <VehicleListing data={item} />
+      );
+    let vehicleArray;
+    if(props.userInfo.vehicles){
+        vehicleArray = props.userInfo.vehicles;
+    }else{
+        vehicleArray =[];
+    }
+
     //set profile image
     React.useEffect(() => {
         const getURI = async () => {
@@ -69,7 +89,7 @@ export const ProfileContainer = ( props ) => {
             }
         }
         getURI();
-    }, []);
+    }, [props.userInfo]);
 
     return (
         <ScrollView style={style.scrollView}>
@@ -103,8 +123,16 @@ export const ProfileContainer = ( props ) => {
                         {"Registered Vehicles"}
                     </Text>
                 </View>
+                <FlatList 
+                    nestedScrollEnabled
+                    maxHeight={200}
+                    data={vehicleArray}
+                    renderItem={renderVehicleListing}
+                    keyExtractor={item => item.id}
+                 />
         </View>
     </ScrollView>
+       
       );
 }
 

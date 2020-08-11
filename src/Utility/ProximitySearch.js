@@ -147,6 +147,7 @@ export const getUserByLicensePlateNumber = async (licensePlateNumber) => {
 const selectUserByProximity = async (users) => {
     let granted = await configureLocationPermission();
     if(!granted){
+        console.log("noPermission")
         return;
     }
 
@@ -172,6 +173,8 @@ const selectUserByProximity = async (users) => {
             user = curUser;
         }
         console.log("distances: " + tmpDistance);
+        console.log("curuser name " + curUser.last_name)
+        console.log(JSON.stringify(location))
     });
 
     //if distance to user is not within 62 meters, do not return the user for privacy reasons

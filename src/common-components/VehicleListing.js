@@ -24,14 +24,20 @@ const VehicleListing = ( props ) => {
                         {props.data.licensePlateNumber + ' ' + props.data.name + ' ' + props.data.year}
                     </Text>
                 </View>
-                <View style={style.icon}>
-                    <TouchableOpacity onPress={() =>{props.navigateToEdit()}  }>
-                        <MaterialCommunityIcons name='square-edit-outline' size={15} color="white" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={async () => { let result = await removeVehicleBackend(props.user, props.data); props.setUser(result);}}>
-                        <MaterialCommunityIcons name='delete' size={15} color="white" />
-                    </TouchableOpacity>
-                </View>
+                {
+                    props.navigateToEdit ? 
+                    <View style={style.icon}>
+                        <TouchableOpacity onPress={() =>{props.navigateToEdit()}  }>
+                            <MaterialCommunityIcons name='square-edit-outline' size={15} color="white" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={async () => { let result = await removeVehicleBackend(props.user, props.data); props.setUser(result);}}>
+                            <MaterialCommunityIcons name='delete' size={15} color="white" />
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    null
+
+                }
             </View>
                
         </View>
