@@ -72,14 +72,17 @@ class LogIn extends React.Component {
       if(!user){
          //establish user object to be saved to dynamo
          console.log("User object not found");
+        let awsCreds = await Auth.currentCredentials();
         let userObject = {
           id:userFromAuth.signInUserSession.idToken.payload.sub,
           username:this.state.username,
           first_name:userFromAuth.signInUserSession.idToken.payload.given_name,
           last_name:userFromAuth.signInUserSession.idToken.payload.family_name, 
+          awsIdentityId: awsCreds.identityId
         };
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
+        await this.getLocationAsync();
         this.props.setUser(userObject);
         //start location tracking
         await initLocationTracking();
@@ -92,7 +95,7 @@ class LogIn extends React.Component {
         this.props.navigation.navigate("DocumentUpload");
         return;
       }
-
+      
       //if user object already exists
       console.log(user)
       this.props.setUser(user);

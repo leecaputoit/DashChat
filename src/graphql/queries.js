@@ -26,6 +26,7 @@ export const getUser = /* GraphQL */ `
         name
         licensePlateNumber
       }
+      awsIdentityId
     }
   }
 `;
@@ -59,7 +60,7 @@ export const listUsers = /* GraphQL */ `
           name
           licensePlateNumber
         }
-        
+        awsIdentityId
       }
       nextToken
     }
