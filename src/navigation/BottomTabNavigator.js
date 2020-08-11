@@ -17,7 +17,6 @@ class BottomTabNavigator extends React.Component{
         const Tab = createBottomTabNavigator();
         return (
             <Tab.Navigator
-                initialRouteName="Profile"
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
@@ -48,7 +47,7 @@ class BottomTabNavigator extends React.Component{
             >
                 { this.props.userType == 'civilian'
                     ? <Tab.Screen name="Calls" component={RouterComponent} />
-                    : <Tab.Screen name="Search" component={Search} />
+                    : <Tab.Screen name="Search" component={RouterComponent} />
                 }
                 <Tab.Screen name="Call History"   component={CallHistory} />
                 <Tab.Screen name="Profile"       component={Profile}     />
