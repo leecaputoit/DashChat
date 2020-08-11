@@ -12,12 +12,21 @@ const RouterComponent = () => {
                     component={Calls}
                     title="Video Call"
                     initial = {true}
+                    hideNavBar = {true}
                     type={ActionConst.RESET}
                 />
                 <Scene
                     key="videoCall"
                     component={VideoCall}
                     title="Video Feed"
+                    type={ActionConst.RESET}
+                    hideNavBar={true}
+                />
+                <Scene
+                    key="search"
+                    component={Search}
+                    title="Video Feeder"
+                    initial = {true}
                     type={ActionConst.RESET}
                     hideNavBar={true}
                 />
