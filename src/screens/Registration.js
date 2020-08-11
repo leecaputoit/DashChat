@@ -17,6 +17,8 @@ import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { createUser } from '../graphql/mutations'
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
 
 class Registration extends React.Component {
@@ -51,6 +53,18 @@ class Registration extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
+    this.getLocationAsync = this.getLocationAsync.bind(this);
+  }
+
+  getLocationAsync = async () => {
+    const { status, permissions } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      this.setState({ hasLocationPermission: true });
+      console.log("Location permission granted");
+      this.updatePosition();
+    } else {
+      throw new Error('Location permission not granted');
+    }
   }
 
   handleFirstNameChange(text) {
@@ -99,7 +113,12 @@ class Registration extends React.Component {
         let result = await Auth.signUp({ username, password, attributes: { email, given_name, family_name } })
         console.log('successful sign up..')
         console.log(JSON.stringify(result));
-        this.props.navigation.navigate("LogIn");
+        this.props.navigation.navigate(
+          'ConfirmationCode',
+          { username: username,
+            password: password }
+        )
+        await this.getLocationAsync();
       } catch (err) {
         console.log('error signing up...', err)
         console.log(err.stack);
@@ -129,7 +148,11 @@ class Registration extends React.Component {
         await Auth.signUp({ username, password, attributes: { given_name, family_name, email } })
         console.log('successful sign up..')
         console.log(this.props)
-        this.props.setLoggedIn(true)
+        this.props.navigation.navigate(
+          'ConfirmationCode',
+          { username: username,
+            password: password }
+        )
       } catch (err) {
         console.log('error signing up...', err)
         if (err.code === 'UserNotConfirmedException') {

@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   View,
   Text,
   ScrollView,
   KeyboardAvoidingView,
-  Modal,
   TouchableOpacity,
-  TouchableHighlight,
 } from 'react-native';
-import { Button, Input } from 'react-native-elements';
 import colors from '../styles/colors';
 import baseStyles from './styles/AuthenticationBoilerplate';
 import styles from './styles/ForgotPassword';
@@ -19,34 +15,9 @@ import InputField from '../common-components/InputField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
-// import transparentHeaderStyle from '../styles/navigation';
-// import NavBarButton from '../components/buttons/NavBarButton';
-//import Loader from '../components/Loader';
-
-
-import Amplify from '@aws-amplify/core'
 import { Auth } from 'aws-amplify';
-//import awsconfig from '../../aws-exports';
-//Amplify.configure(awsconfig);
 
 class ForgotPassword extends React.Component {
-  // static navigationOptions = ({ navigation }) => ({
-  //   headerTitle: "",
-  //   headerRight: () => <NavBarButton
-  //     handleButtonPress={() => navigation.navigate('ForgotPassword')}
-  //     location="right"
-  //     color={colors.white}
-  //     text="Forgot Password"
-  //   />,
-  //   headerLeft: () => <NavBarButton
-  //     handleButtonPress={() => navigation.goBack()}
-  //     location="left"
-  //     icon={<Icon name="angle-left" color={colors.white} size={30} />}
-  //   />,
-  //   headerStyle: transparentHeaderStyle,
-  //   headerTransparent: true,
-  //   headerTintColor: colors.white,
-  // });
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +36,6 @@ class ForgotPassword extends React.Component {
     this.handleSubmitButton = this.handleSubmitButton.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
-    //this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
   }
 
 

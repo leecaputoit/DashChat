@@ -15,10 +15,13 @@ import colors from '../styles/colors';
 import baseStyles from './styles/AuthenticationBoilerplate';
 import styles from './styles/ForgotPassword';
 import InputField from '../common-components/InputField';
+import Notification from '../common-components/Notification';
+import { getUser } from '../graphql/queries'
+import { createUser } from '../graphql/mutations'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ActionCreators from '../redux/actions';
-import { Auth } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 
 class ForgotPassword extends React.Component {
   constructor(props) {
@@ -30,36 +33,97 @@ class ForgotPassword extends React.Component {
       username: '',
       confirmationCode: '',
       validCode: true,
+      showErrorMessage: false,
+      errorMessage: '',
+      resolutionMessage: '',
     };
 
     this.handleNextButton = this.handleNextButton.bind(this);
     this.handleCodeChange = this.handleCodeChange.bind(this);
-    this.handleConfirmationCode = this.handleConfirmationCode.bind(this)
+    this.handleConfirmationCode = this.handleConfirmationCode.bind(this);
+    this.signIn = this.signIn.bind(this);
   }
 
 
   handleConfirmationCode = async () => {
     const { confirmationCode } = this.state;
-    const user = this.props.route.params.user;
-    emailAddress = emailAddress.toLowerCase()
-    Auth.confirmSignUp(user.username, confirmationCode, {})
-      .then(() => {
-        this.props.setLoggedIn(true);
+    const username = this.props.route.params.username;
+    const password = this.props.route.params.password;
+    await Auth.confirmSignUp(username, confirmationCode, {})
+      .then(async () => {
+        this.signIn(username, password);
       })
-      .catch(err => console.log(err));
+      .catch((err) => {
+        this.setState({ showErrorMessage: true })
+        console.log(err)
+        if (err.code === 'CodeMismatchException') {
+          this.setState({ errorMessage: "Looks like the code you entered is incorrect" })
+          this.setState({ resolutionMessage: "Please try again" })
+        } else if (err.code === 'ExpiredCodeException') {
+          this.setState({ errorMessage: "Sorry, this code has expired" })
+          this.setState({ resolutionMessage: "Please request a new one" })
+        } else if (err.code === 'InvalidPasswordException') {
+          this.setState({ errorMessage: "Looks like the password entered is invalid" })
+          this.setState({ resolutionMessage: "Please try a stronger password" })
+        } else if (err.code === 'UserNotConfirmedException') {
+          this.setState({ errorMessage: "Looks like we still need to verify your account" })
+          this.setState({ resolutionMessage: "Check your email for a message from us" })
+        } else {
+          this.setState({ errorMessage: "Looks like something went wrong" })
+          this.setState({ resolutionMessage: "Please try again" })
+        }
+      });
+  }
+
+  signIn = async (username, password) => {
+    try {
+      const userFromAuth = await Auth.signIn({ username, password })
+      console.log('successful signed in..')
       
-    // If MFA is enabled, sign-in should be confirmed with the confirmation code
-    const loggedUser = await Auth.confirmSignIn(
-      user,   // Return object from Auth.signIn()
-      confirmationCode,   // Confirmation code  
-      mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
-    );
+
+      //Grab userobject from dynamo
+      const result = await API.graphql(graphqlOperation(getUser, {id:userFromAuth.signInUserSession.idToken.payload.sub}));
+      let user = result.data.getUser;
+
+      //if userobject was not found
+      if(!user){
+         //establish user object to be saved to dynamo
+        let userObject = {
+          id:userFromAuth.signInUserSession.idToken.payload.sub,
+          username:this.state.username,
+          first_name:userFromAuth.signInUserSession.idToken.payload.given_name,
+          last_name:userFromAuth.signInUserSession.idToken.payload.family_name, 
+        };
+        //access dynamo through graphql
+        await API.graphql(graphqlOperation(createUser, {input: userObject}));
+        this.props.setUser(userObject);
+        if (this.props.userType == "civilian") {
+          this.props.navigation.navigate("DocumentUpload");
+        }
+        else {
+          this.props.setLoggedIn(true);
+        }
+        return;
+      }
+
+      //if user object already exists
+      console.log(user)
+      this.props.setUser(user);
+      this.props.setLoggedIn(true);
+    }
+    catch(err) {
+      console.log(err);
+      this.setState({errorMessage: "Looks like something went wrong"})
+      this.setState({resolutionMessage: "Please try again"})
+    }
   }
 
   handleCodeChange(text) {
     this.setState({ confirmationCode: text });
   }
-
+  handleCloseNotification() {
+    this.setState({ showErrorMessage: false });
+  }
 
   handleNextButton() {
     this.props.setUserType('police')
@@ -67,50 +131,62 @@ class ForgotPassword extends React.Component {
 
   render() {
     const userType = this.props.userType;
-    const {validCode} = this.state
+    const { validCode, showErrorMessage, errorMessage, resolutionMessage } = this.state
+    const notificationMarginTop = showErrorMessage ? 10 : 0;
     return (
       <KeyboardAvoidingView
-        style={[{ backgroundColor: colors.background }, baseStyles.wrapper]}
+        style={{
+          backgroundColor: colors.background, display: 'flex', flex: 1
+        }}
         behavior="padding"
       >
-            <Text style={baseStyles.headerText}>
-              Let's confirm that this is really you.
+        <ScrollView style={baseStyles.wrapper}>
+        <Text style={baseStyles.headerText}>
+          Let's confirm that this is really you.
             </Text>
-          <ScrollView>
           <Text style={styles.forgotPasswordSubheading}>
-              You have been texted or emailed a confirmation code, please enter it below
+            You have been emailed a confirmation code, please enter it below
             </Text>
-            <InputField
-              labelText="Confirmation Code"
-              labelTextSize={14}
-              labelColor={colors.white}
-              textColor={colors.white}
-              borderBottomColor={colors.white}
-              inputType="text"
-              customStyle={{ marginBottom: 30 }}
-              onChangeText={this.handleCodeChange}
-              autoCapitalize={"none"}
-              iconName="key"
-            />
-            <TouchableOpacity 
-              style = {baseStyles.nextButtonStyle}
-              title = {"Submit"}
-              onPress = {this.handleConfirmationCode}
-              disabled = {!validCode}
-              >
-              <Text style= {
-                Object.assign({},
-                  baseStyles.nextButtonText, 
-                  {color: validCode? colors.white : colors.secondaryText})}
-                > Submit </Text>
-              <Icon
+          <InputField
+            labelText="Confirmation Code"
+            labelTextSize={14}
+            labelColor={colors.white}
+            textColor={colors.white}
+            borderBottomColor={colors.white}
+            inputType="text"
+            customStyle={{ marginBottom: 30 }}
+            onChangeText={this.handleCodeChange}
+            autoCapitalize={"none"}
+            iconName="key"
+          />
+          <TouchableOpacity
+            style={baseStyles.nextButtonStyle}
+            title={"Submit"}
+            onPress={this.handleConfirmationCode}
+            disabled={!validCode}
+          >
+            <Text style={
+              Object.assign({},
+                baseStyles.nextButtonText,
+                { color: validCode ? colors.white : colors.secondaryText })}
+            > Submit </Text>
+            <Icon
               name="angle-right"
-              color={validCode? colors.white: colors.secondaryText}
+              color={validCode ? colors.white : colors.secondaryText}
               size={22}
               style={styles.icon}
-              />
-            </TouchableOpacity>
-          </ScrollView>
+            />
+          </TouchableOpacity>
+        </ScrollView>
+        <View style={[baseStyles.errorMessageWrapper, { marginTop: notificationMarginTop }]}>
+          <Notification
+            showNotification={showErrorMessage}
+            handleCloseNotification={this.handleCloseNotification}
+            type="Error:"
+            firstLine={errorMessage}
+            secondLine={resolutionMessage}
+          />
+        </View>
       </KeyboardAvoidingView>
     );
   }

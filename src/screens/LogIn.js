@@ -80,6 +80,7 @@ class LogIn extends React.Component {
         };
         //access dynamo through graphql
         await API.graphql(graphqlOperation(createUser, {input: userObject}));
+        await this.getLocationAsync();
         this.props.setUser(userObject);
         //start location tracking
         await initLocationTracking();
@@ -92,7 +93,7 @@ class LogIn extends React.Component {
         this.props.navigation.navigate("DocumentUpload");
         return;
       }
-
+      
       //if user object already exists
       console.log(user)
       this.props.setUser(user);
